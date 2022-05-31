@@ -18,6 +18,9 @@ SixIsland_RuinValley_Text_SeveralDotsOnTheDoor:: @ 818BE11
     .string "On closer inspection, there are\n"
     .string "several dots on the door…$"
 
+SixIsland_RuinValley_Text_UseCut::
+	.string "Use CUT?$"
+
 SixIsland_RuinValley_Text_DoorIsOpen:: @ 818BE4B
     .string "The door is open.$"
 

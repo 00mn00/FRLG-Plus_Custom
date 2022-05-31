@@ -32,6 +32,17 @@ SixIsland_RuinValley_EventScript_DottedHoleDoor:: @ 8168B94
 	msgbox SixIsland_RuinValley_Text_SeveralDotsOnTheDoor
 	braillemessage Braille_Text_Cut
 	waitbuttonpress
+	checkitem ITEM_HM01, TRUE
+	compare VAR_RESULT, FALSE
+	goto_if_eq SixIsland_RuinValley_EventScript_DottedHoleNoCut
+	checkpartymove MOVE_CUT
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_eq SixIsland_RuinValley_EventScript_DottedHoleNoCut
+	msgbox SixIsland_RuinValley_Text_UseCut, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	goto_if_eq SixIsland_RuinValley_EventScript_IgnoreDottedHoleDoor
+	msgbox Text_MonUsedMove
+	callnative CutMoveOpenDottedHoleDoor
 	releaseall
 	end
 
@@ -42,5 +53,9 @@ SixIsland_RuinValley_EventScript_DottedHoleDoorOpen:: @ 8168BC1
 
 SixIsland_RuinValley_EventScript_IgnoreDottedHoleDoor:: @ 8168BCB
 	msgbox SixIsland_RuinValley_Text_LeftDoorAlone
+	releaseall
+	end
+
+SixIsland_RuinValley_EventScript_DottedHoleNoCut::
 	releaseall
 	end
