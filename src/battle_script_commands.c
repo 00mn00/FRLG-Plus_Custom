@@ -27,6 +27,7 @@
 #include "reshow_battle_screen.h"
 #include "battle_controllers.h"
 #include "battle_interface.h"
+#include "battle_main.h"
 #include "battle_setup.h"
 #include "constants/battle_anim.h"
 #include "constants/battle_move_effects.h"
@@ -5263,13 +5264,13 @@ static void atk5D_getmoneyreward(void)
                 }
                 break;
             }
-            for (; gTrainerMoneyTable[i].classId != 0xFF; i++)
+            for (; gTrainerMoneyAndBallTable[i].classId != 0xFF; i++)
             {
-                if (gTrainerMoneyTable[i].classId == sTrainers[gTrainerBattleOpponent_A].trainerClass)
+                if (gTrainerMoneyAndBallTable[i].classId == sTrainers[gTrainerBattleOpponent_A].trainerClass)
                     break;
             }
             party4 = sTrainers[gTrainerBattleOpponent_A].party.ItemCustomMoves; // Needed to Match. Has no effect.
-            moneyReward = 4 * lastMonLevel * gBattleStruct->moneyMultiplier * (gBattleTypeFlags & BATTLE_TYPE_DOUBLE ? 2 : 1) * gTrainerMoneyTable[i].value;
+            moneyReward = 4 * lastMonLevel * gBattleStruct->moneyMultiplier * (gBattleTypeFlags & BATTLE_TYPE_DOUBLE ? 2 : 1) * gTrainerMoneyAndBallTable[i].rewardId;
         }
         AddMoney(&gSaveBlock1Ptr->money, moneyReward);
     }
