@@ -963,3 +963,9 @@ void ItemUseOutOfBattle_ReduceEV(u8 taskId)
     gItemUseCB = ItemUseCB_ReduceEV;
     Task_FadeOuFromBackToField(taskId);
 }
+
+void ItemUseOutOfBattle_PokeBall(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_PokeBall;
+    Task_FadeOuFromBackToField(taskId);
+}
