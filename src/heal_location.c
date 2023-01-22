@@ -14,12 +14,12 @@ static void SetWhiteoutRespawnHealerNpcAsLastTalked(u32 healLocationIdx);
 // sWhiteoutRespawnHealCenterMapIdxs
 // This array defines the map where you actually respawn when you white out,
 // based on where you last checkpointed.
-// This is either the player's house or a Pokémon Center.
+// This is either the player's house or a POKéCENTER.
 // The data are u16 instead of u8 for reasons unknown.
 
 // sWhiteoutRespawnHealerNpcIds
 // When you respawn, your character scurries back to either their house
-// or a Pokémon Center, and hands their fainted Pokémon to their mother
+// or a POKéCENTER, and hands their fainted Pokémon to their mother
 // or the Nurse for healing.
 // This array defines the index of the NPC on the map defined above
 // with whom your character interacts in this cutscene.

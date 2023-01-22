@@ -119,7 +119,7 @@ const struct PokedexEntry gPokedexEntries[] =
 
     [NATIONAL_DEX_BLASTOISE] =
     {
-        .categoryName = _("SHELLFISH"),
+        .categoryName = _("SHELL"),
         .height = 16,
         .weight = 855,
         .description_FR = gBlastoisePokedexText_FR,
@@ -1822,7 +1822,7 @@ const struct PokedexEntry gPokedexEntries[] =
 
     [NATIONAL_DEX_KABUTO] =
     {
-        .categoryName = _("SHELLFISH"),
+        .categoryName = _("SHELL"),
         .height = 5,
         .weight = 115,
         .description_FR = gKabutoPokedexText_FR,
@@ -1835,7 +1835,7 @@ const struct PokedexEntry gPokedexEntries[] =
 
     [NATIONAL_DEX_KABUTOPS] =
     {
-        .categoryName = _("SHELLFISH"),
+        .categoryName = _("SHELL"),
         .height = 13,
         .weight = 405,
         .description_FR = gKabutopsPokedexText_FR,

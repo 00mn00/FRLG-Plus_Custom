@@ -34,8 +34,9 @@ PalletTown_RivalsHouse_Text_PleaseGiveMonsRest:: @ 818D701
     .string "them a rest.$"
 
 PalletTown_RivalsHouse_Text_ItsBigMapOfKanto:: @ 818D763
-    .string "It's a big map of the KANTO region.\n"
-    .string "Now this would be useful!$"
+    .string "A map of KANTO!\n"
+	.string "… … …Wouldn't it be\l"
+	.string "nice if you could have it?$"
 
 PalletTown_RivalsHouse_Text_ShelvesCrammedFullOfBooks:: @ 818D7A1
     .string "The shelves are crammed full of\n"

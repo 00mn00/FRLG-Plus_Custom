@@ -31,7 +31,7 @@ Text_PokemartSign:: @ 81C0ECB
 
 Text_PokecenterSign:: @ 81C0EF7
 	.string "“Rejuvenate your tired partners!”\n"
-	.string "POKéMON CENTER$"
+	.string "POKéCENTER$"
 
 Text_Indigo_UltimateGoal:: @ 81C0F19
 	.string "INDIGO PLATEAU\p"

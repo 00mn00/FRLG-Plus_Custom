@@ -1669,7 +1669,7 @@ static void AddGenderIconFunc_Yes(void)
             StringCopy(genderSymbol, gText_FemaleSymbol);
             gender = FEMALE;
         }
-        AddTextPrinterParameterized3(sNamingScreenData->windows[2], 2, 0x68, 1, sGenderColors[gender], TEXT_SPEED_FF, genderSymbol);
+        AddTextPrinterParameterized3(sNamingScreenData->windows[2], 2, (POKEMON_NAME_LENGTH * 4) + 64, 1, sGenderColors[gender], TEXT_SPEED_FF, genderSymbol);
     }
 }
 

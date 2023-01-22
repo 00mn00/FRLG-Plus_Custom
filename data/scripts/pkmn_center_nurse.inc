@@ -125,7 +125,7 @@ EventScript_PkmnCenterNurse_ReturnPkmnTrainerCard:: @ 81A661D
 	return
 
 Text_WelcomeTrainerCardFirst::
-	.string "Welcome to our POKéMON CENTER!\p"
+	.string "Welcome to our POKéCENTER!\p"
 	.string "Would you like me to…\n"
 	.string "Th-that TRAINER CARD!\p"
 	.string "That wonderful shade!\n"

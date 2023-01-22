@@ -33,7 +33,7 @@ Text_MomExplainHPGetPotions:: @ 81A6046
 	.string "measured in HP.\p"
 	.string "If your POKéMON lose their HP,\n"
 	.string "you can restore them at any\l"
-	.string "POKéMON CENTER.\p"
+	.string "POKéCENTER.\p"
 	.string "If you're going to travel far away,\n"
 	.string "the smart TRAINER stocks up on\l"
 	.string "POTIONS at the POKéMON MART.\p"

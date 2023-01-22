@@ -3197,7 +3197,7 @@ static void atk23_getexp(void)
             {
                 // music change in wild battle after fainting a poke
                 if (!(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_POKEDUDE))
-                 && gBattleMons[0].hp
+                 && gBattleMons[0].hp != 0
                  && !gBattleStruct->wildVictorySong)
                 {
                     BattleStopLowHpSound();
@@ -5853,7 +5853,7 @@ static void atk73_hpthresholds(void)
         result = gBattleMons[opposingBattler].hp * 100 / gBattleMons[opposingBattler].maxHP;
         if (result == 0)
             result = 1;
-        if (result > 69 || !gBattleMons[opposingBattler].hp)
+        if (result > 69 || gBattleMons[opposingBattler].hp == 0)
             gBattleStruct->hpScale = 0;
         else if (result > 39)
             gBattleStruct->hpScale = 1;

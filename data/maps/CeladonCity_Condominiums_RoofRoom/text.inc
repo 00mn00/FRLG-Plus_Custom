@@ -18,7 +18,7 @@ CeladonCity_Condominiums_RoofRoom_Text_ReadWhichHeading:: @ 81965F4
 
 CeladonCity_Condominiums_RoofRoom_Text_ExplainWirelessClub:: @ 8196617
     .string "The POKéMON WIRELESS CLUB is\n"
-    .string "upstairs at any POKéMON CENTER.\p"
+    .string "upstairs at any POKéCENTER.\p"
     .string "Visit one to link up with friend(s)\n"
     .string "using your Wireless Adapter.$"
 

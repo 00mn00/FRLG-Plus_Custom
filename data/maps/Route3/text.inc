@@ -25,7 +25,7 @@ Route3_Text_BenDefeat:: @ 81835A0
     .string "I don't believe it!$"
 
 Route3_Text_BenPostBattle:: @ 81835B4
-    .string "Are you using a POKéMON CENTER's\n"
+    .string "Are you using a POKéCENTER's\n"
     .string "PC for storing your POKéMON?\p"
     .string "Each BOX can hold up to\n"
     .string "30 POKéMON.$"

@@ -137,7 +137,7 @@ ViridianCity_Text_MovesLimitedByPP:: @ 817E24D
     .string "The battle moves of POKéMON are\n"
     .string "limited by their POWER POINTS, PP.\p"
     .string "To replenish PP, rest your tired\n"
-    .string "POKéMON at a POKéMON CENTER.$"
+    .string "POKéMON at a POKéCENTER.$"
 
 ViridianCity_Text_GymSign:: @ 817E2DB
     .string "VIRIDIAN CITY POKéMON GYM$"

@@ -689,7 +689,7 @@ static void CB2_InitBattleInternal(void)
     ResetTasks();
     DrawBattleEntryBackground();
     FreeAllSpritePalettes();
-    gReservedSpritePaletteCount = 4;
+    gReservedSpritePaletteCount = MAX_BATTLERS_COUNT;
     SetVBlankCallback(VBlankCB_Battle);
     SetUpBattleVars();
     if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
@@ -1859,7 +1859,7 @@ void CB2_InitEndLinkBattle(void)
     DrawBattleEntryBackground();
     SetGpuReg(REG_OFFSET_WINOUT, WININ_WIN0_BG0 | WININ_WIN0_BG1 | WININ_WIN0_BG2 | WININ_WIN0_OBJ | WININ_WIN0_CLR);
     FreeAllSpritePalettes();
-    gReservedSpritePaletteCount = 4;
+    gReservedSpritePaletteCount = MAX_BATTLERS_COUNT;
     SetVBlankCallback(VBlankCB_Battle);
     taskId = CreateTask(InitLinkBattleVsScreen, 0);
     gTasks[taskId].data[1] = 270;
@@ -4310,7 +4310,7 @@ bool8 TryRunFromBattle(u8 battler)
     {
         if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
         {
-            if (gBattleMons[battler].speed < gBattleMons[BATTLE_OPPOSITE(battler)].speed)
+            if (gBattleMons[battler].speed < gBattleMons[BATTLE_OPPOSITE(battler)].speed && gBattleStruct->runTries < 2)
             {
                 speedVar = (gBattleMons[battler].speed * 128) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
                 if (speedVar > (Random() & 0xFF))

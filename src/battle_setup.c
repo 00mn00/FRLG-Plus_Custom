@@ -644,7 +644,7 @@ static u8 GetBattleTransitionTypeByMap(void)
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     if (Overworld_GetFlashLevel())
         return B_TRANSITION_HORIZONTAL_CORRUGATE;
-    if (!MetatileBehavior_IsSurfable(tileBehavior))
+    if (!MetatileBehavior_IsSurfable(tileBehavior) && !(TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && MetatileBehavior_IsBridge(tileBehavior) == TRUE))
     {
         switch (gMapHeader.mapType)
         {

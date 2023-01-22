@@ -23,7 +23,7 @@ SSAnne_1F_Room2_Text_AnnDefeat:: @ 8173A4F
 SSAnne_1F_Room2_Text_AnnPostBattle:: @ 8173A7A
     .string "You hurt my poor POKéMON!\p"
     .string "I demand that you heal them at a\n"
-    .string "POKéMON CENTER!$"
+    .string "POKéCENTER!$"
 
 SSAnne_1F_Room2_Text_CruisingAroundWorld:: @ 8173AC5
     .string "We are cruising around the world,\n"

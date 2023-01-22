@@ -240,7 +240,7 @@ void EvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, 
     ResetTasks();
     FreeAllSpritePalettes();
 
-    gReservedSpritePaletteCount = 4;
+    gReservedSpritePaletteCount = MAX_BATTLERS_COUNT;
 
     sEvoStructPtr = AllocZeroed(sizeof(struct EvoInfo));
     AllocateMonSpritesGfx();
@@ -344,7 +344,7 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     LoadBattleTextboxAndBackground();
     ResetSpriteData();
     FreeAllSpritePalettes();
-    gReservedSpritePaletteCount = 4;
+    gReservedSpritePaletteCount = MAX_BATTLERS_COUNT;
 
     DecompressPicFromTable(&gMonFrontPicTable[postEvoSpecies],
                              gMonSpritesGfxPtr->sprites[3],
@@ -387,7 +387,7 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
         SetVBlankCallback(NULL);
         ResetSpriteData();
         FreeAllSpritePalettes();
-        gReservedSpritePaletteCount = 4;
+        gReservedSpritePaletteCount = MAX_BATTLERS_COUNT;
         gBattle_BG0_X = 0;
         gBattle_BG0_Y = 0;
         gBattle_BG1_X = 0;

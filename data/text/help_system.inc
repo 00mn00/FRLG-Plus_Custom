@@ -152,7 +152,7 @@ Help_Text_NothingIWantToKnow:: @ 81B3402
 	.string "There's nothing that I want to know!$"
 
 Help_Text_WhatsPokemonCenter:: @ 81B3427
-	.string "What's a POKéMON CENTER?$"
+	.string "What's a POKéCENTER?$"
 
 Help_Text_WhatsPokemonMart:: @ 81B3440
 	.string "What's a POKéMON MART?$"
@@ -252,7 +252,7 @@ Help_Text_AnswerWhatHappenedToItemIGot:: @ 81B3ACC
 
 Help_Text_AnswerWhatAreMyAdventureBasics:: @ 81B3BB6
 	.string "If POKéMON are hurt in battle,\n"
-	.string "take them to a POKéMON CENTER and\l"
+	.string "take them to a POKéCENTER and\l"
 	.string "have them healed by the staff.\l"
 	.string "Get in the habit of saving your\l"
 	.string "game and recording your progress.\l"
@@ -269,7 +269,7 @@ Help_Text_AnswerHowAreCavesDifferent:: @ 81B3D1B
 	.string "Caves are dark and dangerous. Wild\n"
 	.string "POKéMON can appear anywhere in them.\l"
 	.string "If there is an emergency, rush to a\l"
-	.string "POKéMON CENTER or use items.\l"
+	.string "POKéCENTER or use items.\l"
 	.string "New towns await discovery beyond some\l"
 	.string "caves, so don't give up.$"
 
@@ -302,7 +302,7 @@ Help_Text_AnswerWhatsABattle:: @ 81B3F7F
 Help_Text_AnswerHowDoIPrepareForBattle:: @ 81B406C
 	.string "First, fully heal the POKéMON in your\n"
 	.string "party (the POKéMON with you) at any\l"
-	.string "POKéMON CENTER.\l"
+	.string "POKéCENTER.\l"
 	.string "You should also buy healing items for\l"
 	.string "emergencies at a POKéMON MART.$"
 
@@ -312,10 +312,10 @@ Help_Text_AnswerWhatIsAMonsVitality:: @ 81B410B
 	.string "subtracted. If its HP drops to zero,\l"
 	.string "the POKéMON faints.\l"
 	.string "Heal hurt or fainted POKéMON at a\l"
-	.string "POKéMON CENTER or by using items.$"
+	.string "POKéCENTER or by using items.$"
 
 Help_Text_AnswerMyMonsAreHurt:: @ 81B41D7
-	.string "A POKéMON CENTER is like an inn for\n"
+	.string "A POKéCENTER is like an inn for\n"
 	.string "POKéMON. It will fully heal POKéMON of\l"
 	.string "any status problems and fully restore\l"
 	.string "their HP using a special machine.\l"
@@ -328,7 +328,7 @@ Help_Text_AnswerWhatIsStatusProblem:: @ 81B42B3
 	.string "foe's attack. These include burns,\l"
 	.string "paralysis, poisoning, sleep, and\l"
 	.string "freezing. These can be healed by\l"
-	.string "visiting a POKéMON CENTER or using\l"
+	.string "visiting a POKéCENTER or using\l"
 	.string "the appropriate item.$"
 
 Help_Text_AnswerWhatHappensIfAllMyMonsFaint:: @ 81B439D
@@ -337,7 +337,7 @@ Help_Text_AnswerWhatHappensIfAllMyMonsFaint:: @ 81B439D
 	.string "lose some MONEY, and you are\l"
 	.string "returned home or to a POKéMON\l"
 	.string "CENTER. To reduce that chance, visit\l"
-	.string "POKéMON CENTERS often. Also, get\l"
+	.string "POKéCENTERS often. Also, get\l"
 	.string "in the habit of saving often.$"
 
 Help_Text_AnswerCantCatchMons:: @ 81B4483
@@ -446,7 +446,7 @@ Help_Text_AnswerWhatDoIDoInCave:: @ 81B4ED8
 	.string "Unlike roads and forests, wild POKéMON\n"
 	.string "can appear anywhere in caves.\l"
 	.string "If your POKéMON are hurt in a cave,\l"
-	.string "rush to a POKéMON CENTER or use items\l"
+	.string "rush to a POKéCENTER or use items\l"
 	.string "to heal them right away. It is very\l"
 	.string "dangerous to force your luck in caves.$"
 
@@ -455,9 +455,9 @@ Help_Text_AnswerNothingIWantToKnow:: @ 81B4FB2
 	.string "Believe in yourself and find your way!$"
 
 Help_Text_AnswerWhatsPokemonCenter:: @ 81B4FFD
-	.string "A POKéMON CENTER is identified by its\n"
+	.string "A POKéCENTER is identified by its\n"
 	.string "red roof and a “P.C” sign. Every\l"
-	.string "POKéMON CENTER offers such services as\l"
+	.string "POKéCENTER offers such services as\l"
 	.string "fully healing POKéMON and free PC use,\l"
 	.string "making it essential for your travels.\l"
 	.string "On the upper floor are facilities for\l"
@@ -838,7 +838,7 @@ Help_Text_HowToEnterName:: @ 81B678E
 	.string "{CIRCLE_4} Press the A Button on “OK.”$"
 
 Help_Text_HowToUsePC:: @ 81B6883
-	.string "{CIRCLE_1} Go to any POKéMON CENTER, go up\n"
+	.string "{CIRCLE_1} Go to any POKéCENTER, go up\n"
 	.string "   to the PC, then press the A Button.$"
 
 Help_Text_HowToUseBillsPC:: @ 81B68CD
@@ -1237,7 +1237,7 @@ Help_Text_DefineHP:: @ 81B7E16
 	.string "So, the key in battle is to try to\l"
 	.string "reduce the foe's HP to zero.\l"
 	.string "If your POKéMON are hurt, restore their\l"
-	.string "HP at a POKéMON CENTER or use items.$"
+	.string "HP at a POKéCENTER or use items.$"
 
 Help_Text_DefineEXP:: @ 81B7F0A
 	.string "EXP. Points stands for “Experience\n"
@@ -1370,7 +1370,7 @@ Help_Text_DefinePP:: @ 81B8B62
 	.string "It indicates the number of times a\l"
 	.string "certain move can be used in battle.\l"
 	.string "Like HP, PP can be restored by visiting\l"
-	.string "a POKéMON CENTER or using certain\l"
+	.string "a POKéCENTER or using certain\l"
 	.string "items.$"
 
 Help_Text_DefinePower:: @ 81B8C18

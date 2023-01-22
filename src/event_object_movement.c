@@ -519,7 +519,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gEmMayPalette,                           OBJ_EVENT_PAL_TAG_29},
     {gObjectEventPal_CableCar,                OBJ_EVENT_PAL_TAG_CABLE_CAR},
     {gObjectEventPal_Lady,                    OBJ_EVENT_PAL_TAG_LADY},
-    {},
+    {NULL,                                    OBJ_EVENT_PAL_TAG_NONE},
 };
 
 static const u16 sPlayerReflectionPaletteTags[] = {

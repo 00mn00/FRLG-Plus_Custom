@@ -288,7 +288,7 @@ Text_SwappedForYou_NuzlockeOnly_Mom::
 	.string "measured in HP.\p"
 	.string "If your POKéMON lose their HP,\n"
 	.string "you can restore them at any\l"
-	.string "POKéMON CENTER before they faint.\p"
+	.string "POKéCENTER before they faint.\p"
 	.string "If you're going to travel far away,\n"
 	.string "the smart TRAINER stocks up on\l"
 	.string "POTIONS at the POKéMON MART.\p"

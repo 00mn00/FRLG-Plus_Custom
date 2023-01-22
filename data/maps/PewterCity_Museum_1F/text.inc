@@ -35,10 +35,10 @@ PewterCity_Museum_1F_Text_AmberIsFossilizedSap:: @ 8190627
     .string "time to become rock-hard AMBER.$"
 
 PewterCity_Museum_1F_Text_ShouldBeGratefulForLongLife:: @ 81906B4
-    .string "I should be grateful for my long\n"
-    .string "life.\p"
-    .string "Never did I think I would get to\n"
-    .string "see the bones of a dragon!$"
+    .string "Oh thank you!\n"
+    .string "Oh thank you!\p"
+    .string "I'm praying to the dragon\n"
+    .string "bones of Lord Ryujin.$"
 
 PewterCity_Museum_1F_Text_WantYouToGetAmberExamined:: @ 8190717
     .string "Ssh! Listen, I need to share a\n"

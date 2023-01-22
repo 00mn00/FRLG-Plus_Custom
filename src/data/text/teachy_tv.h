@@ -62,7 +62,7 @@ const u8 gTeachyTvText_StatusScript2[] = _(
     "You should heal POKéMON of these\n"
     "kinds of problems right away.\p"
     "Use an item, or try to get to a\n"
-    "POKéMON CENTER for healing.\p"
+    "POKéCENTER for healing.\p"
     "That wasn't hard, was it?\n"
     "All righty, be seeing you!\p"
     "Remember, TRAINERS, a good deed\n"

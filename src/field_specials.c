@@ -466,7 +466,7 @@ bool8 IsThereRoomInAnyBoxForMorePokemon(void)
 
 bool8 IsPokerusInParty(void)
 {
-    if (!CheckPartyPokerus(gPlayerParty, 0x3F))
+    if (!CheckPartyPokerus(gPlayerParty, (1 << PARTY_SIZE) - 1))
         return FALSE;
     else
         return TRUE;
