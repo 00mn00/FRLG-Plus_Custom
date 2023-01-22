@@ -2437,25 +2437,20 @@ static void InitLastUsedBallAssets(void)
 bool32 CanThrowLastUsedBall(void)
 {
     return (!(IsPlayerPartyAndPokemonStorageFull()
-     || (gBattleTypeFlags & BATTLE_TYPE_TRAINER)
+     || (gBattleTypeFlags & (BATTLE_TYPE_DOUBLE | BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_MULTI
+                           | BATTLE_TYPE_SAFARI | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_INGAME_PARTNER
+						   | BATTLE_TYPE_RECORDED | BATTLE_TYPE_SECRET_BASE))
      || !CheckBagHasItem(gSaveBlock2Ptr->lastUsedBall, 1)));
 }
 
 void TryAddLastUsedBallItemSprites(void)
 {
-    struct BagPocket * pocket = &gBagPockets[POCKET_POKE_BALLS - 1];
-    u32 i;
-
-    if (gSaveBlock2Ptr->lastUsedBall != ITEM_NONE && !CheckBagHasItem(gSaveBlock2Ptr->lastUsedBall, 1))
+	if (gSaveBlock2Ptr->lastUsedBall != ITEM_NONE && !CheckBagHasItem(gSaveBlock2Ptr->lastUsedBall, 1))
     {
         // we're out of the last used ball, so just set it to the first ball in the bag
         // we have to compact the bag first bc it is typically only compacted when you open it
-        BagPocketCompaction(pocket->itemSlots, pocket->capacity);
-        for (i = 0; i < pocket->capacity; i++)
-        {
-            if (pocket->itemSlots[i].itemId == ITEM_NONE)
-                break;
-        }
+		CompactItemsInBagPocket(&gBagPockets[POCKET_POKE_BALLS - 1]);
+        gSaveBlock2Ptr->lastUsedBall = gBagPockets[POCKET_POKE_BALLS - 1].itemSlots[0].itemId;
     }
 
     if (!CanThrowLastUsedBall())

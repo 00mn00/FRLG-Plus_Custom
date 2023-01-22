@@ -1047,7 +1047,7 @@ void Pocket_CalculateNItemsAndMaxShowed(u8 pocketId)
 {
     u32 i;
     struct BagPocket * pocket = &gBagPockets[pocketId];
-    BagPocketCompaction(pocket->itemSlots, pocket->capacity);
+
     sBagMenuDisplay->nItems[pocketId] = 0;
     for (i = 0; i < pocket->capacity; i++)
     {

@@ -657,18 +657,16 @@ void SwapItemSlots(struct ItemSlot * a, struct ItemSlot * b)
     *b = c;
 }
 
-void BagPocketCompaction(struct ItemSlot * slots, u8 capacity)
+void CompactItemsInBagPocket(struct BagPocket *bagPocket)
 {
     u16 i, j;
 
-    for (i = 0; i < capacity - 1; i++)
+    for (i = 0; i < bagPocket->capacity - 1; i++)
     {
-        for (j = i + 1; j < capacity; j++)
+        for (j = i + 1; j < bagPocket->capacity; j++)
         {
-            if (GetBagItemQuantity(&slots[i].quantity) == 0)
-            {
-                SwapItemSlots(&slots[i], &slots[j]);
-            }
+            if (GetBagItemQuantity(&bagPocket->itemSlots[i].quantity) == 0)
+                SwapItemSlots(&bagPocket->itemSlots[i], &bagPocket->itemSlots[j]);
         }
     }
 }
