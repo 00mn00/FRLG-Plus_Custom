@@ -48,11 +48,21 @@ VermilionCity_Gym_OnTransition:: @ 816B772
 	setvar TYPE, CHECK_VISITOR_STATE
 	copyvar VAR_0x800A, ARGUMENT
 	setvar ARGUMENT, FAMECHECKER_LTSURGE
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 0
+	call_if_eq VermilionCity_Gym_EventScript_UnlockLtSurge
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 2
+	call_if_eq VermilionCity_Gym_EventScript_UnlockLtSurge
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq VermilionCity_Gym_EventScript_HideLtSurge
 	copyvar ARGUMENT, VAR_0x800A
 	end
+
+VermilionCity_Gym_EventScript_UnlockLtSurge::
+	setvar VAR_MAP_BADGE03_GET, 1
+	return
 
 VermilionCity_Gym_EventScript_HideLtSurge::
 	setflag FLAG_TEMP_2
@@ -246,6 +256,7 @@ VermilionCity_Gym_EventScript_DefeatedLtSurge:: @ 816B97C
 	clearflag FLAG_HIDE_FAME_CHECKER_LT_SURGE_JOURNAL
 	setflag FLAG_DEFEATED_LT_SURGE
 	setflag FLAG_BADGE03_GET
+	setvar VAR_MAP_BADGE03_GET, 1
 	set_gym_trainers 3
 	goto VermilionCity_Gym_EventScript_GiveTM34
 	end

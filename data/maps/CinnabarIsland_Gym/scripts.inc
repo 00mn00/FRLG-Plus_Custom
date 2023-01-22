@@ -17,10 +17,20 @@ CinnabarIsland_Gym_MapScripts:: @ 816D94B
 CinnabarIsland_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_BLAINE
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 0
+	call_if_eq CinnabarIsland_Gym_EventScript_UnlockBlaine
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 2
+	call_if_eq CinnabarIsland_Gym_EventScript_UnlockBlaine
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq CinnabarIsland_Gym_EventScript_HideBlaine
 	end
+
+CinnabarIsland_Gym_EventScript_UnlockBlaine::
+	setvar VAR_MAP_BADGE07_GET, 1
+	return
 
 CinnabarIsland_Gym_EventScript_HideBlaine::
 	setflag FLAG_TEMP_1
@@ -93,6 +103,7 @@ CinnabarIsland_Gym_EventScript_DefeatedBlaine:: @ 816DA06
 	famechecker FAMECHECKER_BLAINE, 1
 	setflag FLAG_DEFEATED_BLAINE
 	setflag FLAG_BADGE07_GET
+	setvar VAR_MAP_BADGE07_GET, 1
 	setrespawn SPAWN_CINNABAR_ISLAND
 	setvar VAR_MAP_SCENE_CINNABAR_ISLAND, 1
 	clearflag FLAG_HIDE_CINNABAR_BILL

@@ -9,10 +9,20 @@ PewterCity_Gym_MapScripts:: @ 816A592
 PewterCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_BROCK
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 0
+	call_if_eq PewterCity_Gym_EventScript_UnlockBrock
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 2
+	call_if_eq PewterCity_Gym_EventScript_UnlockBrock
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq PewterCity_Gym_EventScript_HideBrock
 	end
+
+PewterCity_Gym_EventScript_UnlockBrock::
+	setvar VAR_MAP_BADGE01_GET, 1
+	return
 
 PewterCity_Gym_EventScript_HideBrock::
 	setflag FLAG_TEMP_1
@@ -42,6 +52,7 @@ PewterCity_Gym_EventScript_DefeatedBrock:: @ 816A5C5
 	famechecker FAMECHECKER_BROCK, 1
 	setflag FLAG_DEFEATED_BROCK
 	setflag FLAG_BADGE01_GET
+	setvar VAR_MAP_BADGE01_GET, 1
 	setvar VAR_MAP_SCENE_PEWTER_CITY, 1
 	setflag FLAG_HIDE_PEWTER_CITY_GYM_GUIDE
 	clearflag FLAG_HIDE_PEWTER_CITY_RUNNING_SHOES_GUY

@@ -835,6 +835,11 @@ void CheckNuzlockeMode(void)
     gSpecialVar_Result = gSaveBlock1Ptr->keyFlags.nuzlocke;
 }
 
+void CheckGymLockMode(void)
+{
+    gSpecialVar_Result = gSaveBlock1Ptr->keyFlags.difficulty;
+}
+
 #define SET_SPEAROW_STATE 0
 #define SET_TOLD_FAMECHECKER 1
 #define SET_VISITOR_STATE 2

@@ -9,10 +9,20 @@ FuchsiaCity_Gym_MapScripts:: @ 816A592
 FuchsiaCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_KOGA
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 0
+	call_if_eq FuchsiaCity_Gym_EventScript_UnlockKoga
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 2
+	call_if_eq FuchsiaCity_Gym_EventScript_UnlockKoga
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq FuchsiaCity_Gym_EventScript_HideKoga
 	end
+
+FuchsiaCity_Gym_EventScript_UnlockKoga::
+	setvar VAR_MAP_BADGE05_GET, 1
+	return
 
 FuchsiaCity_Gym_EventScript_HideKoga::
 	setflag FLAG_TEMP_1
@@ -43,6 +53,7 @@ FuchsiaCity_Gym_EventScript_DefeatedKoga:: @ 816D580
 	clearflag FLAG_HIDE_FAME_CHECKER_KOGA_JOURNAL
 	setflag FLAG_DEFEATED_KOGA
 	setflag FLAG_BADGE05_GET
+	setvar VAR_MAP_BADGE05_GET, 1
 	set_gym_trainers 5
 	goto FuchsiaCity_Gym_EventScript_GiveTM06
 	end

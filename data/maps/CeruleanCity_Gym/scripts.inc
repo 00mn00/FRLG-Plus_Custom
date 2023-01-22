@@ -9,10 +9,20 @@ CeruleanCity_Gym_MapScripts:: @ 816AAA0
 CeruleanCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_MISTY
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 0
+	call_if_eq CeruleanCity_Gym_EventScript_UnlockMisty
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 2
+	call_if_eq CeruleanCity_Gym_EventScript_UnlockMisty
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq CeruleanCity_Gym_EventScript_HideMisty
 	end
+
+CeruleanCity_Gym_EventScript_UnlockMisty::
+	setvar VAR_MAP_BADGE02_GET, 1
+	return
 
 CeruleanCity_Gym_EventScript_HideMisty::
 	setflag FLAG_TEMP_1
@@ -42,6 +52,7 @@ CeruleanCity_Gym_EventScript_MistyDefeated:: @ 816AAD3
 	famechecker FAMECHECKER_MISTY, 1
 	setflag FLAG_DEFEATED_MISTY
 	setflag FLAG_BADGE02_GET
+	setvar VAR_MAP_BADGE02_GET, 1
 	setrespawn SPAWN_CERULEAN_CITY
 	set_gym_trainers 2
 	goto CeruleanCity_Gym_EventScript_GiveTM03

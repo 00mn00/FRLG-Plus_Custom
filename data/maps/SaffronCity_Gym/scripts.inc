@@ -9,10 +9,20 @@ SaffronCity_Gym_MapScripts:: @ 816A592
 SaffronCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_SABRINA
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 0
+	call_if_eq SaffronCity_Gym_EventScript_UnlockSabrina
+	callnative CheckGymLockMode
+	compare VAR_RESULT, 2
+	call_if_eq SaffronCity_Gym_EventScript_UnlockSabrina
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq SaffronCity_Gym_EventScript_HideSabrina
 	end
+
+SaffronCity_Gym_EventScript_UnlockSabrina::
+	setvar VAR_MAP_BADGE06_GET, 1
+	return
 
 SaffronCity_Gym_EventScript_HideSabrina::
 	setflag FLAG_TEMP_1
@@ -44,6 +54,7 @@ SaffronCity_Gym_EventScript_DefeatedSabrina:: @ 816EE0A
 	clearflag FLAG_HIDE_SAFFRON_CITY_POKECENTER_SABRINA_JOURNALS
 	setflag FLAG_DEFEATED_SABRINA
 	setflag FLAG_BADGE06_GET
+	setvar VAR_MAP_BADGE06_GET, 1
 	set_gym_trainers 6
 	goto SaffronCity_Gym_EventScript_GiveTM04
 	end
