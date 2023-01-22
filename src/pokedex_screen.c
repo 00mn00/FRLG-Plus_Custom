@@ -3149,36 +3149,36 @@ void DexScreen_PrintMonCategory(u8 windowId, u16 species, u8 x, u8 y)
 void DexScreen_PrintMonHeight(u8 windowId, u16 species, u8 x, u8 y)
 {
     u16 height;
-	u8 *labelText;
-	u8 i, text[18];
-	
-	species = SpeciesToNationalPokedexNum(species);
-	height = gPokedexEntries[species].height;
-	
-	labelText = StringCopy(text, gText_HT);
-	*labelText++ = EXT_CTRL_CODE_BEGIN;
-	*labelText++ = EXT_CTRL_CODE_MIN_LETTER_SPACING;
-	*labelText++ = 5;
-	for (i = 0; i < 6; i++)
-		*labelText++ = CHAR_SPACE;
-	
-	if (DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, FALSE))
+    u8 *labelText;
+    u8 i, text[18];
+    
+    species = SpeciesToNationalPokedexNum(species);
+    height = gPokedexEntries[species].height;
+    
+    labelText = StringCopy(text, gText_HT);
+    *labelText++ = EXT_CTRL_CODE_BEGIN;
+    *labelText++ = EXT_CTRL_CODE_MIN_LETTER_SPACING;
+    *labelText++ = 5;
+    for (i = 0; i < 6; i++)
+        *labelText++ = CHAR_SPACE;
+    
+    if (DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, FALSE))
     {
-		labelText = ConvertIntToDecimalStringN(labelText, height / 10, STR_CONV_MODE_RIGHT_ALIGN, 2);
-		*labelText++ = CHAR_PERIOD;
-		*labelText++ = height % 10 + CHAR_0;
-	}
-	else
-	{
-		*labelText++ = CHAR_QUESTION_MARK;
-		*labelText++ = CHAR_QUESTION_MARK;
-		*labelText++ = CHAR_PERIOD;
-		*labelText++ = CHAR_QUESTION_MARK;
-	}
-	*labelText++ = CHAR_SPACE;
-	*labelText++ = CHAR_m;
-	*labelText++ = EOS;
-	
+        labelText = ConvertIntToDecimalStringN(labelText, height / 10, STR_CONV_MODE_RIGHT_ALIGN, 2);
+        *labelText++ = CHAR_PERIOD;
+        *labelText++ = height % 10 + CHAR_0;
+    }
+    else
+    {
+        *labelText++ = CHAR_QUESTION_MARK;
+        *labelText++ = CHAR_QUESTION_MARK;
+        *labelText++ = CHAR_PERIOD;
+        *labelText++ = CHAR_QUESTION_MARK;
+    }
+    *labelText++ = CHAR_SPACE;
+    *labelText++ = CHAR_m;
+    *labelText++ = EOS;
+    
     DexScreen_AddTextPrinterParameterized(windowId, 0, text, x, y, 0);
 }
 
@@ -3195,27 +3195,27 @@ void DexScreen_PrintMonWeight(u8 windowId, u16 species, u8 x, u8 y)
     *labelText++ = EXT_CTRL_CODE_BEGIN;
     *labelText++ = EXT_CTRL_CODE_MIN_LETTER_SPACING;
     *labelText++ = 5;
-	for (i = 0; i < 4; i++)
-		*labelText++ = CHAR_SPACE;
+    for (i = 0; i < 4; i++)
+        *labelText++ = CHAR_SPACE;
 
     if (DexScreen_GetSetPokedexFlag(species, FLAG_GET_CAUGHT, FALSE))
     {
         labelText = ConvertIntToDecimalStringN(labelText, weight / 10, STR_CONV_MODE_RIGHT_ALIGN, 4);
-		*labelText++ = CHAR_PERIOD;
-		*labelText++ = weight % 10 + CHAR_0;
+        *labelText++ = CHAR_PERIOD;
+        *labelText++ = weight % 10 + CHAR_0;
     }
     else
     {
-		for (i = 0; i < 4; i++)
-			*labelText++ = CHAR_QUESTION_MARK;
-		*labelText++ = CHAR_PERIOD;
-		*labelText++ = CHAR_QUESTION_MARK;
+        for (i = 0; i < 4; i++)
+            *labelText++ = CHAR_QUESTION_MARK;
+        *labelText++ = CHAR_PERIOD;
+        *labelText++ = CHAR_QUESTION_MARK;
     }
     *labelText++ = CHAR_SPACE;
     *labelText++ = CHAR_k;
-	*labelText++ = CHAR_g;
-	*labelText++ = EOS;
-	
+    *labelText++ = CHAR_g;
+    *labelText++ = EOS;
+    
     DexScreen_AddTextPrinterParameterized(windowId, 0, text, x, y, 0);
 }
 

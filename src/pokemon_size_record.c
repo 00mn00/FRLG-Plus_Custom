@@ -3,6 +3,9 @@
 #include "data.h"
 #include "event_data.h"
 #include "pokedex.h"
+#include "pokemon.h"
+#include "pokemon_size_record.h"
+#include "string_util.h"
 #include "text.h"
 #include "strings.h"
 #include "constants/pokemon_size_record.h"
@@ -45,11 +48,11 @@ static const u8 sGiftRibbonsMonDataIds[] =
 
 extern const u8 gText_DecimalPoint[];
 
-static const u8 gText_Centimeter[] = _("centimeter");
-static const u8 gText_CentimeterPlural[] = _("centimeters");
+static const u8 gText_Centimeter[] = _("centimetre");
+static const u8 gText_CentimeterPlural[] = _("centimetres");
 static const u8 gText_CentimeterSymbol[] = _("cm");
-static const u8 gText_Meter[] = _("meter");
-static const u8 gText_MeterPlural[] = _("meters");
+static const u8 gText_Meter[] = _("metre");
+static const u8 gText_MeterPlural[] = _("metres");
 static const u8 gText_MeterSymbol[] = _("m");
 static const u8 gText_Kilogram[] = _("kilogram");
 static const u8 gText_KilogramPlural[] = _("kilograms");
@@ -69,7 +72,6 @@ static const u8* const sMetricText[] =
 };
 
 
-#define CM_PER_INCH 2.54
 
 static u32 GetMonSizeHash(struct Pokemon * pkmn)
 {
@@ -117,9 +119,9 @@ static u32 GetMonSize(u16 species, u16 b)
 
 static void FormatMonSizeRecord(u8 *string, u32 size)
 {
-    string = ConvertIntToDecimalStringN(string, size / 1000, STR_CONV_MODE_LEFT_ALIGN, 8);
+    string = ConvertIntToDecimalStringN(string, size / 10, STR_CONV_MODE_LEFT_ALIGN, 8);
     string = StringAppend(string, gText_DecimalPoint);
-    ConvertIntToDecimalStringN(string, size % 1000, STR_CONV_MODE_LEFT_ALIGN, 3);
+    ConvertIntToDecimalStringN(string, size % 10, STR_CONV_MODE_LEFT_ALIGN, 3);
 }
 
 static u8 CompareMonSize(u16 species, u16 *sizeRecord)

@@ -1586,8 +1586,8 @@ Text_PokemonJumpInfo:: @ 81BCD4D
 	.string "“POKéMON JUMP”\p"
 	.string "Make your POKéMON skip the\n"
 	.string "VINE WHIP rope with the A Button.\p"
-	.string "Only mini POKéMON around 0.71\n"
-	.string "meters or less may participate.\p"
+	.string "Only mini POKéMON around 71 centi-\n"
+	.string "metres or less may participate.\p"
 	.string "POKéMON that only swim, burrow, or\n"
 	.string "fly are not good at jumping.\p"
 	.string "As a result, those POKéMON may not\n"
@@ -1642,7 +1642,7 @@ EventScript_ExplainPokemonJumpRequirements:: @ 81BD0CF
 
 Text_ShortJumpingPokemonAllowed:: @ 81BD14B
 	.string "“POKéMON JUMP” is open to POKéMON\n"
-	.string "around 0.71 meters or less.\p"
+	.string "around 71 centimetres or less.\p"
 	.string "What you can't enter are those\n"
 	.string "POKéMON that can't jump.\p"
 	.string "You know, like POKéMON that only\n"

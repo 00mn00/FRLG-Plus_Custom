@@ -11,6 +11,7 @@ SixIsland_WaterPath_House1_EventScript_Beauty:: @ 817206D
 	compare VAR_RESULT, FALSE
 	goto_if_eq SixIsland_WaterPath_House1_EventScript_NoHeracrossInParty
 	special GetHeracrossSizeRecordInfo
+	bufferunitsystemtext UNIT_TEXT_LENGTH_SMALL_PLURAL, 1
 	msgbox SixIsland_WaterPath_House1_Text_MayIMeasureHeracross
 	special ChoosePartyMon
 	waitstate
@@ -18,6 +19,7 @@ SixIsland_WaterPath_House1_EventScript_Beauty:: @ 817206D
 	compare VAR_RESULT, PARTY_SIZE
 	goto_if_ge SixIsland_WaterPath_House1_EventScript_DontShowMon
 	special CompareHeracrossSize
+	bufferunitsystemtext UNIT_TEXT_LENGTH_SMALL_PLURAL, 1
 	compare VAR_RESULT, 1
 	goto_if_eq SixIsland_WaterPath_House1_EventScript_ShownNonHeracross
 	compare VAR_RESULT, 2
@@ -45,21 +47,18 @@ SixIsland_WaterPath_House1_EventScript_ShownNonHeracross:: @ 81720F1
 
 SixIsland_WaterPath_House1_EventScript_ShownSmallHeracross:: @ 81720FB
 	goto_if_unset FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1, SixIsland_WaterPath_House1_EventScript_ShownBigHeracross
-	bufferunitsystemtext UNIT_TEXT_LENGTH_MEDIUM_PLURAL, 1
 	msgbox SixIsland_WaterPath_House1_Text_ItsXInchesYInchesWasBiggest
 	release
 	end
 
 SixIsland_WaterPath_House1_EventScript_ShownTiedHeracross:: @ 817210E
 	goto_if_unset FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1, SixIsland_WaterPath_House1_EventScript_ShownBigHeracross
-	bufferunitsystemtext UNIT_TEXT_LENGTH_MEDIUM_PLURAL, 1
 	msgbox SixIsland_WaterPath_House1_Text_ItsXInchesSameAsBefore
 	release
 	end
 
 SixIsland_WaterPath_House1_EventScript_ShownBigHeracross:: @ 8172121
 	setflag FLAG_GOT_NEST_BALL_FROM_WATER_PATH_HOUSE_1
-	bufferunitsystemtext UNIT_TEXT_LENGTH_MEDIUM_PLURAL, 1
 	msgbox SixIsland_WaterPath_House1_Text_ItsXInchesDeserveReward
 	giveitem ITEM_NEST_BALL
 	compare VAR_RESULT, FALSE
@@ -82,7 +81,7 @@ SixIsland_WaterPath_House1_EventScript_SizeRecord:: @ 8172157
 
 SixIsland_WaterPath_House1_EventScript_SizeRecordNonEmpty:: @ 817216B
 	special GetHeracrossSizeRecordInfo
-	bufferunitsystemtext UNIT_TEXT_LENGTH_MEDIUM_PLURAL, 1
+	bufferunitsystemtext UNIT_TEXT_LENGTH_SMALL_PLURAL, 1
 	msgbox SixIsland_WaterPath_House1_Text_BiggestHeracrossIsXInches
 	releaseall
 	end
