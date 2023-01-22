@@ -7,6 +7,7 @@
 #include "menu.h"
 #include "help_system.h"
 #include "new_menu_helpers.h"
+#include "oak_speech.h"
 #include "event_scripts.h"
 #include "scanline_effect.h"
 #include "pokeball.h"
@@ -84,7 +85,6 @@ static void Task_OakSpeech42(u8 taskId);
 
 static void CB2_ReturnFromNamingScreen(void);
 static void CreateNidoranFSprite(u8 taskId);
-static void CreatePikaOrGrassPlatformSpriteAndLinkToCurrentTask(u8 taskId, u8 state);
 static void DestroyLinkedPikaOrGrassPlatformSprites(u8 taskId, u8 state);
 static void LoadOaksSpeechTrainerPic(u16 whichPic, u16 tileOffset);
 static void DestroyOaksSpeechTrainerPic(void);
@@ -1664,7 +1664,7 @@ static void SpriteCB_PikaSync(struct Sprite * sprite)
     sprite->pos2.y = gSprites[sprite->data[0]].animCmdIndex;
 }
 
-static void CreatePikaOrGrassPlatformSpriteAndLinkToCurrentTask(u8 taskId, u8 state)
+void CreatePikaOrGrassPlatformSpriteAndLinkToCurrentTask(u8 taskId, u8 state)
 {
     u8 spriteId;
     u8 i = 0;

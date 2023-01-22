@@ -308,6 +308,7 @@ SECTIONS {
         src/renewable_hidden_items.o(.text);
         src/trainer_tower.o(.text);
         src/berry_powder.o(.text);
+		src/ev_iv_display.o(.text);
         src/minigame_countdown.o(.text);
         src/berry_fix_program.o(.text);
         src/cable_car.o(.text);
@@ -612,6 +613,7 @@ SECTIONS {
         src/keyboard_text.o(.rodata);
         src/trainer_tower_sets.o(.rodata);
         src/move_descriptions.o(.rodata);
+		src/ev_iv_display.o(.rodata);
         src/cable_car.o(.rodata);
 
         /* These should not be moved to C files */

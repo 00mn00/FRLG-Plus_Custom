@@ -1454,6 +1454,7 @@ static bool8 IsUnregisterableKeyItem(u16 item)
         case ITEM_POKE_FLUTE:
         case ITEM_BICYCLE ... ITEM_TEACHY_TV:
         case ITEM_POWDER_JAR:
+		case ITEM_EV_IV_DISPLAY:
             return FALSE;
     }
     return TRUE;

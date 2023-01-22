@@ -748,11 +748,9 @@ PewterCity_EventScript_AideGiveRunningShoes:: @ 81662DE
 	call_if_eq PewterCity_EventScript_AideApproachPlayer3
 	msgbox PewterCity_Text_AskedToDeliverThis
 	textcolor 3
-	playfanfare MUS_OBTAIN_KEY_ITEM
-	message PewterCity_Text_ReceivedRunningShoesFromAide
-	waitmessage
-	waitfanfare
+	msgbox PewterCity_Text_ReceivedRunningShoesFromAide
 	call EventScript_RestorePrevTextColor
+	giveitem ITEM_EV_IV_DISPLAY
 	msgbox PewterCity_Text_MustBeGoingBackToLab
 	closemessage
 	compare VAR_TEMP_1, 0

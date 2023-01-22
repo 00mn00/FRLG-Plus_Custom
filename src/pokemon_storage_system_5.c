@@ -1,5 +1,6 @@
 #include "global.h"
 #include "gflib.h"
+#include "graphics.h"
 #include "data.h"
 #include "item.h"
 #include "mail_data.h"
@@ -49,7 +50,6 @@ static void sub_8094AD8(void);
 static void sub_8094C84(void);
 
 static const u16 sHandCursorPalette[] = INCBIN_U16("graphics/interface/pss_unk_83D2BCC.gbapal");
-static const u16 sHandCursorTiles[] = INCBIN_U16("graphics/interface/pss_unk_83D2BEC.4bpp");
 static const u16 sHandCursorShadowTiles[] = INCBIN_U16("graphics/interface/pss_unk_83D33EC.4bpp");
 
 extern void CopyBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon * dst);

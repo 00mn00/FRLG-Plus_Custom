@@ -1,5 +1,6 @@
 #include "global.h"
 #include "gflib.h"
+#include "graphics.h"
 #include "dynamic_placeholder_text_util.h"
 #include "menu.h"
 #include "new_menu_helpers.h"
@@ -28,10 +29,6 @@ static void CB2_Diploma(void);
 static void Task_WaitForExit(u8);
 static void Task_DiplomaInit(u8);
 static void Task_DiplomaReturnToOverworld(u8);
-
-static const u32 sDiplomaGfx[] = INCBIN_U32("graphics/diploma/diploma.4bpp.lz");
-static const u32 sDiplomaTilemap[] = INCBIN_U32("graphics/diploma/diploma.bin.lz");
-static const u16 sDiplomaPal[] = INCBIN_U16("graphics/diploma/diploma.gbapal");
 
 static const u8 gUnknown_84159FB[] = _("{COLOR DARK_GRAY}{HIGHLIGHT TRANSPARENT}");
 

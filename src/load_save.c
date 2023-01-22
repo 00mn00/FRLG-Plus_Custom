@@ -225,6 +225,10 @@ void SerializeKeyItemSlots(void)
         {
             gSaveBlock1Ptr->bagPocket_KeyItems[i] = 59;
         }
+        if(gKeyItemSlots[i].itemId == ITEM_EV_IV_DISPLAY)
+        {
+            gSaveBlock1Ptr->bagPocket_KeyItems[i] = 60;
+        }
     }
 }
 
@@ -290,6 +294,10 @@ void SavePlayerBag(void)
         if(gLoadedSaveData.keyItems[i].itemId == ITEM_LINK_BRACELET)
         {
             gSaveBlock1Ptr->bagPocket_KeyItems[i] = 59;
+        }
+        if(gLoadedSaveData.keyItems[i].itemId == ITEM_EV_IV_DISPLAY)
+        {
+            gSaveBlock1Ptr->bagPocket_KeyItems[i] = 60;
         }
     }
 

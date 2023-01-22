@@ -3639,8 +3639,8 @@ extern const u8 gFile_graphics_items_icons_tm_sheet[];
 extern const u8 gFile_graphics_items_icon_palettes_water_tm_hm_palette[];
 extern const u8 gFile_graphics_items_icons_tm_sheet[];
 extern const u8 gFile_graphics_items_icon_palettes_water_tm_hm_palette[];
-extern const u8 gFile_graphics_items_icons_question_mark_sheet[];
-extern const u8 gFile_graphics_items_icon_palettes_question_mark_palette[];
+extern const u8 gFile_graphics_items_icons_eviv_display_sheet[];
+extern const u8 gFile_graphics_items_icon_palettes_eviv_display_palette[];
 extern const u8 gFile_graphics_items_icons_question_mark_sheet[];
 extern const u8 gFile_graphics_items_icon_palettes_question_mark_palette[];
 extern const u8 gFile_graphics_items_icons_oaks_parcel_sheet[];
@@ -4979,6 +4979,15 @@ extern const u16 gUnknown_8E9C418[];
 // pokedex_screen
 extern const u16 gDexScreen_TopMenuIconPals_AtoZ[];
 extern const u32 gDexScreen_TopMenuIconTiles_AtoZ[];
+
+// ev_iv_display
+extern const u16 sHandCursorTiles[];
+extern const u16 gUnknown_83CE7F0[];
+
+// diploma
+extern const u32 sDiplomaGfx[];
+extern const u32 sDiplomaTilemap[];
+extern const u16 sDiplomaPal[];
 
 // Cable Car
 extern const u32 gCableCarBg_Gfx[];

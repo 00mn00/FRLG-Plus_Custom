@@ -369,7 +369,6 @@ static void SetBldY(u16);
 static void SetBldAlpha(u16, u16);
 static void SetWinIn(u16, u16);
 static void SetWinOut(u16);
-static void SetDispCnt(u8, bool8);
 static void SetGpuWindowDims(u8, const struct GpuWindowParams *);
 static void FreeAndResetGpuRegs(void);
 static void PrintTopBarTextLeft(const u8 *);
@@ -4558,7 +4557,7 @@ static void SetWinOut(u16 regval)
     SetGpuReg(REG_OFFSET_WINOUT, regval);
 }
 
-static void SetDispCnt(u8 idx, bool8 clear)
+void SetDispCnt(u8 idx, bool8 clear)
 {
     u16 data[sizeof(sWinFlags) / 2];
     memcpy(data, sWinFlags, sizeof(sWinFlags));

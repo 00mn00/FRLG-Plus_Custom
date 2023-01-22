@@ -17,5 +17,6 @@ u8 *GetMapNameGeneric(u8 *dest, u16 mapsec);
 u8 *GetMapNameGeneric_(u8 *dest, u16 mapsec);
 void InitRegionMapWithExitCB(u8 a0, void (*a1)(void));
 void CB2_OpenFlyMap(void);
+void SetDispCnt(u8 idx, bool8 clear);
 
 #endif // GUARD_REGION_MAP_H

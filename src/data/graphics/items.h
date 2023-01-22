@@ -679,3 +679,6 @@ const u32 gFile_graphics_items_icon_palettes_old_sea_map_palette[] = INCBIN_U32(
 
 const u32 gFile_graphics_items_icons_link_bracelet_sheet[] = INCBIN_U32("graphics/items/icons/link_bracelet.4bpp.lz");
 const u32 gFile_graphics_items_icon_palettes_link_bracelet_palette[] = INCBIN_U32("graphics/items/icon_palettes/link_bracelet.gbapal.lz");
+
+const u32 gFile_graphics_items_icons_eviv_display_sheet[] = INCBIN_U32("graphics/items/icons/eviv_display.4bpp.lz");
+const u32 gFile_graphics_items_icon_palettes_eviv_display_palette[] = INCBIN_U32("graphics/items/icons/eviv_display.gbapal.lz");
