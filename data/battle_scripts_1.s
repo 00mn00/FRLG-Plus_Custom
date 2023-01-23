@@ -706,8 +706,6 @@ BattleScript_EffectToxic::
 	waitanimation
 	setmoveeffect MOVE_EFFECT_TOXIC
 	seteffectprimary
-	resultmessage
-	waitmessage 0x40
 	goto BattleScript_MoveEnd
 
 BattleScript_AlreadyPoisoned::
@@ -919,8 +917,6 @@ BattleScript_EffectConfuse::
 	waitanimation
 	setmoveeffect MOVE_EFFECT_CONFUSION
 	seteffectprimary
-	resultmessage
-	waitmessage 0x40
 	goto BattleScript_MoveEnd
 
 BattleScript_AlreadyConfused::
@@ -1005,8 +1001,6 @@ BattleScript_EffectPoison::
 	waitanimation
 	setmoveeffect MOVE_EFFECT_POISON
 	seteffectprimary
-	resultmessage
-	waitmessage 0x40
 	goto BattleScript_MoveEnd
 
 BattleScript_EffectParalyze::
@@ -1025,8 +1019,6 @@ BattleScript_EffectParalyze::
 	waitanimation
 	setmoveeffect MOVE_EFFECT_PARALYSIS
 	seteffectprimary
-	resultmessage
-	waitmessage 0x40
 	goto BattleScript_MoveEnd
 
 BattleScript_AlreadyParalyzed::

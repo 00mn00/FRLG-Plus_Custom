@@ -1302,7 +1302,7 @@ static void atk06_typecalc(void)
     s32 i = 0;
     u8 moveType;
 
-    if (gCurrentMove == MOVE_STRUGGLE)
+    if (gCurrentMove == MOVE_STRUGGLE || gCurrentMove == MOVE_FALSE_SWIPE)
     {
         ++gBattlescriptCurrInstr;
         return;
