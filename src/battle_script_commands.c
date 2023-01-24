@@ -307,6 +307,7 @@ static void atkF4_subattackerhpbydmg(void);
 static void atkF5_removeattackerstatus1(void);
 static void atkF6_finishaction(void);
 static void atkF7_finishturn(void);
+static void atkF8_loadabilitypopup(void);
 
 void (* const gBattleScriptingCommandsTable[])(void) =
 {
@@ -558,6 +559,7 @@ void (* const gBattleScriptingCommandsTable[])(void) =
     atkF5_removeattackerstatus1,
     atkF6_finishaction,
     atkF7_finishturn,
+	atkF8_loadabilitypopup,
 };
 
 struct StatFractions
@@ -9546,4 +9548,21 @@ static void atkF7_finishturn(void)
 {
     gCurrentActionFuncId = B_ACTION_FINISHED;
     gCurrentTurnActionNumber = gBattlersCount;
+}
+
+static void atkF8_loadabilitypopup(void)
+{
+	u8 animId;
+	const u16 *argumentPtr = NULL;
+	
+	gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[2]);
+	
+	if (gBattlescriptCurrInstr[1] != REMOVE_POP_UP)
+		animId = B_ANIM_LOAD_ABILITY_POP_UP;
+	else
+		animId = B_ANIM_REMOVE_ABILITY_POP_UP;
+	
+	BtlController_EmitBattleAnimation(0, animId, *argumentPtr);
+	MarkBattlerForControllerExec(gActiveBattler);
+	gBattlescriptCurrInstr += 5;
 }

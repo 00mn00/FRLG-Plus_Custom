@@ -1242,6 +1242,14 @@
 	.byte 0xf7
 	.endm
 
+@new commands
+	.macro loadabilitypopup value:req, battler:req, ability:req
+	.byte 0xf8
+	.byte \value
+	.byte \battler
+	.2byte \ability
+	.endm
+
 @ various command changed to more readable macros
 	.macro cancelmultiturnmoves battler:req
 	various \battler, VARIOUS_CANCEL_MULTI_TURN_MOVES
