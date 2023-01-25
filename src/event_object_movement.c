@@ -3115,7 +3115,7 @@ static bool8 MovementType_LookAround_Step2(struct ObjectEvent *objectEvent, stru
 
 static bool8 MovementType_LookAround_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3330,7 +3330,7 @@ static bool8 MovementType_FaceDownAndUp_Step2(struct ObjectEvent *objectEvent, s
 
 static bool8 MovementType_FaceDownAndUp_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3382,7 +3382,7 @@ static bool8 MovementType_FaceLeftAndRight_Step2(struct ObjectEvent *objectEvent
 
 static bool8 MovementType_FaceLeftAndRight_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3434,7 +3434,7 @@ static bool8 MovementType_FaceUpAndLeft_Step2(struct ObjectEvent *objectEvent, s
 
 static bool8 MovementType_FaceUpAndLeft_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3486,7 +3486,7 @@ static bool8 MovementType_FaceUpAndRight_Step2(struct ObjectEvent *objectEvent, 
 
 static bool8 MovementType_FaceUpAndRight_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3538,7 +3538,7 @@ static bool8 MovementType_FaceDownAndLeft_Step2(struct ObjectEvent *objectEvent,
 
 static bool8 MovementType_FaceDownAndLeft_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3590,7 +3590,7 @@ static bool8 MovementType_FaceDownAndRight_Step2(struct ObjectEvent *objectEvent
 
 static bool8 MovementType_FaceDownAndRight_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3642,7 +3642,7 @@ static bool8 MovementType_FaceDownUpAndLeft_Step2(struct ObjectEvent *objectEven
 
 static bool8 MovementType_FaceDownUpAndLeft_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3694,7 +3694,7 @@ static bool8 MovementType_FaceDownUpAndRight_Step2(struct ObjectEvent *objectEve
 
 static bool8 MovementType_FaceDownUpAndRight_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3746,7 +3746,7 @@ static bool8 MovementType_FaceUpLeftAndRight_Step2(struct ObjectEvent *objectEve
 
 static bool8 MovementType_FaceUpLeftAndRight_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3798,7 +3798,7 @@ static bool8 MovementType_FaceDownLeftAndRight_Step2(struct ObjectEvent *objectE
 
 static bool8 MovementType_FaceDownLeftAndRight_Step3(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 4;
         return TRUE;
@@ -3843,7 +3843,7 @@ static bool8 MovementType_RotateCounterclockwise_Step1(struct ObjectEvent *objec
 
 static bool8 MovementType_RotateCounterclockwise_Step2(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 3;
     }
@@ -3887,7 +3887,7 @@ static bool8 MovementType_RotateClockwise_Step1(struct ObjectEvent *objectEvent,
 
 static bool8 MovementType_RotateClockwise_Step2(struct ObjectEvent *objectEvent, struct Sprite *sprite)
 {
-    if (WaitForMovementDelay(sprite) || ObjectEventIsTrainerAndCloseToPlayer(objectEvent))
+    if (WaitForMovementDelay(sprite))
     {
         sprite->data[1] = 3;
     }
