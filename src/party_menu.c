@@ -2545,10 +2545,20 @@ void DisplayPartyMenuStdMessage(u32 stringId)
 
         if (stringId == PARTY_MSG_CHOOSE_MON)
         {
+            u8 enemyNextMonID = *(gBattleStruct->monToSwitchIntoId + B_SIDE_OPPONENT);
+            u16 species = GetMonData(&gEnemyParty[enemyNextMonID], MON_DATA_SPECIES);
             if (sPartyMenuInternal->chooseHalf)
                 stringId = PARTY_MSG_CHOOSE_MON_AND_CONFIRM;
             else if (!ShouldUseChooseMonText())
                 stringId = PARTY_MSG_CHOOSE_MON_OR_CANCEL;
+            // Checks if the opponent is sending out a new Pokemon after their last one fainted.
+            else if (species >= NUM_SPECIES ||  species == SPECIES_NONE)
+                species = gBattleMons[B_SIDE_OPPONENT].species;
+                // Now tries to check if there's any opposing pokemon on the field
+                if (species >= NUM_SPECIES ||  species == SPECIES_NONE || gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
+                    stringId = PARTY_MSG_CHOOSE_MON_2;
+            else
+                StringCopy(gStringVar2, gSpeciesNames[species]);
         }
         DrawStdFrameWithCustomTileAndPalette(*windowPtr, FALSE, 0x58, 0xF);
         StringExpandPlaceholders(gStringVar4, sActionStringTable[stringId]);
