@@ -154,6 +154,7 @@ void NewGameInitData(void)
     ScriptContext2_RunNewScript(EventScript_ResetAllMapFlags);
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
     ResetTrainerTowerResults();
+	gSaveBlock1Ptr->keyFlags.difficulty = 1; // normal difficulty
     gSaveBlock1Ptr->keyFlags.expMod = 2; // normal exp
 }
 

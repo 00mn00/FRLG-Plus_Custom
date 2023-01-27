@@ -223,7 +223,7 @@ static const u8 *const sMoveAnimOptions[] =
 
 static const u8 *const sHpBarAnimSpeedOptions[] = 
 {
-    gText_IVCalcStandard, 
+    gText_Default, 
     gText_TextSpeedFast,
     gText_TextSpeedFaster,
     gText_TextSpeedInstant
@@ -231,7 +231,7 @@ static const u8 *const sHpBarAnimSpeedOptions[] =
 
 static const u8 *const sExpBarAnimSpeedOptions[] = 
 {
-    gText_IVCalcStandard, 
+    gText_Default, 
     gText_TextSpeedInstant
 };
 

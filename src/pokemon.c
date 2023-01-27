@@ -8208,6 +8208,19 @@ const u8 gLevelCapTable_Off[] =
     [LEVEL_CAP_BADGE_8] = 100,
 };
 
+const u8 gLevelCapTable_Relaxed[] = 
+{
+    [LEVEL_CAP_NO_BADGES] = 16,
+    [LEVEL_CAP_BADGE_1] = 23,
+    [LEVEL_CAP_BADGE_2] = 26,
+    [LEVEL_CAP_BADGE_3] = 31,
+    [LEVEL_CAP_BADGE_4] = 45,
+    [LEVEL_CAP_BADGE_5] = 45,
+    [LEVEL_CAP_BADGE_6] = 49,
+    [LEVEL_CAP_BADGE_7] = 52,
+    [LEVEL_CAP_BADGE_8] = 56,
+};
+
 const u8 gLevelCapTable_Strict[] = 
 {
     [LEVEL_CAP_NO_BADGES] = 14,
@@ -8234,57 +8247,44 @@ const u8 gLevelCapTable_Harsh[] =
     [LEVEL_CAP_BADGE_8] = 51,
 };
 
-const u8 gLevelCapTable_Relaxed[] = 
-{
-    [LEVEL_CAP_NO_BADGES] = 16,
-    [LEVEL_CAP_BADGE_1] = 23,
-    [LEVEL_CAP_BADGE_2] = 26,
-    [LEVEL_CAP_BADGE_3] = 31,
-    [LEVEL_CAP_BADGE_4] = 45,
-    [LEVEL_CAP_BADGE_5] = 45,
-    [LEVEL_CAP_BADGE_6] = 49,
-    [LEVEL_CAP_BADGE_7] = 52,
-    [LEVEL_CAP_BADGE_8] = 56,
-};
-
 u8 GetCurrentPartyLevelCap(void)
 {
     u16 i, badgeCount = 0;
 
     if (FlagGet(FLAG_DEFEATED_LORELEI) && gSaveBlock1Ptr->keyFlags.levelcap == 1)
-        return 56;
-    if (FlagGet(FLAG_DEFEATED_LORELEI) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
-        return 51;
-    if (FlagGet(FLAG_DEFEATED_LORELEI) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
         return 58;
+    if (FlagGet(FLAG_DEFEATED_LORELEI) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
+        return 56;
+    if (FlagGet(FLAG_DEFEATED_LORELEI) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
+        return 51;
 
     if (FlagGet(FLAG_DEFEATED_BRUNO) && gSaveBlock1Ptr->keyFlags.levelcap == 1)
-        return 58;
+        return 60;
     if (FlagGet(FLAG_DEFEATED_BRUNO) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
-        return 53;
+        return 58;
     if (FlagGet(FLAG_DEFEATED_BRUNO) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
-        return 60;
-        
+        return 53;
+
     if (FlagGet(FLAG_DEFEATED_AGATHA) && gSaveBlock1Ptr->keyFlags.levelcap == 1)
-        return 60;
-    if (FlagGet(FLAG_DEFEATED_AGATHA) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
-        return 54;
-    if (FlagGet(FLAG_DEFEATED_AGATHA) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
         return 62;
-        
+    if (FlagGet(FLAG_DEFEATED_AGATHA) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
+        return 60;
+    if (FlagGet(FLAG_DEFEATED_AGATHA) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
+        return 54;
+
     if (FlagGet(FLAG_DEFEATED_LANCE) && gSaveBlock1Ptr->keyFlags.levelcap == 1)
-        return 63;
-    if (FlagGet(FLAG_DEFEATED_LANCE) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
-        return 57;
-    if (FlagGet(FLAG_DEFEATED_LANCE) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
         return 65;
+    if (FlagGet(FLAG_DEFEATED_LANCE) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
+        return 63;
+    if (FlagGet(FLAG_DEFEATED_LANCE) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
+        return 57;
 
     if (FlagGet(FLAG_DEFEATED_CHAMP) && gSaveBlock1Ptr->keyFlags.levelcap == 1)
-        return 75;
-    if (FlagGet(FLAG_DEFEATED_CHAMP) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
-        return 72;
-    if (FlagGet(FLAG_DEFEATED_CHAMP) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
         return 77;
+    if (FlagGet(FLAG_DEFEATED_CHAMP) && gSaveBlock1Ptr->keyFlags.levelcap == 2)
+        return 75;
+    if (FlagGet(FLAG_DEFEATED_CHAMP) && gSaveBlock1Ptr->keyFlags.levelcap == 3)
+        return 72;
 
     if (FlagGet(FLAG_FOUGHT_MEWTWO)) //after beating the E4 remove the cap
         return MAX_LEVEL;
@@ -8298,14 +8298,14 @@ u8 GetCurrentPartyLevelCap(void)
     if (gSaveBlock1Ptr->keyFlags.levelcap == 0) //vanilla level cap
         return gLevelCapTable_Off[badgeCount];
 
-    if (gSaveBlock1Ptr->keyFlags.levelcap == 1) //strict level cap
+    if (gSaveBlock1Ptr->keyFlags.levelcap == 1) //relaxed level cap
+        return gLevelCapTable_Relaxed[badgeCount];
+
+    if (gSaveBlock1Ptr->keyFlags.levelcap == 2) //strict level cap
         return gLevelCapTable_Strict[badgeCount];
 
-    if (gSaveBlock1Ptr->keyFlags.levelcap == 2) //harsh level cap
+    if (gSaveBlock1Ptr->keyFlags.levelcap == 3) //harsh level cap
         return gLevelCapTable_Harsh[badgeCount];
-
-    if (gSaveBlock1Ptr->keyFlags.levelcap == 3) //relaxed level cap
-        return gLevelCapTable_Relaxed[badgeCount];
 
     return MAX_LEVEL;
 }

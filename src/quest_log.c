@@ -817,9 +817,9 @@ static void QuestLog_StartFinalScene(void)
     u32 i;
     u8 KeyVersionBackup = gSaveBlock1Ptr->keyFlags.version;
     u8 KeyDifficultyBackup = gSaveBlock1Ptr->keyFlags.difficulty;
+	u8 expModBackup = gSaveBlock1Ptr->keyFlags.expMod;
     u8 KeyNuzlockeBackup = gSaveBlock1Ptr->keyFlags.nuzlocke;
     u8 KeyLevelCapBackup = gSaveBlock1Ptr->keyFlags.levelcap;
-    u8 expModBackup = gSaveBlock1Ptr->keyFlags.expMod;
     u8 KeyIvCalcBackup = gSaveBlock1Ptr->keyFlags.ivCalcMode;
     u8 KeyEvCalcBackup = gSaveBlock1Ptr->keyFlags.evCalcMode;
     u8 noPMCBackup = gSaveBlock1Ptr->keyFlags.noPMC;
@@ -832,9 +832,9 @@ static void QuestLog_StartFinalScene(void)
     Save_LoadGameData(SAVE_NORMAL);
     gSaveBlock1Ptr->keyFlags.version = KeyVersionBackup;
     gSaveBlock1Ptr->keyFlags.difficulty = KeyDifficultyBackup;
+	gSaveBlock1Ptr->keyFlags.expMod = expModBackup;
     gSaveBlock1Ptr->keyFlags.nuzlocke = KeyNuzlockeBackup;
     gSaveBlock1Ptr->keyFlags.levelcap = KeyLevelCapBackup;
-    gSaveBlock1Ptr->keyFlags.expMod = expModBackup;
     gSaveBlock1Ptr->keyFlags.ivCalcMode = KeyIvCalcBackup;
     gSaveBlock1Ptr->keyFlags.evCalcMode = KeyEvCalcBackup;
     gSaveBlock1Ptr->keyFlags.noPMC = noPMCBackup;

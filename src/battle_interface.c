@@ -1861,7 +1861,7 @@ s32 MoveBattleBar(u8 battlerId, u8 healthboxSpriteId, u8 whichBar, u8 unused)
 
     if (whichBar == HEALTH_BAR) // health bar
     {
-        if(gSaveBlock2Ptr->optionsHpBarAnimSpeed == 0) //standard
+        if(gSaveBlock2Ptr->optionsHpBarAnimSpeed == 0) //default
         {
             currentBarValue = CalcNewBarValue(gBattleSpritesDataPtr->battleBars[battlerId].maxValue,
                                             gBattleSpritesDataPtr->battleBars[battlerId].oldValue,
