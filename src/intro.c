@@ -7,6 +7,8 @@
 #include "new_menu_helpers.h"
 #include "link.h"
 #include "menu.h"
+#include "main_menu.h"
+#include "event_data.h"
 #include "random.h"
 #include "save.h"
 #include "new_game.h"
@@ -14,6 +16,7 @@
 #include "decompress.h"
 #include "util.h"
 #include "trig.h"
+#include "constants/flags.h"
 #include "constants/songs.h"
 
 struct IntroSequenceData;
@@ -818,6 +821,8 @@ static bool8 RunCopyrightScreen(void)
         UpdatePaletteFade();
         gMain.state++;
         GameCubeMultiBoot_Main(&sGcmb);
+        if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(L_BUTTON)) || (JOY_NEW(START_BUTTON)))
+            gMain.state = 140;
         break;
     case 140:
         GameCubeMultiBoot_Main(&sGcmb);
@@ -871,6 +876,8 @@ void c2_copyright_1(void)
             Sav2_ClearSetDefault();
         SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
     }
+    if (FlagGet(FLAG_SKIP_INTRO))
+        CB2_InitMainMenu();
 }
 
 void CB2_CopyrightScreen(void)
