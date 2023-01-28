@@ -486,7 +486,7 @@ static void AnimFistOrFootRandomPos(struct Sprite *sprite)
     if (Random() & 1)
         y *= -1;
     if ((gBattlerPositions[battler] & BIT_SIDE) == B_SIDE_PLAYER)
-        y += 0xFFF0;
+        y -= 16;
     sprite->pos1.x += x;
     sprite->pos1.y += y;
     sprite->data[0] = gBattleAnimArgs[1];
