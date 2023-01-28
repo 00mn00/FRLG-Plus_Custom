@@ -27,6 +27,8 @@ static bool8 TrainerSeeFunc_Dummy(u8 taskId, struct Task * task, struct ObjectEv
 static bool8 TrainerSeeFunc_StartExclMark(u8 taskId, struct Task * task, struct ObjectEvent * trainerObj);
 static bool8 TrainerSeeFunc_WaitExclMark(u8 taskId, struct Task * task, struct ObjectEvent * trainerObj);
 static bool8 TrainerSeeFunc_TrainerApproach(u8 taskId, struct Task * task, struct ObjectEvent * trainerObj);
+static bool8 TrainerSeeFunc_PlayerFaceApproachingTrainer(u8 taskId, struct Task *task, struct ObjectEvent *trainerObj);
+static bool8 TrainerSeeFunc_WaitPlayerFaceApproachingTrainer(u8 taskId, struct Task *task, struct ObjectEvent *trainerObj);
 static bool8 TrainerSeeFunc_PrepareToEngage(u8 taskId, struct Task * task, struct ObjectEvent * trainerObj);
 static bool8 TrainerSeeFunc_End(u8 taskId, struct Task * task, struct ObjectEvent * trainerObj);
 static bool8 TrainerSeeFunc_BeginRemoveDisguise(u8 taskId, struct Task * task, struct ObjectEvent * trainerObj);
@@ -64,6 +66,8 @@ static const TrainerSeeFunc sTrainerSeeFuncList[] = {
     TrainerSeeFunc_StartExclMark,
     TrainerSeeFunc_WaitExclMark,
     TrainerSeeFunc_TrainerApproach,
+    TrainerSeeFunc_PlayerFaceApproachingTrainer,
+    TrainerSeeFunc_WaitPlayerFaceApproachingTrainer,
     TrainerSeeFunc_PrepareToEngage,
     TrainerSeeFunc_End,
     TrainerSeeFunc_BeginRemoveDisguise,
@@ -338,6 +342,33 @@ static bool8 TrainerSeeFunc_TrainerApproach(u8 taskId, struct Task * task, struc
             task->tFuncId++;
         }
     }
+    return FALSE;
+}
+
+static bool8 TrainerSeeFunc_PlayerFaceApproachingTrainer(u8 taskId, struct Task *task, struct ObjectEvent *trainerObj)
+{
+    struct ObjectEvent *playerObj;
+
+    playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
+    if (ObjectEventIsMovementOverridden(playerObj) && !ObjectEventClearHeldMovementIfFinished(playerObj))
+        return FALSE;
+
+    CancelPlayerForcedMovement();
+    ObjectEventSetHeldMovement(&gObjectEvents[gPlayerAvatar.objectEventId], GetFaceDirectionMovementAction(GetOppositeDirection(trainerObj->facingDirection)));
+    task->tFuncId++; // TRSEE_PLAYER_FACE_WAIT
+
+    return FALSE;
+}
+
+static bool8 TrainerSeeFunc_WaitPlayerFaceApproachingTrainer(u8 taskId, struct Task *task, struct ObjectEvent *trainerObj)
+{
+    struct ObjectEvent *playerObj = &gObjectEvents[gPlayerAvatar.objectEventId];
+
+    if (!ObjectEventIsMovementOverridden(playerObj) || ObjectEventClearHeldMovementIfFinished(playerObj))
+    {
+        SwitchTaskToFollowupFunc(taskId);
+    }
+
     return FALSE;
 }
 
