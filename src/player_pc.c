@@ -323,8 +323,8 @@ static void Task_DepositItem_WaitFadeAndGoToBag(u8 taskId)
         CleanupOverworldWindowsAndTilemaps();
         if (gBagMenuState.pocket == POCKET_KEY_ITEMS - 1)
         {
+            GoToBagMenu(ITEMMENULOCATION_ITEMPC, OPEN_BAG_ITEMS, CB2_ReturnToField);
             gFieldCallback = CB2_ReturnFromDepositMenu;
-            SetMainCallback2(CB2_ReturnToField);
             DestroyTask(taskId);
         }
         else
