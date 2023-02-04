@@ -772,6 +772,8 @@ extern const u8 gText_Jolteon[];
 extern const u8 gText_Flareon[];
 extern const u8 gText_Espeon[];
 extern const u8 gText_Umbreon[];
+extern const u8 gText_NextPage[];
+extern const u8 gText_PrevPage[];
 extern const u8 gText_QuitLooking[];
 extern const u8 gText_FreshWater[];
 extern const u8 gText_SodaPop[];

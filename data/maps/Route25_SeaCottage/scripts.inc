@@ -253,9 +253,20 @@ Route25_SeaCottage_EventScript_BillsMonList:: @ 81707D8
 	case 1, Route25_SeaCottage_EventScript_ViewVaporeon
 	case 2, Route25_SeaCottage_EventScript_ViewJolteon
 	case 3, Route25_SeaCottage_EventScript_ViewFlareon
-	case 4, Route25_SeaCottage_EventScript_ViewEspeon
-	case 5, Route25_SeaCottage_EventScript_ViewUmbreon
-	case 6, Route25_SeaCottage_EventScript_ExitBillsMonList
+	case 4, Route25_SeaCottage_EventScript_BillsMonList2
+	case 5, Route25_SeaCottage_EventScript_ExitBillsMonList
+	case 127, Route25_SeaCottage_EventScript_ExitBillsMonList
+	end
+
+Route25_SeaCottage_EventScript_BillsMonList2:: @ 81707D8
+	message Route25_SeaCottage_Text_SeeWhichMon
+	waitmessage
+	multichoice 0, 0, MULTICHOICE_EEVEELUTIONS2, FALSE
+	switch VAR_RESULT
+	case 0, Route25_SeaCottage_EventScript_ViewEspeon
+	case 1, Route25_SeaCottage_EventScript_ViewUmbreon
+	case 2, Route25_SeaCottage_EventScript_BillsMonList
+	case 3, Route25_SeaCottage_EventScript_ExitBillsMonList
 	case 127, Route25_SeaCottage_EventScript_ExitBillsMonList
 	end
 
@@ -301,7 +312,7 @@ Route25_SeaCottage_EventScript_ViewEspeon::
 	erasemonpic
 	setvar VAR_0x8004, SPECIES_ESPEON
 	special SetSeenMon
-	goto Route25_SeaCottage_EventScript_BillsMonList
+	goto Route25_SeaCottage_EventScript_BillsMonList2
 	end
 
 Route25_SeaCottage_EventScript_ViewUmbreon::
@@ -310,7 +321,7 @@ Route25_SeaCottage_EventScript_ViewUmbreon::
 	erasemonpic
 	setvar VAR_0x8004, SPECIES_UMBREON
 	special SetSeenMon
-	goto Route25_SeaCottage_EventScript_BillsMonList
+	goto Route25_SeaCottage_EventScript_BillsMonList2
 	end
 
 Route25_SeaCottage_EventScript_ExitBillsMonList:: @ 817087F
