@@ -2431,7 +2431,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
             switch (battlerHoldEffect)
             {
             case HOLD_EFFECT_RESTORE_HP:
-                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
+				if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+					return ITEM_NO_EFFECT;
+				else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+					return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
                 {
                     gBattleMoveDamage = battlerHoldEffectParam;
                     if (gBattleMons[battlerId].hp + battlerHoldEffectParam > gBattleMons[battlerId].maxHP)

@@ -1212,9 +1212,6 @@ Help_Text_Version:: @ 81B7E0F
 Help_Text_Difficulty:: @ 81B7E0F
 	.string "DIFFICULTY MODE$"
 
-Help_Text_ExpMod::
-	.string "EXP. MODIFIER$"
-
 Help_Text_Nuzlocke:: @ 81B7E0F
 	.string "NUZLOCKE MODE$"
 
@@ -1229,15 +1226,18 @@ Help_Text_Nuzlocke_ShinyClause::
 
 Help_Text_LevelCap:: @ 81B7E0F
 	.string "LEVEL CAP$"
-
-Help_Text_LevelCapRelaxed:: @ 81B7E0F
-	.string "{CIRCLE_DOT} Details for RELAXED$"
 	
 Help_Text_LevelCapStrict:: @ 81B7E0F
 	.string "{CIRCLE_DOT} Details for STRICT$"
 
 Help_Text_LevelCapHarsh:: @ 81B7E0F
 	.string "{CIRCLE_DOT} Details for HARSH$"
+	
+Help_Text_LevelCapRelaxed:: @ 81B7E0F
+	.string "{CIRCLE_DOT} Details for RELAXED$"
+	
+Help_Text_ExpMod::
+	.string "EXP. MODIFIER$"
 
 Help_Text_IvCalc:: @ 81B7E0F
 	.string "IV CALCULATION$"
@@ -1601,15 +1601,6 @@ Help_Text_DefineDifficulty:: @ 81B7E0F
 	.string "TRAINERS are more difficult than normal\l"
 	.string "and BADGE boosts are disabled.\l"
 	.string "DEFAULT is the normal difficulty.$"
-	
-Help_Text_DefineExpMod::
-	.string "Allows you to modify the amount of\n"
-	.string "Experience Points earned in battle.\l"
-	.string "0× disables Experience Point gains.\l"
-	.string "1/2× halves given Experience Points.\l"
-	.string "2× doubles given Experience Points.\l"
-	.string "4× quadruples given Experience Points.\l"
-	.string "1× is the normal modifier.$"
 
 Help_Text_DefineNuzlocke:: @ 81B7E0F
 	.string "Turning on NUZLOCKE MODE imposes\n"
@@ -1648,20 +1639,11 @@ Help_Text_DefineNuzlocke_ShinyClause::
 Help_Text_DefineLevelCap:: @ 81B7E0F
 	.string "You can adjust the game's LEVEL CAP\n"
 	.string "to one of the options listed below.\l"
-	.string "{CIRCLE_DOT} RELAXED\l"
 	.string "{CIRCLE_DOT} STRICT\l"
 	.string "{CIRCLE_DOT} HARSH\l"
+	.string "{CIRCLE_DOT} RELAXED\l"
 	.string "\l"
 	.string "DISABLED is the normal LEVEL CAP.$"
-
-Help_Text_DefineLevelCapRelaxed:: @ 81B7E0F
-	.string "RELAXED sets the LEVEL CAP at the\n"
-	.string "next GYM LEADER'S highest POKéMON\l"
-	.string "level, +2. The limit before getting\l"
-	.string "the first BADGE is set at level 16.\l"
-	.string "After defeating the ELITE FOUR, the\l"
-	.string "LEVEL CAP is set at 77. Find MEWTWO\l"
-	.string "to remove the cap.$"
 
 Help_Text_DefineLevelCapStrict:: @ 81B7E0F
 	.string "STRICT sets the LEVEL CAP at the\n"
@@ -1680,6 +1662,24 @@ Help_Text_DefineLevelCapHarsh:: @ 81B7E0F
 	.string "defeating the ELITE FOUR, the LEVEL\l"
 	.string "CAP is set at 72. Find MEWTWO to\l"
 	.string "remove the cap.$"
+
+Help_Text_DefineLevelCapRelaxed:: @ 81B7E0F
+	.string "RELAXED sets the LEVEL CAP at the\n"
+	.string "next GYM LEADER'S highest POKéMON\l"
+	.string "level, +2. The limit before getting\l"
+	.string "the first BADGE is set at level 16.\l"
+	.string "After defeating the ELITE FOUR, the\l"
+	.string "LEVEL CAP is set at 77. Find MEWTWO\l"
+	.string "to remove the cap.$"
+
+Help_Text_DefineExpMod::
+	.string "Allows you to modify the amount of\n"
+	.string "Experience Points earned in battle.\l"
+	.string "0× disables Experience Point gains.\l"
+	.string "1/2× halves given Experience Points.\l"
+	.string "2× doubles given Experience Points.\l"
+	.string "4× quadruples given Experience Points.\l"
+	.string "1× is the normal modifier.$"
 
 Help_Text_DefineIvCalc:: @ 81B7E0F
 	.string "You can alter how your POKéMON's\n"
