@@ -297,7 +297,7 @@ static bool8 TrainerSeeFunc_StartExclMark(u8 taskId, struct Task * task, struct 
     // Handle this case here.
     if (trainerObj->facingDirection == DIR_SOUTH && task->tTrainerRange > 2)
     {
-        task->tFuncId = 12;
+        task->tFuncId = 14;
     }
     else
     {
