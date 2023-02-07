@@ -454,8 +454,7 @@ struct BattleStruct
     u8 switchInItemsCounter;
     u8 field_DA; // battle tower related
     u8 turnSideTracker;
-    u8 fillerDC;
-    u8 ballSpriteIds[2];
+    u8 fillerDC[0xDF-0xDC];
     u8 givenExpMons;
     u8 lastTakenMoveFrom[MAX_BATTLERS_COUNT * MAX_BATTLERS_COUNT * 2];
     u16 castformPalette[MAX_BATTLERS_COUNT][16];
@@ -467,7 +466,9 @@ struct BattleStruct
         struct LinkPartnerHeader linkPartnerHeader;
         struct MultiBattlePokemonTx multiBattleMons[3];
     } multiBuffer;
-    u8 padding_1E4[0x1C];
+    u8 ballSpriteIds[2];    // item gfx, window gfx
+    u16 ballToDisplay;
+    u8 padding_1E4[0x18];
 }; // size == 0x200 bytes
 
 extern struct BattleStruct *gBattleStruct;

@@ -15,6 +15,7 @@
 #include "item.h"
 #include "item_menu_icons.h"
 #include "constants/items.h"
+#include "constants/map_types.h"
 #include "constants/songs.h"
 
 #define GetStringRightAlignXOffset(fontId, string, destWidth) ({ \
@@ -185,6 +186,8 @@ static void SafariTextIntoHealthboxObject(void *dest, u8 *windowTileData, u32 wi
 static u8 *AddTextPrinterAndCreateWindowOnHealthbox(const u8 *str, u32 x, u32 y, u32 *windowId);
 static void RemoveWindowOnHealthbox(u32 windowId);
 static void TextIntoHealthboxObject(void *dest, u8 *windowTileData, s32 windowWidth);
+
+extern const struct Evolution gEvolutionTable[][EVOS_PER_MON];
 
 static const struct OamData gOamData_8260270 = {
     .shape = SPRITE_SHAPE(64x32),
@@ -2363,16 +2366,22 @@ static const struct SpriteTemplate sSpriteTemplate_LastUsedBallWindow =
     .callback = SpriteCB_LastUsedBallWin
 };
 
-static const u8 sLastUsedBallWindowGfx[] = INCBIN_U8("graphics/battle_interface/ball_window.4bpp");
+static const u8 sLastUsedBallWindowGfx_l[] = INCBIN_U8("graphics/battle_interface/ball_window_l.4bpp");
+static const u8 sLastUsedBallWindowGfx_r[] = INCBIN_U8("graphics/battle_interface/ball_window_r.4bpp");
 
-static const struct SpriteSheet sSpriteSheet_LastUsedBallWindow =
+static const struct SpriteSheet sSpriteSheet_LastUsedBallWindow_l =
 {
-    sLastUsedBallWindowGfx, sizeof(sLastUsedBallWindowGfx), LAST_BALL_WINDOW_TAG
+    sLastUsedBallWindowGfx_l, sizeof(sLastUsedBallWindowGfx_l), LAST_BALL_WINDOW_TAG
+};
+
+static const struct SpriteSheet sSpriteSheet_LastUsedBallWindow_r =
+{
+    sLastUsedBallWindowGfx_r, sizeof(sLastUsedBallWindowGfx_r), LAST_BALL_WINDOW_TAG
 };
 
 #define LAST_USED_BALL_X_F    15
 #define LAST_USED_BALL_X_0    -15
-#define LAST_USED_BALL_Y      68
+#define LAST_USED_BALL_Y      ((IsDoubleBattle()) ? 78 : 68)
 
 #define LAST_BALL_WIN_X_F       (LAST_USED_BALL_X_F - 0)
 #define LAST_BALL_WIN_X_0       (LAST_USED_BALL_X_0 - 0)
@@ -2381,7 +2390,6 @@ static const struct SpriteSheet sSpriteSheet_LastUsedBallWindow =
 #define sHide  data[0]
 
 // code
-
 
 static u8* AddTextPrinterAndCreateWindowOnHealthbox(const u8 *str, u32 x, u32 y, u32 *windowId)
 {
@@ -2440,18 +2448,113 @@ bool32 CanThrowLastUsedBall(void)
      || (gBattleTypeFlags & (BATTLE_TYPE_DOUBLE | BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER | BATTLE_TYPE_MULTI
                            | BATTLE_TYPE_SAFARI | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_INGAME_PARTNER
 						   | BATTLE_TYPE_RECORDED | BATTLE_TYPE_SECRET_BASE))
-     || !CheckBagHasItem(gSaveBlock2Ptr->lastUsedBall, 1)));
+     || !CheckBagHasItem(gBattleStruct->ballToDisplay, 1)));
+}
+
+static bool8 EvolvesViaFriendship(u16 species)
+{
+    u8 i;
+    for (i = 0; i < EVOS_PER_MON; i++)
+    {
+        if (gEvolutionTable[species][i].method == EVO_FRIENDSHIP
+         || gEvolutionTable[species][i].method == EVO_FRIENDSHIP_DAY
+         || gEvolutionTable[species][i].method == EVO_FRIENDSHIP_NIGHT)
+         return TRUE;
+    }
+    return FALSE;
+}
+
+static u16 ChoosePreferredBallToDisplay(void)
+{
+    u16 opposingBattlerId = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
+    u16 opposingBattlerSpecies = gBattleMons[opposingBattlerId].species;
+    u16 preferredBall = ITEM_NONE;
+    u16 fallbackBalls[4] = { ITEM_ULTRA_BALL, ITEM_GREAT_BALL, ITEM_PREMIER_BALL, ITEM_POKE_BALL };
+    u8 i;
+
+    if (gBattleResults.battleTurnCounter == 0)
+    {
+        preferredBall = ITEM_NONE;
+    }
+
+    if (EvolvesViaFriendship(opposingBattlerSpecies))
+    {
+        preferredBall = ITEM_LUXURY_BALL;
+    }
+    else if (gBattleResults.battleTurnCounter >= 20)
+    {
+        return ITEM_TIMER_BALL;
+    }
+    else if (GetCurrentMapType() == MAP_TYPE_UNDERWATER)
+    {
+        preferredBall = ITEM_DIVE_BALL;
+    }
+    else if (IS_BATTLER_OF_TYPE(opposingBattlerId, TYPE_WATER) || IS_BATTLER_OF_TYPE(opposingBattlerId, TYPE_BUG))
+    {
+        preferredBall = ITEM_NET_BALL;
+    }
+    else if (GetSetPokedexFlag(SpeciesToNationalPokedexNum(gBattleMons[opposingBattlerId].species), FLAG_GET_CAUGHT))
+    {
+        preferredBall = ITEM_REPEAT_BALL;
+    }
+    else if (gBattleMons[opposingBattlerId].level >= 26)
+    {
+        preferredBall = ITEM_ULTRA_BALL;
+    }
+    else if (gBattleMons[opposingBattlerId].level >= 11 && gBattleMons[opposingBattlerId].level <= 25)
+    {
+        preferredBall = ITEM_GREAT_BALL;
+    }
+    else if (gBattleMons[opposingBattlerId].level <= 10)
+    {
+        preferredBall = ITEM_NEST_BALL;
+    }
+
+    if (preferredBall != ITEM_NONE && CheckBagHasItem(preferredBall, 1))
+    {
+        return preferredBall;
+    }
+    else
+    {
+        for (i = 0; i < 4; i++)
+        {
+            if (CheckBagHasItem(fallbackBalls[i], 1))
+            {
+                return fallbackBalls[i];
+            }
+        }
+        return ITEM_NONE;
+    }
 }
 
 void TryAddLastUsedBallItemSprites(void)
 {
-	if (gSaveBlock2Ptr->lastUsedBall != ITEM_NONE && !CheckBagHasItem(gSaveBlock2Ptr->lastUsedBall, 1))
+    u16 preferredBall = ITEM_NONE;
+    u16 fallbackBalls[4] = { ITEM_ULTRA_BALL, ITEM_GREAT_BALL, ITEM_PREMIER_BALL, ITEM_POKE_BALL };
+    u8 i;
+    gBattleStruct->ballToDisplay = gSaveBlock2Ptr->lastUsedBall;
+
+    if (gSaveBlock2Ptr->lastUsedBall != ITEM_NONE && !CheckBagHasItem(gSaveBlock2Ptr->lastUsedBall, 1))
     {
-        // we're out of the last used ball, so just set it to the first ball in the bag
-        // we have to compact the bag first bc it is typically only compacted when you open it
-		CompactItemsInBagPocket(&gBagPockets[POCKET_POKE_BALLS - 1]);
-        gSaveBlock2Ptr->lastUsedBall = gBagPockets[POCKET_POKE_BALLS - 1].itemSlots[0].itemId;
+        // We're out of the last used ball, so set it to the first fallback ball that we have in the bag
+        CompactItemsInBagPocket(&gBagPockets[POCKET_POKE_BALLS - 1]);
+    
+        for (i = 0; i < 4; i++)
+        {
+            if (CheckBagHasItem(fallbackBalls[i], 1))
+            {
+                gSaveBlock2Ptr->lastUsedBall = fallbackBalls[i];
+                break;
+            }
+        }
     }
+
+    preferredBall = ChoosePreferredBallToDisplay();
+
+    if (preferredBall != ITEM_NONE && preferredBall != gBattleStruct->ballToDisplay)
+        gBattleStruct->ballToDisplay = preferredBall;
+    else if (!CheckBagHasItem(gBattleStruct->ballToDisplay, 1))
+        return;
 
     if (!CanThrowLastUsedBall())
         return;
@@ -2459,7 +2562,7 @@ void TryAddLastUsedBallItemSprites(void)
     // ball
     if (gBattleStruct->ballSpriteIds[0] == MAX_SPRITES)
     {
-        gBattleStruct->ballSpriteIds[0] = AddItemIconObject(102, 102, gSaveBlock2Ptr->lastUsedBall);
+        gBattleStruct->ballSpriteIds[0] = AddItemIconObject(102, 102, gBattleStruct->ballToDisplay);
         gSprites[gBattleStruct->ballSpriteIds[0]].pos1.x = LAST_USED_BALL_X_0;
         gSprites[gBattleStruct->ballSpriteIds[0]].pos1.y = LAST_USED_BALL_Y;
         gSprites[gBattleStruct->ballSpriteIds[0]].sHide = FALSE;   // restore
@@ -2468,7 +2571,12 @@ void TryAddLastUsedBallItemSprites(void)
 
     // window
     if (GetSpriteTileStartByTag(LAST_BALL_WINDOW_TAG) == 0xFFFF)
-        LoadSpriteSheet(&sSpriteSheet_LastUsedBallWindow);
+    {
+        if (gSaveBlock2Ptr->optionsButtonMode != OPTIONS_BUTTON_MODE_LR)
+            LoadSpriteSheet(&sSpriteSheet_LastUsedBallWindow_r);
+        else
+            LoadSpriteSheet(&sSpriteSheet_LastUsedBallWindow_l);
+    }
 
     if (gBattleStruct->ballSpriteIds[1] == MAX_SPRITES)
     {
