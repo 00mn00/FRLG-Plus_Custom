@@ -4347,7 +4347,7 @@ u32 GetMonData(struct Pokemon *mon, s32 field, u8* data)
 u32 IsBoxMonBadEgg(struct BoxPokemon *boxMon, s32 field)
 {
     u32 retVal = 0;
-    if (field > MON_DATA_ENCRYPT_SEPARATOR && field < MON_DATA_FORME)
+    if (field > MON_DATA_ENCRYPT_SEPARATOR)
     {
         retVal = IS_BOX_MON_BAD_EGG(boxMon);
     }
