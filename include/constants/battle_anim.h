@@ -297,6 +297,9 @@
 #define ANIM_TAG_WHIP_HIT                   (ANIM_SPRITES_START + 287)
 #define ANIM_TAG_BLUE_RING_2                (ANIM_SPRITES_START + 288)
 #define ANIM_TAG_ABILITY_POP_UP             (ANIM_SPRITES_START + 289)
+#define ANIM_TAG_ABILITY_POP_UP2            (ANIM_SPRITES_START + 290)
+#define ANIM_TAG_ABILITY_POP_UP3            (ANIM_SPRITES_START + 291)
+#define ANIM_TAG_ABILITY_POP_UP4            (ANIM_SPRITES_START + 292)
 
 // battlers
 #define ANIM_ATTACKER    0

@@ -464,28 +464,6 @@ static const union AnimCmd *const sSpriteAnimTable_AbilityPopUp2[] =
 	sSpriteAnim_AbilityPopUp2
 };
 
-static const struct SpriteTemplate sSpriteTemplate_AbilityPopUp =
-{
-	.tileTag = ANIM_TAG_ABILITY_POP_UP,
-	.paletteTag = ANIM_TAG_ABILITY_POP_UP,
-	.oam = &sOamData_AbilityPopUp,
-	.anims = sSpriteAnimTable_AbilityPopUp,
-	.images = NULL,
-	.affineAnims = gDummySpriteAffineAnimTable,
-	.callback = SpriteCB_AbilityPopUp
-};
-
-static const struct SpriteTemplate sSpriteTemplate_AbilityPopUp2 =
-{
-	.tileTag = ANIM_TAG_ABILITY_POP_UP,
-	.paletteTag = ANIM_TAG_ABILITY_POP_UP,
-	.oam = &sOamData_AbilityPopUp,
-	.anims = sSpriteAnimTable_AbilityPopUp2,
-	.images = NULL,
-	.affineAnims = gDummySpriteAffineAnimTable,
-	.callback = SpriteCB_AbilityPopUp
-};
-
 static const u16 sOverwrittenPixelsTable[][2] =
 {
 	// first row of img
@@ -2595,17 +2573,17 @@ static void SpriteCB_AbilityPopUp(struct Sprite * sprite)
 
 static void AnimTask_FreeAbilityPopUp(u8 taskId)
 {
-    u8 bank;
+    u8 bank = gSprites[gTasks[taskId].tSpriteId1].tBattler;
     
-    if (!gSprites[gTasks[taskId].tSpriteId1].inUse && !gSprites[gTasks[taskId].tSpriteId2].inUse && !gActiveAbilityPopUps)
+    if (!gSprites[gTasks[taskId].tSpriteId1].inUse && !gSprites[gTasks[taskId].tSpriteId2].inUse && !(gActiveAbilityPopUps & gBitTable[bank]))
     {
         bank = gSprites[gTasks[taskId].tSpriteId1].tBattler;
         
         gAbilityPopUpIds[bank][0] = 0;
-	gAbilityPopUpIds[bank][1] = 0;
-        FreeSpriteTilesByTag(ANIM_TAG_ABILITY_POP_UP);
-	FreeSpritePaletteByTag(ANIM_TAG_ABILITY_POP_UP);
-	DestroyTask(taskId);
+    gAbilityPopUpIds[bank][1] = 0;
+    FreeSpriteTilesByTag(ANIM_TAG_ABILITY_POP_UP + bank);
+    FreeSpritePaletteByTag(ANIM_TAG_ABILITY_POP_UP);
+    DestroyTask(taskId);
     }
 }
 
@@ -2613,10 +2591,32 @@ void AnimTask_CreateAbilityPopUp(u8 taskId)
 {
     const s16 (*coords)[2];
     u8 spriteId1, spriteId2, destroyTaskId, battler = GetBattlerForBattleScript(gBattlescriptCurrInstr[-3]), battlerPosition = GetBattlerPosition(battler);
-    
-    LoadSpriteSheet((const struct SpriteSheet*) &gBattleAnimPicTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_ABILITY_POP_UP)]);
-    LoadSpritePalette((const struct SpritePalette*) &gBattleAnimPaletteTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_ABILITY_POP_UP)]);
-    
+
+    const struct SpriteTemplate sSpriteTemplate_AbilityPopUp =
+    {
+        .tileTag = ANIM_TAG_ABILITY_POP_UP + battler,
+        .paletteTag = ANIM_TAG_ABILITY_POP_UP,
+        .oam = &sOamData_AbilityPopUp,
+        .anims = sSpriteAnimTable_AbilityPopUp,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCB_AbilityPopUp
+    };
+
+    const struct SpriteTemplate sSpriteTemplate_AbilityPopUp2 =
+    {
+        .tileTag = ANIM_TAG_ABILITY_POP_UP + battler,
+        .paletteTag = ANIM_TAG_ABILITY_POP_UP,
+        .oam = &sOamData_AbilityPopUp,
+        .anims = sSpriteAnimTable_AbilityPopUp2,
+        .images = NULL,
+        .affineAnims = gDummySpriteAffineAnimTable,
+        .callback = SpriteCB_AbilityPopUp
+    };
+
+    LoadSpriteSheet((const struct SpriteSheet*)&gBattleAnimPicTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_ABILITY_POP_UP + battler)]);
+    LoadSpritePalette((const struct SpritePalette*)&gBattleAnimPaletteTable[GET_TRUE_SPRITE_INDEX(ANIM_TAG_ABILITY_POP_UP)]);
+
     gActiveAbilityPopUps |= gBitTable[battler];
     
     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)

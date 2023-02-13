@@ -235,6 +235,24 @@ gBattleScriptsForMoveEffects::
 	.4byte BattleScript_EffectDragonDance
 	.4byte BattleScript_EffectCamouflage
 
+BattleScript_BRNPrevention::
+	pause 0x20
+	printfromtable gBRNPreventionStringIds
+	waitmessage 0x40
+	return
+
+BattleScript_PRLZPrevention::
+	pause 0x20
+	printfromtable gPRLZPreventionStringIds
+	waitmessage 0x40
+	return
+
+BattleScript_PSNPrevention::
+	pause 0x20
+	printfromtable gPSNPreventionStringIds
+	waitmessage 0x40
+	return
+
 BattleScript_EffectHit::
 	jumpifnotmove MOVE_SURF, BattleScript_HitFromAtkCanceler
 	jumpifnostatus3 BS_TARGET, STATUS3_UNDERWATER, BattleScript_HitFromAtkCanceler
@@ -719,9 +737,9 @@ BattleScript_AlreadyPoisoned::
 BattleScript_ImmunityProtected::
 	pause 0x40
 	copybyte gEffectBattler, gBattlerTarget
+	setbyte cMULTISTRING_CHOOSER, 0
 	loadabilitypopup LOAD_ABILITY_NORMAL, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
-	printstring STRINGID_PKMNPREVENTSPOISONINGWITH
-	waitmessage 0x40
+	call BattleScript_PSNPrevention
 	loadabilitypopup REMOVE_POP_UP, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
 	goto BattleScript_MoveEnd
 
@@ -1041,9 +1059,9 @@ BattleScript_AlreadyParalyzed::
 BattleScript_LimberProtected::
 	pause 0x40
 	copybyte gEffectBattler, gBattlerTarget
+	setbyte cMULTISTRING_CHOOSER, 0
 	loadabilitypopup LOAD_ABILITY_NORMAL, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
-	printstring STRINGID_PKMNPREVENTSPARALYSISWITH
-	waitmessage 0x40
+	call BattleScript_PRLZPrevention
 	loadabilitypopup REMOVE_POP_UP, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
 	goto BattleScript_MoveEnd
 
@@ -2207,9 +2225,9 @@ BattleScript_EffectWillOWisp::
 BattleScript_WaterVeilPrevents::
 	pause 0x40
 	copybyte gEffectBattler, gBattlerTarget
+	setbyte cMULTISTRING_CHOOSER, 0
 	loadabilitypopup LOAD_ABILITY_NORMAL, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
-	printstring STRINGID_PKMNSXPREVENTSBURNS
-	waitmessage 0x40
+	call BattleScript_BRNPrevention
 	loadabilitypopup REMOVE_POP_UP, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
 	goto BattleScript_MoveEnd
 
@@ -4012,7 +4030,7 @@ BattleScript_SandstreamActivates::
 	end3
 
 BattleScript_ShedSkinActivates::
-	loadabilitypopup LOAD_ABILITY_NORMAL, BS_ATTACKER, LOAD_ABILITY_FROM_BUFFER
+	loadabilitypopup LOAD_ABILITY_FROM_SECOND_BANK, BS_ATTACKER, BS_ATTACKER
 	printstring STRINGID_PKMNSXCUREDYPROBLEM
 	waitmessage 0x40
 	loadabilitypopup REMOVE_POP_UP, BS_ATTACKER, LOAD_ABILITY_FROM_BUFFER
@@ -4046,7 +4064,6 @@ BattleScript_IntimidateActivatesEnd3::
 
 BattleScript_DoIntimidateActivationAnim::
 	pause 0x20
-	loadabilitypopup LOAD_ABILITY_NORMAL, BS_SCRIPTING, LOAD_ABILITY_FROM_BUFFER
 BattleScript_IntimidateActivates::
 	setbyte gBattlerTarget, 0
 	setstatchanger STAT_ATK, 1, TRUE
@@ -4060,9 +4077,10 @@ BattleScript_IntimidateActivationAnimLoop::
 	jumpifbyte CMP_GREATER_THAN, cMULTISTRING_CHOOSER, 1, BattleScript_IntimidateFail
 	setgraphicalstatchangevalues
 	playanimation BS_TARGET, B_ANIM_STATS_CHANGE, sB_ANIM_ARG1
-	loadabilitypopup REMOVE_POP_UP, BS_SCRIPTING, LOAD_ABILITY_FROM_BUFFER
+	loadabilitypopup LOAD_ABILITY_NORMAL, BS_SCRIPTING, LOAD_ABILITY_FROM_BUFFER
 	printstring STRINGID_PKMNCUTSATTACKWITH
 	waitmessage 0x40
+	loadabilitypopup REMOVE_POP_UP, BS_SCRIPTING, LOAD_ABILITY_FROM_BUFFER
 BattleScript_IntimidateFail::
 	addbyte gBattlerTarget, 1
 	goto BattleScript_IntimidateActivationAnimLoop
@@ -4164,24 +4182,6 @@ BattleScript_AbilityNoStatLoss::
 	loadabilitypopup REMOVE_POP_UP, BS_SCRIPTING, LOAD_ABILITY_FROM_BUFFER
 	return
 
-BattleScript_BRNPrevention::
-	pause 0x20
-	printfromtable gBRNPreventionStringIds
-	waitmessage 0x40
-	return
-
-BattleScript_PRLZPrevention::
-	pause 0x20
-	printfromtable gPRLZPreventionStringIds
-	waitmessage 0x40
-	return
-
-BattleScript_PSNPrevention::
-	pause 0x20
-	printfromtable gPSNPreventionStringIds
-	waitmessage 0x40
-	return
-
 BattleScript_ObliviousPreventsAttraction::
 	pause 0x20
 	loadabilitypopup LOAD_ABILITY_NORMAL, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
@@ -4242,7 +4242,7 @@ BattleScript_ColorChangeActivates::
 
 BattleScript_RoughSkinActivates::
 	loadabilitypopup LOAD_ABILITY_NORMAL, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
-	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_PASSIVE_DAMAGE
+	orword gHitMarker, HITMARKER_IGNORE_SUBSTITUTE | HITMARKER_x100000
 	healthbarupdate BS_ATTACKER
 	datahpupdate BS_ATTACKER
 	printstring STRINGID_PKMNHURTSWITH
