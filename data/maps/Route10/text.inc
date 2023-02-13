@@ -14,9 +14,8 @@ Route10_Text_ClarkIntro:: @ 8184C1D
     .string "Ha-hahah-ah-ha!$"
 
 Route10_Text_ClarkDefeat:: @ 8184C2D
-    .string "Haaa!! Haha!!\n"
-    .string "I actually… ate some\l"
-    .string "laughing mushrooms…$"
+    .string "Haaa!! Haha!! I actually…\n"
+    .string "ate some laughing mushrooms…$"
 
 Route10_Text_ClarkPostBattle:: @ 8184C60
     .string "Ha-hahah-ah-ha!\n"
@@ -75,11 +74,12 @@ Route10_Text_CarolPostBattle:: @ 8184E5E
     .string "with a floral pattern!$"
 
 Route10_Text_RockTunnelDetourToLavender:: @ 8184EC5
-    .string "ROCK TUNNEL\n"
+    .string "{UP_ARROW} ROCK TUNNEL\n"
     .string "Detour to LAVENDER TOWN$"
 
 Route10_Text_RockTunnel:: @ 8184EE9
-    .string "ROCK TUNNEL$"
+    .string "{UP_ARROW} ROCK TUNNEL\n"
+    .string "Detour to ROUTE 10$"
 
 Route10_Text_PowerPlant:: @ 8184EF5
     .string "POWER PLANT$"

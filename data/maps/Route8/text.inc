@@ -105,8 +105,8 @@ Route8_Text_JuliaPostBattle:: @ 81844FD
     .string "I wonder if it's true?$"
 
 Route8_Text_UndergroundPathSign:: @ 8184576
-    .string "UNDERGROUND PATH\n"
-    .string "CELADON CITY - LAVENDER TOWN$"
+    .string "{UP_ARROW} UNDERGROUND PATH\n"
+    .string "LAVENDER TOWN {RIGHT_ARROW} CELADON CITY$"
 
 Route8_Text_EliIntro:: @ 81845A4
     .string "ELI: Twin power is fantastic.\n"

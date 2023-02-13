@@ -92,10 +92,10 @@ ThreeIsland_BondBridge_Text_MegNotEnoughMons:: @ 818A1CD
     .string "One POKéMON isn't enough.$"
 
 ThreeIsland_BondBridge_Text_BerryForestAhead:: @ 818A210
-    .string "BERRY FOREST {UP_ARROW}$"
+    .string "{UP_ARROW} BERRY FOREST$"
 
 ThreeIsland_BondBridge_Text_BondBridgeSign:: @ 818A223
     .string "BOND BRIDGE\n"
     .string "Please be quiet when crossing.\p"
-    .string "BERRY FOREST {UP_ARROW}$"
+    .string "{UP_ARROW} BERRY FOREST$"
 

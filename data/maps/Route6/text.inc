@@ -68,6 +68,6 @@ Route6_Text_ElijahPostBattle:: @ 818402B
     .string "Which do you think?$"
 
 Route6_Text_UndergroundPathSign:: @ 8184067
-    .string "UNDERGROUND PATH\n"
-    .string "CERULEAN CITY - VERMILION CITY$"
+    .string "{UP_ARROW} UNDERGROUND PATH\n"
+    .string "CERULEAN CITY {RIGHT_ARROW} VERMILION CITY$"
 

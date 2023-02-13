@@ -28,6 +28,6 @@ SevenIsland_TrainerTower_Text_TrainerTowerSign:: @ 818C338
     .string "Rise to the Challenge, TRAINERS!$"
 
 SevenIsland_TrainerTower_Text_TrainerTowerAhead:: @ 818C370
-    .string "TRAINER TOWER {UP_ARROW}$"
+    .string "{UP_ARROW} TRAINER TOWER$"
 
 

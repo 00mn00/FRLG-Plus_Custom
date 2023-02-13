@@ -118,7 +118,7 @@ SevenIsland_SevaultCanyon_Text_NyaNotEnoughMons:: @ 818CEF4
 
 SevenIsland_SevaultCanyon_Text_RouteSign:: @ 818CF2B
     .string "SEVAULT CANYON\n"
-    .string "TANOBY RUINS {UP_ARROW}$"
+    .string "{UP_ARROW} TANOBY RUINS$"
 
 SevenIsland_SevaultCanyon_Text_BrunoTrainedWithBrawly:: @ 818CF4D
     .string "Training by oneself is certainly\n"

@@ -10,10 +10,8 @@ CeladonCity_DepartmentStore_3F_Text_BuddyTradingKangaskhanForHaunter:: @ 8195769
     .string "KANGASKHAN for my HAUNTER!$"
 
 CeladonCity_DepartmentStore_3F_Text_HaunterEvolvedOnTrade:: @ 81957B0
-    .string "Come on, my sweet\n"
-	.string "HAUNTY-pie!\p"
-    .string "I'm an absolute\n"
-    .string "HAUNTER maniac.\p"
+    .string "Come on, my sweet HAUNTY-pie!\n"
+    .string "I'm an absolute HAUNTER maniac.\p"
     .string "… … …Huh?\p"
     .string "HAUNTER turned into a different\n"
     .string "POKéMON while being traded!$"

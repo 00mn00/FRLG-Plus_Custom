@@ -101,5 +101,5 @@ ViridianForest_Text_WeakenMonsBeforeCapture:: @ 817271D
 
 ViridianForest_Text_LeavingViridianForest:: @ 8172773
     .string "LEAVING VIRIDIAN FOREST\n"
-    .string "PEWTER CITY {UP_ARROW}$"
+    .string "{UP_ARROW} PEWTER CITY$"
 
