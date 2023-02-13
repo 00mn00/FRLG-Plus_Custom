@@ -4321,42 +4321,6 @@ static void CB2_ReturnToBerryPouchMenu(void)
     InitBerryPouch(BERRYPOUCH_NA, NULL, 0xFF);
 }
 
-static void sub_8124DC0(u8 taskId)
-{
-    sPartyMenuInternal->exitCallback = sub_8124DE0;
-    Task_ClosePartyMenu(taskId);
-}
-
-static void sub_8124DE0(void)
-{
-    if (CheckIfItemIsTMHMOrEvolutionStone(gSpecialVar_ItemId) == 2) // Evolution stone
-    {
-        if (MonCanEvolve() == TRUE)
-            StartUseItemAnim_Normal(gPartyMenu.slotId, gSpecialVar_ItemId, sub_8126BD4);
-        else
-            StartUseItemAnim_CantEvolve(gPartyMenu.slotId, gSpecialVar_ItemId, gPartyMenu.exitCallback);
-    }
-    else
-    {
-        StartUseItemAnim_Normal(gPartyMenu.slotId, gSpecialVar_ItemId, sub_8124E48);
-    }
-}
-
-static void sub_8124E48(void)
-{
-    if (ItemId_GetPocket(gSpecialVar_ItemId) == POCKET_TM_CASE
-     && PSA_IsCancelDisabled() == TRUE)
-    {
-        GiveMoveToMon(&gPlayerParty[gPartyMenu.slotId], ItemIdToBattleMoveId(gSpecialVar_ItemId));
-        AdjustFriendship(&gPlayerParty[gPartyMenu.slotId], FRIENDSHIP_EVENT_LEARN_TMHM);
-        SetMainCallback2(gPartyMenu.exitCallback);
-    }
-    else
-    {
-        InitPartyMenu(gPartyMenu.menuType, KEEP_PARTY_LAYOUT, PARTY_ACTION_CHOOSE_MON, gPartyMenu.slotId, PARTY_MSG_NONE, Task_SetSacredAshCB, gPartyMenu.exitCallback);
-    }
-}
-
 static void sub_8124EFC(void)
 {
     if (PSA_IsCancelDisabled() == TRUE)
@@ -4516,16 +4480,13 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
         cannotUse = ExecuteTableBasedItemEffect_(gPartyMenu.slotId, item, 0);
     }
 
-    if (cannotUse != FALSE)
+    if (cannotUse)
     {
         gPartyMenuUseExitCallback = FALSE;
         PlaySE(SE_SELECT);
         DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
         ScheduleBgCopyTilemapToVram(2);
-        if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(item, 1))
-            gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
-        else
-            gTasks[taskId].func = task;
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
     }
     else
     {
@@ -4560,7 +4521,7 @@ void ItemUseCB_Medicine(u8 taskId, TaskFunc task)
             if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(item, 1))
                 gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
             else
-                gTasks[taskId].func = task;
+                gTasks[taskId].func = Task_ClosePartyMenuAfterText;
         }
     }
 }
@@ -4633,8 +4594,11 @@ static void Task_HandleWhichMoveInput(u8 taskId)
 
 void ItemUseCB_PPRecovery(u8 taskId, UNUSED TaskFunc func)
 {
-    const u8 *effect;
     u16 item = gSpecialVar_ItemId;
+    u16 move;
+    const u8 *effect;
+    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+    bool8 noEffect = PokemonItemUseNoEffect(&gPlayerParty[gPartyMenu.slotId], gSpecialVar_ItemId, gPartyMenu.slotId, gPartyMenu.data1);
 
     if (item == ITEM_ENIGMA_BERRY)
         effect = gSaveBlock1Ptr->enigmaBerry.itemEffect;
@@ -4647,7 +4611,33 @@ void ItemUseCB_PPRecovery(u8 taskId, UNUSED TaskFunc func)
         if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE)
             TryUsePPItem(taskId);
         else
-            sub_812580C(taskId);
+        {
+            PlaySE(SE_SELECT);
+            if (noEffect)
+            {
+                gPartyMenuUseExitCallback = FALSE;
+                DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+                ScheduleBgCopyTilemapToVram(2);
+                gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+            }
+            else
+            {
+                ExecuteTableBasedItemEffect_(gPartyMenu.slotId, gSpecialVar_ItemId, (u8)gPartyMenu.data1);
+                gPartyMenuUseExitCallback = TRUE;
+                ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, gSpecialVar_ItemId, 0xFFFF);
+                PlaySE(SE_USE_ITEM);
+                RemoveBagItem(gSpecialVar_ItemId, 1);
+                move = GetMonData(mon, gPartyMenu.data1 + MON_DATA_MOVE1);
+                StringCopy(gStringVar1, gMoveNames[move]);
+                GetMedicineItemEffectMessage(gSpecialVar_ItemId);
+                DisplayPartyMenuMessage(gStringVar4, 1);
+                ScheduleBgCopyTilemapToVram(2);
+                if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
+                    gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+                else
+                    gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+            }
+        }
     }
     else
     {
@@ -4660,12 +4650,41 @@ void ItemUseCB_PPRecovery(u8 taskId, UNUSED TaskFunc func)
 
 static void SetSelectedMoveForPPItem(u8 taskId)
 {
+    u16 move;
+    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+    bool8 noEffect = PokemonItemUseNoEffect(&gPlayerParty[gPartyMenu.slotId], gSpecialVar_ItemId, gPartyMenu.slotId, gPartyMenu.data1);
     PartyMenuRemoveWindow(&sPartyMenuInternal->windowId[0]);
     gPartyMenu.data1 = Menu_GetCursorPos();
     if (gPartyMenu.menuType == PARTY_MENU_TYPE_IN_BATTLE)
         TryUsePPItem(taskId);
     else
-        sub_812580C(taskId);
+    {
+        PlaySE(SE_SELECT);
+        if (noEffect)
+        {
+            gPartyMenuUseExitCallback = FALSE;
+            DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
+            ScheduleBgCopyTilemapToVram(2);
+            gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+        }
+        else
+        {
+            ExecuteTableBasedItemEffect_(gPartyMenu.slotId, gSpecialVar_ItemId, (u8)gPartyMenu.data1);
+            gPartyMenuUseExitCallback = TRUE;
+            ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, gSpecialVar_ItemId, 0xFFFF);
+            PlaySE(SE_USE_ITEM);
+            RemoveBagItem(gSpecialVar_ItemId, 1);
+            move = GetMonData(mon, gPartyMenu.data1 + MON_DATA_MOVE1);
+            StringCopy(gStringVar1, gMoveNames[move]);
+            GetMedicineItemEffectMessage(gSpecialVar_ItemId);
+            DisplayPartyMenuMessage(gStringVar4, 1);
+            ScheduleBgCopyTilemapToVram(2);
+            if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
+                gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+            else
+                gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+        }
+    }
 }
 
 static void ReturnToUseOnWhichMon(u8 taskId)
@@ -4676,44 +4695,6 @@ static void ReturnToUseOnWhichMon(u8 taskId)
     DisplayPartyMenuStdMessage(PARTY_MSG_USE_ON_WHICH_MON);
 }
 
-static void sub_812580C(u8 taskId)
-{
-    bool8 noEffect = PokemonItemUseNoEffect(&gPlayerParty[gPartyMenu.slotId],
-                                            gSpecialVar_ItemId,
-                                            gPartyMenu.slotId,
-                                            gPartyMenu.data1);
-    PlaySE(SE_SELECT);
-    if (noEffect)
-    {
-        gPartyMenuUseExitCallback = FALSE;
-        DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
-        ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = Task_ClosePartyMenuAfterText;
-    }
-    else
-    {
-        gItemUseCB = sub_8125898;
-    }
-}
-
-static void sub_8125898(u8 taskId, UNUSED TaskFunc func)
-{
-    u16 move;
-    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
-
-    ExecuteTableBasedItemEffect_(gPartyMenu.slotId, gSpecialVar_ItemId, (u8)gPartyMenu.data1);
-    gPartyMenuUseExitCallback = TRUE;
-    ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, gSpecialVar_ItemId, 0xFFFF);
-    PlaySE(SE_USE_ITEM);
-    RemoveBagItem(gSpecialVar_ItemId, 1);
-    move = GetMonData(mon, gPartyMenu.data1 + MON_DATA_MOVE1);
-    StringCopy(gStringVar1, gMoveNames[move]);
-    GetMedicineItemEffectMessage(gSpecialVar_ItemId);
-    DisplayPartyMenuMessage(gStringVar4, 1);
-    ScheduleBgCopyTilemapToVram(2);
-    gTasks[taskId].func = Task_ClosePartyMenuAfterText;
-}
-
 static void TryUsePPItem(u8 taskId)
 {
     u16 move = MOVE_NONE;
@@ -4721,8 +4702,9 @@ static void TryUsePPItem(u8 taskId)
     u16 item = gSpecialVar_ItemId;
     struct PartyMenu *ptr = &gPartyMenu;
     struct Pokemon *mon;
+    bool8 noEffect = PokemonItemUseNoEffect(&gPlayerParty[gPartyMenu.slotId], gSpecialVar_ItemId, gPartyMenu.slotId, gPartyMenu.data1);
 
-    if (ExecuteTableBasedItemEffect_(ptr->slotId, item, *moveSlot))
+    if (noEffect)
     {
         gPartyMenuUseExitCallback = FALSE;
         PlaySE(SE_SELECT);
@@ -4793,7 +4775,7 @@ static void DisplayLearnMoveMessage(const u8 *str)
 static void DisplayLearnMoveMessageAndClose(u8 taskId, const u8 *str)
 {
     DisplayLearnMoveMessage(str);
-    gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+    gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
 }
 
 void ItemUseCB_TMHM(u8 taskId, UNUSED TaskFunc func)
@@ -4920,10 +4902,26 @@ static void CB2_ShowSummaryScreenToForgetMove(void)
 
 static void CB2_ReturnToPartyMenuWhileLearningMove(void)
 {
-    if (gSpecialVar_ItemId == ITEM_RARE_CANDY && gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
-        InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_USE_ITEM, TRUE, PARTY_MSG_NONE, Task_ReturnToPartyMenuWhileLearningMove, gPartyMenu.exitCallback);
+    u8 moveIdx = GetMoveSlotToReplace();
+    u8 taskId;
+    u16 move = GetMonData(&gPlayerParty[gPartyMenu.slotId], moveIdx + MON_DATA_MOVE1);
+    s32 learnMoveState = gPartyMenu.learnMoveState;
+    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+
+    if (gSpecialVar_ItemId == ITEM_RARE_CANDY && gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1) && learnMoveState == 0 && moveIdx != MAX_MON_MOVES)
+    {
+        ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, gSpecialVar_ItemId, move);
+        GetMonNickname(mon, gStringVar1);
+        StringCopy(gStringVar2, gMoveNames[move]);
+        RemoveMonPPBonus(mon, moveIdx);
+        SetMonMoveSlot(mon, gPartyMenu.data1, moveIdx);
+        Task_LearnedMove(taskId);
+        gPartyMenu.action = learnMoveState;
+    }
     else
+    {
         InitPartyMenu(PARTY_MENU_TYPE_FIELD, PARTY_LAYOUT_SINGLE, PARTY_ACTION_CHOOSE_MON, TRUE, PARTY_MSG_NONE, Task_ReturnToPartyMenuWhileLearningMove, gPartyMenu.exitCallback);
+    }
 }
 
 static void Task_ReturnToPartyMenuWhileLearningMove(u8 taskId)
@@ -4935,25 +4933,6 @@ static void Task_ReturnToPartyMenuWhileLearningMove(u8 taskId)
         else
             StopLearningMovePrompt(taskId);
     }
-}
-
-static void sub_8125F4C(u8 taskId, UNUSED TaskFunc func)
-{
-    sub_8125F5C(taskId);
-}
-
-static void sub_8125F5C(u8 taskId)
-{
-    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
-    u8 moveIdx = GetMoveSlotToReplace();
-    u16 move = GetMonData(mon, moveIdx + MON_DATA_MOVE1);
-
-    ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, mon, gSpecialVar_ItemId, move);
-    GetMonNickname(mon, gStringVar1);
-    StringCopy(gStringVar2, gMoveNames[move]);
-    RemoveMonPPBonus(mon, moveIdx);
-    SetMonMoveSlot(mon, gPartyMenu.data1, moveIdx);
-    Task_LearnedMove(taskId);
 }
 
 static void DisplayPartyMenuForgotMoveMessage(u8 taskId)
@@ -5072,13 +5051,8 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc func)
             if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD)
                 gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
             else
-                gTasks[taskId].func = func;
+                gTasks[taskId].func = Task_ClosePartyMenuAfterText;
         }
-
-        if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD)
-            gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
-        else
-            gTasks[taskId].func = func;
     }
     else
     {
@@ -5345,12 +5319,19 @@ static void Task_SacredAshDisplayHPRestored(u8 taskId)
     gTasks[taskId].func = Task_SacredAshLoop;
 }
 
+static void CB2_ReturnToPartyMenuUsingEvoStone(void)
+{
+    gItemUseCB = ItemUseCB_EvolutionStone;
+    SetMainCallback2(CB2_ShowPartyMenuForItemUse);
+}
+
 #undef tUsedOnSlot
 #undef tHadEffect
 #undef tLastSlotUsed
 
 void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc func)
 {
+    u16 species = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES);
     bool8 noEffect;
 
     PlaySE(SE_SELECT);
@@ -5360,29 +5341,37 @@ void ItemUseCB_EvolutionStone(u8 taskId, TaskFunc func)
         gPartyMenuUseExitCallback = FALSE;
         DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
         ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = func;
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
     }
     else
     {
-        sub_8126BD4();
-    }
-}
-
-static void sub_8126BD4(void)
-{
-    u16 species;
-    gCB2_AfterEvolution = gPartyMenu.exitCallback;
-    ExecuteTableBasedItemEffect_(gPartyMenu.slotId, gSpecialVar_ItemId, 0);
-    ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, &gPlayerParty[gPartyMenu.slotId], gSpecialVar_ItemId, 0xFFFF);
-    if(gSpecialVar_ItemId != ITEM_LINK_BRACELET)
-        RemoveBagItem(gSpecialVar_ItemId, 1);
-    species = GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_SPECIES);
-    if(species == SPECIES_SLOWPOKE || species == SPECIES_POLIWHIRL || species == SPECIES_ONIX
-    || species == SPECIES_SEADRA || species == SPECIES_SCYTHER || species == SPECIES_PORYGON
-    || species == SPECIES_CLAMPERL)
-    { //just evolved by Link Bracelet, remove held item of trade+item mons
-        u16 heldItem = 0;
-        SetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HELD_ITEM, &heldItem);
+        if (gSpecialVar_ItemId != ITEM_LINK_BRACELET)
+        {
+            RemoveBagItem(gSpecialVar_ItemId, 1);
+            
+            if (CheckBagHasItem(gSpecialVar_ItemId, 1))
+            {
+                gCB2_AfterEvolution = CB2_ReturnToPartyMenuUsingEvoStone;
+            }
+            else
+            {
+                gCB2_AfterEvolution = gPartyMenu.exitCallback;
+            }
+        }
+        else
+        {
+            gCB2_AfterEvolution = CB2_ReturnToPartyMenuUsingEvoStone;
+        }
+        ExecuteTableBasedItemEffect_(gPartyMenu.slotId, gSpecialVar_ItemId, 0);
+        ItemUse_SetQuestLogEvent(QL_EVENT_USED_ITEM, &gPlayerParty[gPartyMenu.slotId], gSpecialVar_ItemId, 0xFFFF);
+        if (species == SPECIES_SLOWPOKE || species == SPECIES_POLIWHIRL || species == SPECIES_ONIX ||
+            species == SPECIES_SEADRA || species == SPECIES_SCYTHER || species == SPECIES_PORYGON ||
+            species == SPECIES_CLAMPERL)
+        {
+            u16 heldItem = 0;
+            SetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_HELD_ITEM, &heldItem);
+        }
+        FreePartyPointers();
     }
 }
 
@@ -6426,7 +6415,7 @@ void ItemUseCB_ReduceEV(u8 taskId, TaskFunc task)
         PlaySE(SE_SELECT);
         DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
         ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = task;
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
     }
     else
     {
