@@ -1122,6 +1122,8 @@ static void Task_BagMenu_HandleInput(u8 taskId)
             if (cursorPos + itemsAbove != sBagMenuDisplay->nItems[gBagMenuState.pocket])
             {
                 PlaySE(SE_SELECT);
+                BagDestroyPocketScrollArrowPair();
+                CreatePocketScrollArrowPair();
                 BeginMovingItemInPocket(taskId, cursorPos + itemsAbove);
                 return;
             }
@@ -1131,6 +1133,7 @@ static void Task_BagMenu_HandleInput(u8 taskId)
             if ((sBagMenuDisplay->nItems[gBagMenuState.pocket]) <= 1)
             {
                 PlaySE(SE_FAILURE);
+                BagDestroyPocketScrollArrowPair();
                 DisplayItemMessageInBag(taskId, 2, sText_NothingToSort, Task_WaitAButtonAndCloseContextMenu);
                 break;
             }
@@ -2573,11 +2576,11 @@ enum ItemSortType
 	ITEM_TYPE_FOSSIL,
 	ITEM_TYPE_MAIL,
 };
-static const u8 sText_SortItemsHow[] = _("Sort items how?");
-static const u8 sText_Name[] = _("name");
-static const u8 sText_Type[] = _("type");
-static const u8 sText_Amount[] = _("amount");
-static const u8 sText_Number[] = _("number");
+static const u8 sText_SortItemsHow[] = _("What sorting style\nwould you like to\nswitch to?");
+static const u8 sText_Name[] = _("NAME");
+static const u8 sText_Type[] = _("TYPE");
+static const u8 sText_Amount[] = _("AMOUNT");
+static const u8 sText_Number[] = _("NUMBER");
 static const u8 sText_ItemsSorted[] = _("Items sorted by {STR_VAR_1}!");
 static const u8 *const sSortTypeStrings[] = 
 {
