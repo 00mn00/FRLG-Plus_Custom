@@ -1379,3 +1379,7 @@
 	.macro jumpifnotbattletype flags:req, jumpptr:req
 	jumpifword CMP_NO_COMMON_BITS, gBattleTypeFlags, \flags, \jumpptr
 	.endm
+
+	.macro removeabilitypopup battler:req
+	loadabilitypopup REMOVE_POP_UP, \battler, LOAD_ABILITY_FROM_BUFFER
+	.endm
