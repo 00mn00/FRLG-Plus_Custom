@@ -23,6 +23,6 @@ PokemonMansion_B1F_Text_IvanPostBattle:: @ 817776A
 PokemonMansion_B1F_Text_MewtwoIsFarTooPowerful:: @ 8177798
     .string "Diary: Sept. 1\n"
     .string "MEWTWO is far too powerful.\p"
-    .string "We have failed to curb its vicious\n"
+    .string "I have failed to curb its vicious\n"
     .string "tendencies…$"
 

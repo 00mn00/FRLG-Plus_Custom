@@ -28,6 +28,6 @@ PokemonMansion_1F_Text_NewMonDiscoveredInGuyanaJungle:: @ 817751F
 
 PokemonMansion_1F_Text_ChristenedDiscoveredMonMew:: @ 8177574
     .string "Diary: July 10\n"
-    .string "We christened the newly discovered\l"
+    .string "I christened the newly discovered\l"
     .string "POKéMON, MEW.$"
 

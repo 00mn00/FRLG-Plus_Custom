@@ -51,7 +51,7 @@ SilphCo_6F_Text_Grunt1PostBattle:: @ 817610F
 SilphCo_6F_Text_TaylorIntro:: @ 8176136
     .string "That rotten PRESIDENT!\p"
     .string "Serves him right for shipping me\n"
-    .string "off to the TIKSI BRANCH!\p"
+    .string "off to the PONAYA TUNGUSKA BRANCH!\p"
     .string "That's why TEAM ROCKET came after\n"
     .string "us, I'm sure of it!$"
 
@@ -59,8 +59,8 @@ SilphCo_6F_Text_TaylorDefeat:: @ 81761BD
     .string "Shoot!$"
 
 SilphCo_6F_Text_TaylorPostBattle:: @ 81761C4
-    .string "TIKSI BRANCH?\n"
-    .string "It's in Russian no-man's-land!$"
+    .string "PONAYA TUNGUSKA BRANCH?\n"
+    .string "It's deep in Russia!$"
 
 SilphCo_6F_Text_Grunt2Intro:: @ 81761F1
     .string "You dare betray TEAM ROCKET?$"

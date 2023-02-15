@@ -10,7 +10,7 @@ FuchsiaCity_Text_SafariZoneZooInFront:: @ 81805C6
     .string "catching POKéMON.$"
 
 FuchsiaCity_Text_WheresSara:: @ 818062C
-    .string "ERIK: Where's SARA?\n"
+    .string "KOJI: Where's ATSUKO?\n"
     .string "I said I'd meet her here.$"
 
 FuchsiaCity_Text_ItemBallInThere:: @ 818065A

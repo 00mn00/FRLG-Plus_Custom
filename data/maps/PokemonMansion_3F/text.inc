@@ -21,5 +21,5 @@ PokemonMansion_1F_Text_BraydonPostBattle:: @ 8177657
 PokemonMansion_1F_Text_MewGaveBirthToMewtwo:: @ 8177685
     .string "Diary: Feb. 6\n"
     .string "MEW gave birth.\p"
-    .string "We named the newborn MEWTWO.$"
+    .string "I named the newborn MEWTWO.$"
 
