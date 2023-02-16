@@ -1151,15 +1151,17 @@ AI_CV_AttackDown4:: @ 81DAAB0
 AI_CV_AttackDown_End:: @ 81DAACE
 	end
 
-@ Missing Poison, Flying, and Ghost for unknown reason
 AI_CV_AttackDown_PhysicalTypeList:: @ 81DAACF
-	.byte TYPE_NORMAL
-	.byte TYPE_FIGHTING
-	.byte TYPE_GROUND
-	.byte TYPE_ROCK
-	.byte TYPE_BUG
-	.byte TYPE_STEEL
-	.byte -1
+    .byte TYPE_NORMAL
+    .byte TYPE_FIGHTING
+    .byte TYPE_POISON
+    .byte TYPE_GROUND
+    .byte TYPE_FLYING
+    .byte TYPE_BUG
+    .byte TYPE_ROCK
+    .byte TYPE_GHOST
+    .byte TYPE_STEEL
+    .byte -1
 
 AI_CV_DefenseDown:: @ 81DAAD6
 	if_hp_less_than AI_USER, 70, AI_CV_DefenseDown2
