@@ -236,7 +236,8 @@ static const u8 *const sExpBarAnimSpeedOptions[] =
 };
 
 static const u8 sOptionMenuPickSwitchCancelTextColor[] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GRAY};
-static const u8 sOptionMenuTextColor[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_RED};
+static const u8 sOptionMenuTextColor_M[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_BLUE, TEXT_COLOR_LIGHT_BLUE};
+static const u8 sOptionMenuTextColor_F[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_RED, TEXT_COLOR_LIGHT_RED};
 
 // Functions
 static void CB2_InitOptionMenu(void)
@@ -655,8 +656,10 @@ static void BufferOptionMenuString(u8 selection)
     u8 buf[12];
     u8 dst[3];
     u8 x, y;
-    
-    memcpy(dst, sOptionMenuTextColor, 3);
+    if (gSaveBlock2Ptr->playerGender == MALE)
+        memcpy(dst, sOptionMenuTextColor_M, 3);
+    else if (gSaveBlock2Ptr->playerGender == FEMALE)
+        memcpy(dst, sOptionMenuTextColor_F, 3);
     x = 0x82;
     y = ((GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) - 1) * selection) + 2;
     FillWindowPixelRect(1, 1, x, y, 0x46, GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT));
