@@ -121,8 +121,10 @@ Route14_Text_MalikPostBattle:: @ 818636E
     .string "one-on-one!$"
 
 Route14_Text_RouteSign:: @ 8186399
-    .string "ROUTE 14\n"
-	.string "{LEFT_ARROW} FUCHSIA CITY$"
+    .string "{RIGHT_ARROW} LAVENDER TOWN (VIA ROUTE 12)\n"
+    .string "{DOWN_ARROW} FUCHSIA CITY (VIA ROUTE 15)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 14$"
 
 Route14_Text_KiriIntro:: @ 81863B7
     .string "KIRI: JAN, let's try really,\n"

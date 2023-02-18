@@ -15,12 +15,16 @@ Route4_Text_CrissyPostBattle:: @ 8183957
     .string "I think I got them all.$"
 
 Route4_Text_MtMoonEntrance:: @ 818399B
-    .string "MT. MOON\n"
-    .string "Tunnel Entrance$"
+    .string "{UP_ARROW} CERULEAN CITY (VIA MT. MOON)\n"
+    .string "{DOWN_ARROW} PEWTER CITY (VIA ROUTE 3)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 4$"
 
 Route4_Text_RouteSign:: @ 81839B4
-    .string "ROUTE 4\n"
-	.string "{RIGHT_ARROW} CERULEAN CITY$"
+    .string "{UP_ARROW} PEWTER CITY (VIA MT. MOON)\n"
+    .string "{RIGHT_ARROW} CERULEAN CITY (VIA ROUTE 4)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 4$"
 
 Text_MegaPunchTeach:: @ 81839D5
     .string "A punch of roaring ferocity!\p"

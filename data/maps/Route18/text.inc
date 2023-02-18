@@ -31,8 +31,10 @@ Route18_Text_JacobPostBattle:: @ 818772C
     .string "POKéMON.$"
 
 Route18_Text_RouteSign:: @ 8187757
-    .string "ROUTE 18\n"
-	.string "{RIGHT_ARROW} FUCHSIA CITY$"
+    .string "{LEFT_ARROW} CELADON CITY (VIA ROUTE 16)\n"
+    .string "{RIGHT_ARROW} FUCHSIA CITY (VIA ROUTE 18)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 18$"
 
 Route18_Text_CyclingRoadSign:: @ 818777C
     .string "CYCLING ROAD\n"

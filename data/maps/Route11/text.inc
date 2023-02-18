@@ -62,7 +62,7 @@ Route11_Text_DirkDefeat:: @ 8185105
 
 Route11_Text_DirkPostBattle:: @ 8185114
     .string "Luck of the draw!\n"
-	.string "Just luck!$"
+    .string "Just luck!$"
 
 Route11_Text_DarianIntro:: @ 8185135
     .string "I have never won before…$"
@@ -72,7 +72,7 @@ Route11_Text_DarianDefeat:: @ 818514E
 
 Route11_Text_DarianPostBattle:: @ 8185161
     .string "It's just luck.\n"
-	.string "Luck of the draw.$"
+    .string "Luck of the draw.$"
 
 Route11_Text_YasuIntro:: @ 818517B
     .string "I'm the best in my class.\n"
@@ -111,5 +111,9 @@ Route11_Text_DavePostBattle:: @ 81852E3
     .string "I better go find stronger ones!$"
 
 Route11_Text_DiglettsCave:: @ 8185308
-    .string "DIGLETT'S CAVE$"
+    .string "{UP_ARROW} ROUTE 2 (VIA DIGLETT'S CAVE)\n"
+    .string "{LEFT_ARROW} VERMILION CITY (VIA ROUTE 11)\l"
+    .string "{RIGHT_ARROW} LAVENDER TOWN (VIA ROUTE 12)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 11$"
 

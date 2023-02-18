@@ -117,8 +117,10 @@ Route17_Text_PressBToStayInPlace:: @ 818757B
     .string "while on a slope.$"
 
 Route17_Text_RouteSign:: @ 81875BE
-    .string "ROUTE 17\n"
-	.string "{DOWN_ARROW} FUCHSIA CITY$"
+    .string "{UP_ARROW} CELADON CITY (VIA ROUTE 16)\n"
+    .string "{DOWN_ARROW} FUCHSIA CITY (VIA ROUTE 18)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 17$"
 
 Route17_Text_DontThrowGameThrowBalls:: @ 81875E3
     .string "It's a notice!\p"

@@ -123,6 +123,8 @@ Route13_Text_SelectToSwitchItems:: @ 8185DEF
     .string "ITEMS window.$"
 
 Route13_Text_RouteSign:: @ 8185E2C
-    .string "ROUTE 13\n"
-	.string "{UP_ARROW} SILENCE BRIDGE$"
+    .string "{LEFT_ARROW} FUCHSIA CITY (VIA ROUTE 15)\n"
+    .string "{RIGHT_ARROW} LAVENDER TOWN (VIA ROUTE 12)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 13$"
 

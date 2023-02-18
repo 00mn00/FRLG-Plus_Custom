@@ -103,11 +103,17 @@ Route12_Text_AndrewPostBattle:: @ 818574D
     .string "But, boy are they wimpy.$"
 
 Route12_Text_RouteSign:: @ 8185797
-    .string "ROUTE 12 \n"
-	.string "{UP_ARROW} LAVENDER TOWN$"
+    .string "{UP_ARROW} LAVENDER TOWN (VIA ROUTE 12)\n"
+    .string "{DOWN_ARROW} VERMILION CITY (VIA ROUTE 11)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 12$"
 
 Route12_Text_SportfishingArea:: @ 81857B3
-    .string "SPORTFISHING AREA$"
+    .string "{UP_ARROW} LAVENDER TOWN (VIA ROUTE 12)\n"
+    .string "{LEFT_ARROW} VERMILION CITY (VIA ROUTE 11)\l"
+    .string "{DOWN_ARROW} FUCHISA CITY (VIA ROUTE 15)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "SPORTFISHING AREA (ROUTE 12)$"
 
 Route12_Text_JesIntro:: @ 81857C5
     .string "JES: If I win, I'm going to\n"

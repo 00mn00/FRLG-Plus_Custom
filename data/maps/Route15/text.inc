@@ -117,8 +117,10 @@ Route15_Text_YazminPostBattle:: @ 8186A55
     .string "I'll go train with weaker people.$"
 
 Route15_Text_RouteSign:: @ 8186A77
-    .string "ROUTE 15\n"
-	.string "{LEFT_ARROW} FUCHSIA CITY$"
+    .string "{LEFT_ARROW} FUCHSIA CITY (VIA ROUTE 15)\n"
+    .string "{RIGHT_ARROW} LAVENDER TOWN (VIA ROUTE 12)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 15$"
 
 Route15_Text_MyaIntro:: @ 8186A95
     .string "MYA: You're perfect.\n"

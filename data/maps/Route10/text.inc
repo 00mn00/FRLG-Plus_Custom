@@ -74,12 +74,16 @@ Route10_Text_CarolPostBattle:: @ 8184E5E
     .string "with a floral pattern!$"
 
 Route10_Text_RockTunnelDetourToLavender:: @ 8184EC5
-    .string "{UP_ARROW} ROCK TUNNEL\n"
-    .string "Detour to LAVENDER TOWN$"
+    .string "{UP_ARROW} LAVENDER TOWN (VIA ROCK TUNNEL)\n"
+    .string "{UP_ARROW} CERULEAN CITY (VIA ROUTE 9)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 10$"
 
 Route10_Text_RockTunnel:: @ 8184EE9
-    .string "{UP_ARROW} ROCK TUNNEL\n"
-    .string "Detour to ROUTE 10$"
+    .string "{UP_ARROW} CERULEAN CITY (VIA ROCK TUNNEL)\n"
+    .string "{DOWN_ARROW} LAVENDER TOWN (VIA ROUTE 10)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 10$"
 
 Route10_Text_PowerPlant:: @ 8184EF5
     .string "POWER PLANT$"

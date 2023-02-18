@@ -101,6 +101,8 @@ Route9_Text_ConnerPostBattle:: @ 8184B3B
     .string "you bug me!$"
 
 Route9_Text_RouteSign:: @ 8184B66
-    .string "ROUTE 9\n"
-	.string "{RIGHT_ARROW} ROCK TUNNEL$"
+    .string "{LEFT_ARROW} CERULEAN CITY (VIA ROUTE 9)\n"
+    .string "{RIGHT_ARROW} LAVENDER TOWN (VIA ROCK TUNNEL)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 9$"
 

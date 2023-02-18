@@ -114,8 +114,10 @@ Route19_Text_ConniePostBattle:: @ 8187B94
     .string "would keep me dry on water.$"
 
 Route19_Text_RouteSign:: @ 8187C06
-    .string "SEA ROUTE 19\n"
-	.string "{DOWN_ARROW} SEAFOAM ISLANDS$"
+    .string "{UP_ARROW} FUCHSIA CITY (VIA ROUTE 19)\n"
+    .string "{DOWN_ARROW} SEAFOAM ISLANDS (VIA ROUTE 20)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 19$"
 
 Route19_Text_LiaIntro:: @ 8187C32
     .string "LIA: I'm looking after my brother.\n"
