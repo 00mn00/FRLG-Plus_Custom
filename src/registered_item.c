@@ -292,7 +292,7 @@ void InitRegisteredItemsToChoose(void)
 	u16 tag;
 	
 	save = gReservedSpritePaletteCount;
-	gReservedSpritePaletteCount = 10;
+	gReservedSpritePaletteCount = 8;
 	
 	LoadSpriteSheet(&sBoxSpriteSheet);
 	LoadSpritePalette(&sBoxAndCursorSpritePalette);
