@@ -514,12 +514,12 @@ static void MoveRelearnerStateMachine(void)
         switch (YesNoMenuProcessInput())
         {
         case 0:
-            gSpecialVar_0x8004 = FALSE;
-            sMoveRelearner->state = 14;
+            sMoveRelearner->state = 3;
             break;
         case 1:
         case -1:
-            sMoveRelearner->state = 3;
+            gSpecialVar_0x8004 = FALSE;
+            sMoveRelearner->state = 14;
             break;
         }
         break;
@@ -545,7 +545,7 @@ static void MoveRelearnerStateMachine(void)
         }
         break;
     case MENU_STATE_PRINT_STOP_TEACHING:
-        StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_StopLearningMove);
+        StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_ContinueLearningMove);
         sMoveRelearner->state++;
         break;
     case MENU_STATE_WAIT_FOR_STOP_TEACHING:
@@ -556,11 +556,11 @@ static void MoveRelearnerStateMachine(void)
         switch (YesNoMenuProcessInput())
         {
         case 0:
-            sMoveRelearner->state = 27;
+            sMoveRelearner->state = 16;
             break;
         case 1:
         case -1:
-            sMoveRelearner->state = 16;
+            sMoveRelearner->state = 27;
             break;
         }
         break;
@@ -762,7 +762,7 @@ static void MoveRelearnerMenuHandleInput(void)
         }
         else
         {
-            StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_GiveUpTryingToTeachNewMove);
+            StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_ContinueTryingToTeachNewMove);
             sMoveRelearner->state = 12;
         }
     }
@@ -770,7 +770,7 @@ static void MoveRelearnerMenuHandleInput(void)
     {
         PlaySE(SE_SELECT);
         sMoveRelearner->state = 12;
-        StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_GiveUpTryingToTeachNewMove);
+        StringExpandPlaceholdersAndPrintTextOnWindow7Color2(gText_ContinueTryingToTeachNewMove);
     }
     if (sMoveRelearner->numLearnableMoves > 6)
     {

@@ -959,10 +959,10 @@ static void Task_EvolutionScene(u8 taskId)
             }
             break;
         case 10:
-            BattleStringExpandPlaceholdersToDisplayedString(gBattleStringsTable[STRINGID_STOPLEARNINGMOVE - BATTLESTRINGS_ID_ADDER]);
+            BattleStringExpandPlaceholdersToDisplayedString(gBattleStringsTable[STRINGID_CONTINUELEARNINGMOVE - BATTLESTRINGS_ID_ADDER]);
             BattlePutTextOnWindow(gDisplayedStringBattle, 0);
-            gTasks[taskId].tData7 = 11;
-            gTasks[taskId].tData8 = 0;
+            gTasks[taskId].tData7 = 0;
+            gTasks[taskId].tData8 = 11;
             gTasks[taskId].tLearnMoveState = 3;
             break;
         case 11:
@@ -1305,7 +1305,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
             }
             break;
         case 9:
-            BattleStringExpandPlaceholdersToDisplayedString(gBattleStringsTable[STRINGID_STOPLEARNINGMOVE - BATTLESTRINGS_ID_ADDER]);
+            BattleStringExpandPlaceholdersToDisplayedString(gBattleStringsTable[STRINGID_CONTINUELEARNINGMOVE - BATTLESTRINGS_ID_ADDER]);
             DrawTextOnTradeWindow(0, gDisplayedStringBattle, 1);
             gTasks[taskId].tData7 = 10;
             gTasks[taskId].tData8 = 0;

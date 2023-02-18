@@ -382,7 +382,7 @@ extern const u8 gText_PkmnAlreadyKnows[];
 extern const u8 gText_PkmnLearnedMove3[];
 extern const u8 gText_WhichMoveToForget[];
 extern const u8 gText_12PoofForgotMove[];
-extern const u8 gText_StopLearningMove2[];
+extern const u8 gText_ContinueLearningMove2[];
 extern const u8 gText_MoveNotLearned[];
 extern const u8 gText_PkmnElevatedToLvVar2[];
 extern const u8 gText_PkmnHoldingItemCantHoldMail[];
@@ -916,12 +916,12 @@ extern const u8 gText_MainMenuTime[];
 extern const u8 gText_TeachWhichMoveToMon[];
 extern const u8 gText_MonLearnedMove[];
 extern const u8 gText_MonIsTryingToLearnMove[];
-extern const u8 gText_StopLearningMove[];
+extern const u8 gText_ContinueLearningMove[];
 extern const u8 gText_1_2_and_Poof[];
 extern const u8 gText_MonForgotOldMoveAndMonLearnedNewMove[];
 extern const u8 gText_WhichMoveShouldBeForgotten[];
 extern const u8 gText_TeachMoveQues[];
-extern const u8 gText_GiveUpTryingToTeachNewMove[];
+extern const u8 gText_ContinueTryingToTeachNewMove[];
 
 // pokemon_size_record
 extern const u8 gText_DecimalPoint[];
