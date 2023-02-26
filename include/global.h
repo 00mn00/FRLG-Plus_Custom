@@ -325,9 +325,9 @@ struct SaveBlock2
     /*0xAF0*/ struct BerryCrush berryCrush;
     /*0xB00*/ struct PokemonJumpResults pokeJump;
     /*0xB10*/ struct BerryPickingResults berryPick;
-    /*0xB20*/ u8 filler_B20[0x400];
+    /*0xB20*/ u8 itemFlags[ROUND_BITS_TO_BYTES(ITEMS_COUNT)]; // size = 48
+    /*0xB50*/ u8 filler_B50[0x400 - ROUND_BITS_TO_BYTES(ITEMS_COUNT)]; // size = 976
     /*0xF20*/ u32 encryptionKey;
-	/*0xF24*/ u8 itemFlags[DIV_ROUND_UP(ITEMS_COUNT, 8)];
 }; // size: 0xF24
 
 extern struct SaveBlock2 *gSaveBlock2Ptr;
