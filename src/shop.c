@@ -886,7 +886,7 @@ static void BuyMenuPrintItemQuantityAndPrice(u8 taskId)
     PrintMoneyAmount(3, 0x36, 0xA, gShopData.itemPrice, TEXT_SPEED_FF);
     ConvertIntToDecimalStringN(gStringVar1, tItemCount, STR_CONV_MODE_LEADING_ZEROS, 2);
     StringExpandPlaceholders(gStringVar4, gText_TimesStrVar1);
-    BuyMenuPrint(3, 0, gStringVar4, 2, 0xA, 0, 0, 0, 1);
+    BuyMenuPrint(3, 0, gStringVar4, 4, 0xA, 0, 0, 0, 1);
 }
 
 static void Task_BuyMenu(u8 taskId)
