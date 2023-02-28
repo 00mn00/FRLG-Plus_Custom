@@ -759,10 +759,9 @@ struct KeySystemFlags
     u16 noIH:3;         //0 for normal, 1 for no field heals, 2 for no battle heals, 3 for both off
     u16 noEH:1;         //0 for normal, 1 for no enemy heals
     u16 forcedstyle:1;  //0 for off, 1 for forced set style
-    u16 padding:10;
     u16 changedCalcMode:1; //set if calc mode is changed to recalc party on save load
     u16 inKeySystemMenu:1; //Needed for Help Menu regardless of Button Mode
-    u16 padding2;
+    u16 padding:10;
 };
 
 // For external event data storage. The majority of these may have never been used.

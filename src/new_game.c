@@ -62,7 +62,7 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
     gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_STEREO;
-    gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_PREDICT;
+    gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
     gSaveBlock2Ptr->optionsButtonMode = OPTIONS_BUTTON_MODE_HELP;
     
     gSaveBlock2Ptr->optionsBattleTransitions = FALSE;
@@ -154,8 +154,9 @@ void NewGameInitData(void)
     ScriptContext2_RunNewScript(EventScript_ResetAllMapFlags);
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
     ResetTrainerTowerResults();
-	gSaveBlock1Ptr->keyFlags.difficulty = 1; // normal difficulty
+    gSaveBlock1Ptr->keyFlags.difficulty = 1; // normal difficulty
     gSaveBlock1Ptr->keyFlags.expMod = 2; // normal exp
+    gSaveBlock2Ptr->optionsBattleStyle = 1; //shift battle style as default after starting new game, if old game had forcedstyle enabled
 }
 
 static void ResetMiniGamesResults(void)
