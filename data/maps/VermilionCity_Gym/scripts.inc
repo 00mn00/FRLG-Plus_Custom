@@ -259,7 +259,7 @@ VermilionCity_Gym_EventScript_GiveTM34:: @ 816B9AF
 	checkitemspace ITEM_TM34, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq VermilionCity_Gym_EventScript_NoRoomForTM34
-	giveitem_msg VermilionCity_Gym_Text_ReceivedTM34FromLtSurge, ITEM_TM34
+	giveitem_msg2 VermilionCity_Gym_Text_ReceivedTM34FromLtSurge, ITEM_TM34
 	setflag FLAG_GOT_TM34_FROM_SURGE
 	msgbox VermilionCity_Gym_Text_ExplainTM34
 	release

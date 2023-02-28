@@ -83,6 +83,9 @@ gStdScripts:: @ 8160450
 	.4byte Std_ObtainDecoration
 	.4byte Std_PutItemAway
 	.4byte Std_ReceivedItem
+	.4byte Std_FindItem2
+	.4byte Std_PutItemAway2
+	.4byte Std_ReceivedItem2
 gStdScriptsEnd::
 
 	.include "data/maps/BattleColosseum_2P/scripts.inc"
@@ -902,7 +905,7 @@ Text_MonFlewAway:: @ 81A63C4
 
 
 Text_FoundTMHMContainsMove:: @ 81A63E8
-	.string "{PLAYER} found a {STR_VAR_2}!\n"
+	.string "{PLAYER} found {STR_VAR_2}!\n"
 	.string "It contains {STR_VAR_1}.$"
 
 	.include "data/text/seagallop.inc"
@@ -1148,6 +1151,13 @@ Std_PutItemAway:: @ 81A8E58
 	checkitemtype VAR_0x8000
 	call EventScript_BufferPutAwayPocketName
 	msgbox Text_PutItemAway
+	return
+
+Std_PutItemAway2:: @ 81A8E58
+	bufferitemnameplural 1, VAR_0x8000, VAR_0x8001
+	checkitemtype VAR_0x8000
+	call EventScript_BufferPutAwayPocketName
+	msgbox Text_PutItemAway2
 	return
 
 EventScript_BufferPutAwayPocketName:: @ 81A8E6F

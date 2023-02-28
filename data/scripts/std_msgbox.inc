@@ -34,11 +34,32 @@ Std_ReceivedItem:: @ 81A4E66
 	compare VAR_0x8002, MUS_OBTAIN_KEY_ITEM
 	call_if_eq EventScript_ReceivedItemFanfare2
 	message 0x0
+	copyvar VAR_0x8009, VAR_0x8000
+	callnative CreateItemIconOnFindMessage
 	waitmessage
 	waitfanfare
 	compare VAR_0x8002, MUS_LEVEL_UP
 	call_if_eq EventScript_ReceivedItemWaitFanfare
 	putitemaway VAR_0x8000, VAR_0x8001
+	callnative DestroyItemIconOnFindMessage
+	call EventScript_RestorePrevTextColor
+	return
+
+Std_ReceivedItem2:: @ 81A4E66
+	textcolor 3
+	compare VAR_0x8002, MUS_LEVEL_UP
+	call_if_eq EventScript_ReceivedItemFanfare1
+	compare VAR_0x8002, MUS_OBTAIN_KEY_ITEM
+	call_if_eq EventScript_ReceivedItemFanfare2
+	message 0x0
+	copyvar VAR_0x8009, VAR_0x8000
+	callnative CreateItemIconOnFindMessage
+	waitmessage
+	waitfanfare
+	compare VAR_0x8002, MUS_LEVEL_UP
+	call_if_eq EventScript_ReceivedItemWaitFanfare
+	putitemaway2 VAR_0x8000, VAR_0x8001
+	callnative DestroyItemIconOnFindMessage
 	call EventScript_RestorePrevTextColor
 	return
 

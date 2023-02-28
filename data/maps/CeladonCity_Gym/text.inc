@@ -35,11 +35,11 @@ CeladonCity_Gym_Text_ExplainRainbowBadgeTakeThis:: @ 8197327
     .string "Please also take this with you.$"
 
 CeladonCity_Gym_Text_ReceivedTM19FromErika:: @ 81973BA
-    .string "{PLAYER} received TM19\n"
+    .string "{PLAYER} received TM {NO}19\n"
     .string "from ERIKA.$"
 
 CeladonCity_Gym_Text_ExplainTM19:: @ 81973D7
-    .string "TM19 contains GIGA DRAIN.\p"
+    .string "TM {NO}19 contains GIGA DRAIN.\p"
     .string "Half the damage it inflicts is\n"
     .string "drained to heal your POKéMON.\p"
     .string "Wouldn't you agree that it's a\n"

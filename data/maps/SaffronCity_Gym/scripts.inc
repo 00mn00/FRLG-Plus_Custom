@@ -53,7 +53,7 @@ SaffronCity_Gym_EventScript_GiveTM04:: @ 816EE3D
 	checkitemspace ITEM_TM04, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq SaffronCity_Gym_EventScript_NoRoomForTM04
-	giveitem_msg SaffronCity_Gym_Text_ReceivedTM04FromSabrina, ITEM_TM04
+	giveitem_msg2 SaffronCity_Gym_Text_ReceivedTM04FromSabrina, ITEM_TM04
 	setflag FLAG_GOT_TM04_FROM_SABRINA
 	msgbox SaffronCity_Gym_Text_SabrinaPostBattle
 	release

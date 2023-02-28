@@ -3,12 +3,12 @@ SaffronCity_MrPsychicsHouse_Text_YouWantedThis:: @ 819C142
     .string "You wanted this!$"
 
 SaffronCity_MrPsychicsHouse_Text_ReceivedTM29FromMrPsychic:: @ 819C16C
-    .string "{PLAYER} received TM29\n"
+    .string "{PLAYER} received TM {NO}29\n"
     .string "from MR. PSYCHIC.$"
 
 SaffronCity_MrPsychicsHouse_Text_ExplainTM29:: @ 819C18F
     .string "You already know, don't you?\n"
-    .string "TM29 is PSYCHIC.\p"
+    .string "TM {NO}29 is PSYCHIC.\p"
     .string "It's an attack that may also lower\n"
     .string "the target's special stats.$"
 

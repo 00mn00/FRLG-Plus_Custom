@@ -11,14 +11,10 @@ Route1_EventScript_MartClerk:: @ 8167EFE
 	compare VAR_RESULT, FALSE
 	goto_if_eq EventScript_BagIsFull
 	getitemname 1, ITEM_POTION
-	playfanfare MUS_LEVEL_UP
-	message Text_ObtainedTheX
-	waitmessage
-	waitfanfare
-	additem ITEM_POTION
-	msgbox Route1_Text_PutPotionAway
-	call EventScript_RestorePrevTextColor
+	giveitem_msg Text_ObtainedTheX, ITEM_POTION, 1, MUS_OBTAIN_ITEM
 	setflag FLAG_GOT_POTION_ON_ROUTE_1
+	message Text_PutItemAway
+	call EventScript_RestorePrevTextColor
 	release
 	end
 

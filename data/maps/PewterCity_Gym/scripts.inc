@@ -57,7 +57,7 @@ PewterCity_Gym_EventScript_GiveTM39:: @ 816A5F3
 	checkitemspace ITEM_TM39, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq PewterCity_Gym_EventScript_NoRoomForTM39
-	giveitem_msg PewterCity_Gym_Text_ReceivedTM39FromBrock, ITEM_TM39
+	giveitem_msg22 PewterCity_Gym_Text_ReceivedTM39FromBrock, ITEM_TM39, 1, MUS_OBTAIN_TMHM
 	setflag FLAG_GOT_TM39_FROM_BROCK
 	msgbox PewterCity_Gym_Text_ExplainTM39
 	release

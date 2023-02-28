@@ -25,11 +25,11 @@ CinnabarIsland_Gym_Text_ExplainVolcanoBadge:: @ 819969E
     .string "Here, you can have this, too!$"
 
 CinnabarIsland_Gym_Text_ReceivedTM38FromBlaine:: @ 81996FF
-    .string "{PLAYER} received TM38\n"
+    .string "{PLAYER} received TM {NO}38\n"
     .string "from BLAINE.$"
 
 CinnabarIsland_Gym_Text_BlainePostBattle:: @ 819971D
-    .string "TM38 contains FIRE BLAST.\n"
+    .string "TM {NO}38 contains FIRE BLAST.\n"
     .string "Teach it to FIRE-type POKéMON.\p"
     .string "VULPIX or CHARMELEON would be\n"
     .string "ideal for that move.$"

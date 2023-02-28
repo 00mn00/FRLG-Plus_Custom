@@ -215,7 +215,7 @@ CeruleanCity_EventScript_GruntDefeated:: @ 816662E
 	checkitemspace ITEM_TM28, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq CeruleanCity_EventScript_NoRoomForTM28
-	giveitem_msg CeruleanCity_Text_RecoveredTM28FromGrunt, ITEM_TM28
+	giveitem_msg2 CeruleanCity_Text_RecoveredTM28FromGrunt, ITEM_TM28
 	msgbox CeruleanCity_Text_BetterGetMovingBye
 	closemessage
 	fadescreen FADE_TO_BLACK

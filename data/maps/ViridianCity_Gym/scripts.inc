@@ -46,7 +46,7 @@ ViridianCity_Gym_EventScript_GiveTM26:: @ 8169F2F
 	checkitemspace ITEM_TM26, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq ViridianCity_Gym_EventScript_NoRoomForTM26
-	giveitem_msg ViridianCity_Gym_Text_ReceivedTM26FromGiovanni, ITEM_TM26
+	giveitem_msg2 ViridianCity_Gym_Text_ReceivedTM26FromGiovanni, ITEM_TM26
 	setflag FLAG_GOT_TM26_FROM_GIOVANNI
 	msgbox ViridianCity_Gym_Text_ExplainTM26
 	release

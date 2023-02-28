@@ -46,8 +46,9 @@ CeruleanCity_BikeShop_EventScript_ClerkGoodbye:: @ 816AC15
 CeruleanCity_BikeShop_EventScript_ExchangeBikeVoucher:: @ 816AC22
 	msgbox CeruleanCity_BikeShop_Text_OhBikeVoucherHereYouGo
 	msgreceiveditem CeruleanCity_BikeShop_Text_ExchangedVoucherForBicycle, ITEM_BICYCLE, 1, MUS_OBTAIN_KEY_ITEM
+	giveitem ITEM_BICYCLE
 	setflag FLAG_GOT_BICYCLE
-	additem ITEM_BICYCLE
+	message Text_PutItemAway
 	removeitem ITEM_BIKE_VOUCHER
 	msgbox CeruleanCity_BikeShop_Text_ExplainBicycleGears
 	msgbox CeruleanCity_BikeShop_Text_ThankYouComeAgain

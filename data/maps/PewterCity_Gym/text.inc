@@ -34,7 +34,7 @@ PewterCity_Gym_Text_TakeThisWithYou:: @ 8190FC1
     .string "Take this with you.$"
 
 PewterCity_Gym_Text_ReceivedTM39FromBrock:: @ 8190FDB
-    .string "{PLAYER} received TM39\n"
+    .string "{PLAYER} received TM {NO}39\n"
     .string "from BROCK.$"
 
 PewterCity_Gym_Text_ExplainTM39:: @ 8190FF8
@@ -45,7 +45,7 @@ PewterCity_Gym_Text_ExplainTM39:: @ 8190FF8
     .string "A TM is good forever, it can be\n"
     .string "used as many times as you want.\p"
     .string "Anyways…\n"
-    .string "TM39 contains ROCK TOMB.\p"
+    .string "TM {NO}39 contains ROCK TOMB.\p"
     .string "It hurls boulders at the foe and\n"
     .string "lowers its SPEED.$"
 

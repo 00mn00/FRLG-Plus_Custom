@@ -1605,6 +1605,10 @@
 	STD_PUT_ITEM_AWAY = 8
 	STD_RECEIVED_ITEM = 9
 
+	STD_FIND_ITEM2 = 10
+	STD_PUT_ITEM_AWAY2 = 11
+	STD_RECEIVED_ITEM2 = 12
+
 	YES = 1
 	NO  = 0
 
@@ -1620,15 +1624,32 @@
 	callstd STD_FIND_ITEM
 	.endm
 
+	.macro finditem2 item:req, amount=1
+	setorcopyvar VAR_0x8000, \item
+	setorcopyvar VAR_0x8001, \amount
+	callstd STD_FIND_ITEM2
+	.endm
+
 	.macro putitemaway item:req, amount=1
 	setorcopyvar VAR_0x8000, \item
 	setorcopyvar VAR_0x8001, \amount
 	callstd STD_PUT_ITEM_AWAY
 	.endm
 
+	.macro putitemaway2 item:req, amount=1
+	setorcopyvar VAR_0x8000, \item
+	setorcopyvar VAR_0x8001, \amount
+	callstd STD_PUT_ITEM_AWAY2
+	.endm
+
 	.macro giveitem_msg msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
 	additem \item, \amount
 	msgreceiveditem \msg, \item, \amount, \fanfare
+	.endm
+
+	.macro giveitem_msg2 msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
+	additem \item, \amount
+	msgreceiveditem2 \msg, \item, \amount, \fanfare
 	.endm
 
 	.macro msgreceiveditem msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
@@ -1637,6 +1658,14 @@
 	setorcopyvar VAR_0x8001, \amount
 	setorcopyvar VAR_0x8002, \fanfare
 	callstd STD_RECEIVED_ITEM
+	.endm
+
+	.macro msgreceiveditem2 msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
+	loadword 0, \msg
+	setorcopyvar VAR_0x8000, \item
+	setorcopyvar VAR_0x8001, \amount
+	setorcopyvar VAR_0x8002, \fanfare
+	callstd STD_RECEIVED_ITEM2
 	.endm
 
 	.macro famechecker person:req, index:req, function=SetFlavorTextFlagFromSpecialVars

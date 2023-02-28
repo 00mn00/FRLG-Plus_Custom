@@ -24,7 +24,7 @@ SaffronCity_MrPsychicsHouse_EventScript_MrPsychic:: @ 816F05F
 	checkitemspace ITEM_TM29, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq SaffronCity_MrPsychicsHouse_EventScript_NoRoomForTM29
-	giveitem_msg SaffronCity_MrPsychicsHouse_Text_ReceivedTM29FromMrPsychic, ITEM_TM29
+	giveitem_msg2 SaffronCity_MrPsychicsHouse_Text_ReceivedTM29FromMrPsychic, ITEM_TM29
 	msgbox SaffronCity_MrPsychicsHouse_Text_ExplainTM29
 	setflag FLAG_GOT_TM29_FROM_MR_PSYCHIC
 	release

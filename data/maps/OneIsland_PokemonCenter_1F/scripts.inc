@@ -107,7 +107,8 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene:: @ 8170CB1
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_CanYouDeliverThisMeteoritePlayer
 	msgreceiveditem OneIsland_PokemonCenter_1F_Text_AcceptedMeteoriteFromBill, ITEM_METEORITE, 1, MUS_OBTAIN_KEY_ITEM
-	additem ITEM_METEORITE
+	giveitem ITEM_METEORITE
+	message Text_PutItemAway
 	applymovement LOCALID_CELIO, Movement_WalkInPlaceFastestDown
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioPleaseTakeThis
@@ -339,7 +340,7 @@ OneIsland_PokemonCenter_1F_EventScript_GiveRainbowPass:: @ 81710B2
 	removeitem ITEM_RUBY, 1
 	removeitem ITEM_TRI_PASS, 1
 	setvar VAR_MAP_SCENE_ONE_ISLAND_POKEMON_CENTER_1F, 5
-	additem ITEM_RAINBOW_PASS
+	giveitem ITEM_RAINBOW_PASS
 	setflag FLAG_SYS_SEVII_MAP_4567
 	textcolor 3
 	playfanfare MUS_OBTAIN_KEY_ITEM

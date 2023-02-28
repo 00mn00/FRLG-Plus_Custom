@@ -52,7 +52,7 @@ CeruleanCity_Gym_EventScript_GiveTM03:: @ 816AAF9
 	checkitemspace ITEM_TM03, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq CeruleanCity_Gym_EventScript_NoRoomForTM03
-	giveitem_msg CeruleanCity_Gym_Text_ReceivedTM03FromMisty, ITEM_TM03
+	giveitem_msg2 CeruleanCity_Gym_Text_ReceivedTM03FromMisty, ITEM_TM03
 	setflag FLAG_GOT_TM03_FROM_MISTY
 	msgbox CeruleanCity_Gym_Text_ExplainTM03
 	release

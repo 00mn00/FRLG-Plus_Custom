@@ -149,6 +149,25 @@ Std_FindItem:: @ 81A67B3
 	release
 	return
 
+Std_FindItem2:: @ 81A67B3
+	lock
+	faceplayer
+	waitse
+	copyvar VAR_0x8009, VAR_0x8000
+	copyvar VAR_0x8004, VAR_0x8000
+	copyvar VAR_0x8005, VAR_0x8001
+	checkitemspace VAR_0x8000, VAR_0x8001
+	copyvar VAR_0x8007, VAR_RESULT
+	getitemname 1, VAR_0x8000
+	checkitemtype VAR_0x8000
+	call EventScript_BufferPocketNameTryFanfare
+	compare VAR_0x8007, TRUE
+	call_if_eq EventScript_PickUpItem2
+	compare VAR_0x8007, FALSE
+	call_if_eq EventScript_NoRoomToPickUpItem
+	release
+	return
+
 EventScript_PickUpItem:: @ 81A67EE
 	removeobject VAR_LAST_TALKED
 	additem VAR_0x8004, VAR_0x8005
@@ -164,6 +183,24 @@ EventScript_PickUpItem:: @ 81A67EE
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway
+	callnative DestroyItemIconOnFindMessage
+	return
+
+EventScript_PickUpItem2:: @ 81A67EE
+	removeobject VAR_LAST_TALKED
+	additem VAR_0x8004, VAR_0x8005
+	copyvar VAR_0x8009, VAR_0x8004
+	specialvar VAR_RESULT, BufferTMHMMoveName
+	copyvar VAR_0x8008, VAR_RESULT
+	compare VAR_0x8008, TRUE
+	call_if_eq EventScript_FoundTMHM
+	compare VAR_0x8008, FALSE
+	call_if_eq EventScript_FoundItem
+	delay 10
+	callnative CreateItemIconOnFindMessage
+	waitfanfare
+	waitmessage
+	msgbox Text_PutItemAway2
 	callnative DestroyItemIconOnFindMessage
 	return
 

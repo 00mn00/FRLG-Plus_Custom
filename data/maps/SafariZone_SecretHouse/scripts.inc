@@ -9,7 +9,7 @@ SafariZone_SecretHouse_EventScript_Attendant:: @ 8162453
 	checkitemspace ITEM_HM03, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq SafariZone_SecretHouse_EventScript_NoRoomForHM03
-	giveitem_msg SafariZone_SecretHouse_Text_ReceivedHM03FromAttendant, ITEM_HM03
+	giveitem_msg2 SafariZone_SecretHouse_Text_ReceivedHM03FromAttendant, ITEM_HM03
 	msgbox SafariZone_SecretHouse_Text_ExplainSurf
 	setflag FLAG_GOT_HM03
 	release
