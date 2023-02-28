@@ -1541,6 +1541,19 @@ static void OpenContextMenu(u8 taskId)
                     sContextMenuItemsBuffer[0] = ITEMMENUACTION_USE;
                 break;
             case 3:
+                sContextMenuItemsPtr = sContextMenuItemsBuffer;
+                sContextMenuNumItems = 2;
+                sContextMenuItemsBuffer[1] = ITEMMENUACTION_TOSS;
+                if (gSpecialVar_ItemId == ITEM_EXP_SHARE)
+                {
+                    sContextMenuItemsBuffer[0] = ITEMMENUACTION_GIVE;
+                    sContextMenuItemsBuffer[1] = ITEMMENUACTION_CANCEL;
+                }
+                else
+                    sContextMenuNumItems = 3;
+                    sContextMenuItemsBuffer[0] = ITEMMENUACTION_GIVE;
+                    sContextMenuItemsBuffer[2] = ITEMMENUACTION_CANCEL;
+                break;
             case 4:
                 sContextMenuItemsPtr = sContextMenuItems_Field[gBagMenuState.pocket];
                 sContextMenuNumItems = 3;
