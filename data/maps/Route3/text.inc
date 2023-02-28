@@ -99,7 +99,7 @@ Route3_Text_RobinPostBattle:: @ 818389C
     .string "MT. MOON.$"
 
 Route3_Text_RouteSign:: @ 81838C0
-    .string "{UP_ARROW} CERULEAN CITY (VIA MT. MOON)\n"
+    .string "{UP_ARROW} MT. MOON (VIA ROUTE 4)\n"
     .string "{LEFT_ARROW} VIRIDIAN CITY (VIA ROUTE 3)\p"
     .string "CURRENT LOCATION:\n"
     .string "ROUTE 3$"

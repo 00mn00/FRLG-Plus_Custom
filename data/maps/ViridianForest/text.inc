@@ -100,6 +100,8 @@ ViridianForest_Text_WeakenMonsBeforeCapture:: @ 817271D
     .string "When healthy, they may escape!$"
 
 ViridianForest_Text_LeavingViridianForest:: @ 8172773
-    .string "LEAVING VIRIDIAN FOREST\n"
-    .string "{UP_ARROW} PEWTER CITY$"
+    .string "{UP_ARROW} PEWTER CITY (VIA ROUTE 2)\n"
+    .string "{DOWN_ARROW} VIRIDIAN CITY (VIA FOREST PATH)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "VIRIDIAN FOREST$"
 
