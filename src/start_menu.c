@@ -112,7 +112,6 @@ static void task50_after_link_battle_save(u8 taskId);
 static void PrintSaveStats(void);
 static void CloseSaveStatsWindow(void);
 static void CloseStartMenu(void);
-static void UpdateClockDisplay(void);
 
 static const struct MenuAction sStartMenuActionTable[] = {
     { gStartMenuText_Pokedex, {.u8_void = StartMenuPokedexCallback} },
@@ -248,6 +247,7 @@ static void SetUpStartMenu_UnionRoom(void)
 
 static void Task_PutTimeInTimeBox(u8 taskId)
 {
+    RtcCalcLocalTime();
     ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_LEADING_ZEROS, 2);
     ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
     StringExpandPlaceholders(gStringVar4, gStartMenu_TimeBoxClock);
@@ -257,6 +257,7 @@ static void Task_PutTimeInTimeBox(u8 taskId)
 
 static void Task_PutTimeInTimeBox2(u8 taskId)
 {
+    RtcCalcLocalTime();
     ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_LEADING_ZEROS, 2);
     ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
     StringExpandPlaceholders(gStringVar4, gStartMenu_TimeBoxClock2);
@@ -278,7 +279,6 @@ static void DrawTimeBox(void)
     
     if (!inSafariZone)
     {
-        RtcCalcLocalTime();
         sSafariZoneStatsWindowId = AddWindow(&TimeBoxWindowTemplate);
         PutWindowTilemap(sSafariZoneStatsWindowId);
         DrawStdWindowFrame(sSafariZoneStatsWindowId, FALSE);
@@ -287,7 +287,6 @@ static void DrawTimeBox(void)
     }
     else if (inSafariZone)
     {
-        RtcCalcLocalTime();
         sSafariZoneStatsWindowId = AddWindow(&sSafariZoneStatsWindowTemplate);
         PutWindowTilemap(sSafariZoneStatsWindowId);
         DrawStdWindowFrame(sSafariZoneStatsWindowId, FALSE);
@@ -300,13 +299,6 @@ static void DrawTimeBox(void)
         AddTextPrinterParameterized(sSafariZoneStatsWindowId,2, gStringVar4, 3, 3, 0xFF, NULL);
         CopyWindowToVram(sSafariZoneStatsWindowId, COPYWIN_GFX);
     }
-}
-
-void UpdateClockDisplay(void)
-{
-	if (!FlagGet(FLAG_TEMP_5))
-		return;
-	RtcCalcLocalTime();
 }
 
 static void DestroySafariZoneStatsWindow(void)
@@ -385,8 +377,6 @@ static s8 DoDrawStartMenu(void)
             DrawHelpMessageWindowWithText(sStartMenuDescPointers[sStartMenuOrder[sStartMenuCursorPos]]);
         }
         CopyWindowToVram(GetStartMenuWindowId(), COPYWIN_MAP);
-        apply_map_tileset1_tileset2_palette(gMapHeader.mapLayout);
-        BlendPalettes(0x3FFFFFFF, 0, RGB_BLACK);
         return TRUE;
     }
     return FALSE;
@@ -462,7 +452,6 @@ void ShowStartMenu(void)
 
 static bool8 StartCB_HandleInput(void)
 {
-    UpdateClockDisplay();
     if (JOY_NEW(DPAD_UP))
     {
         PlaySE(SE_SELECT);
