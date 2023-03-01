@@ -3149,6 +3149,9 @@ static void atk23_getexp(void)
                     if(calculatedExp == 0)
                         calculatedExp = 1;
                     break;
+                case 2:
+                    calculatedExp = calculatedExp;
+                    break;
                 case 3:
                     calculatedExp = calculatedExp * 2;
                     break;
