@@ -3040,24 +3040,12 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
             }
         }
     }
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM05, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM05 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM05 and action list consists of < 4 moves, add FLASH to action list
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 0 + MENU_FIELD_MOVES);
     if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM01, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM01 and action list consists of < 4 moves, add CUT to action list
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 1 + MENU_FIELD_MOVES);
     if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM02, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM02 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM02 and action list consists of < 4 moves, add FLY to action list
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 2 + MENU_FIELD_MOVES);
     if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_TM28, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_TM28 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn TM28 and action list consists of < 4 moves, add DIG to action list
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 8 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM04, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM04 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM04 and action list consists of < 4 moves, add STRENGTH to action list
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 3 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM03, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM03 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM03 and action list consists of < 4 moves, add SURF to action list
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 4 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM06, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM06 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM06 and action list consists of < 4 moves, add ROCK SMASH to action list
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 5 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM07, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM07 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM07 and action list consists of < 4 moves, add WATERFALL to action list
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 6 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM08, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM08 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM08 and action list consists of < 4 moves, add DIVE to action list
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 12 + MENU_FIELD_MOVES);
 
     if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SWITCH);
