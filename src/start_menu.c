@@ -282,7 +282,7 @@ static void DrawTimeBox(void)
         sSafariZoneStatsWindowId = AddWindow(&TimeBoxWindowTemplate);
         PutWindowTilemap(sSafariZoneStatsWindowId);
         DrawStdWindowFrame(sSafariZoneStatsWindowId, FALSE);
-        FlagSet(FLAG_TEMP_5);
+        FlagSet(FLAG_TEMP_RTC);
         CreateTask(Task_PutTimeInTimeBox, 2);
     }
     else if (inSafariZone)
@@ -290,7 +290,7 @@ static void DrawTimeBox(void)
         sSafariZoneStatsWindowId = AddWindow(&sSafariZoneStatsWindowTemplate);
         PutWindowTilemap(sSafariZoneStatsWindowId);
         DrawStdWindowFrame(sSafariZoneStatsWindowId, FALSE);
-        FlagSet(FLAG_TEMP_5);
+        FlagSet(FLAG_TEMP_RTC);
         CreateTask(Task_PutTimeInTimeBox2, 2);
         ConvertIntToDecimalStringN(gStringVar1, gSafariZoneStepCounter, STR_CONV_MODE_RIGHT_ALIGN, 3);
         ConvertIntToDecimalStringN(gStringVar2, 600, STR_CONV_MODE_RIGHT_ALIGN, 3);
@@ -316,7 +316,7 @@ static void DestroySafariZoneStatsWindow(void)
 		ClearStdWindowAndFrameToTransparent(sSafariZoneStatsWindowId, FALSE);
         CopyWindowToVram(sSafariZoneStatsWindowId, COPYWIN_GFX);
         RemoveWindow(sSafariZoneStatsWindowId);
-		FlagClear(FLAG_TEMP_5);
+		FlagClear(FLAG_TEMP_RTC);
 	}
 }
 
