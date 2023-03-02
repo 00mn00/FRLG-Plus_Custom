@@ -194,11 +194,11 @@ static const u8 *const sLevelCapOptions[] =
 
 static const u8 *const sExpModOptions[] = 
 {
-    gText_ExpModZero,
-    gText_ExpModHalf,
     gText_ExpModOne,
     gText_ExpModDouble,
-    gText_ExpModQuad
+    gText_ExpModQuad,
+    gText_ExpModZero,
+    gText_ExpModHalf
 };
 
 static const u8 *const sAdvancedOptions[] =

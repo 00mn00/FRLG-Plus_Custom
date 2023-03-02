@@ -3142,21 +3142,21 @@ static void atk23_getexp(void)
             switch(gSaveBlock1Ptr->keyFlags.expMod)
             {
                 case 0:
-                    calculatedExp = 0;
+                    calculatedExp = calculatedExp;
                     break;
                 case 1:
+                    calculatedExp = calculatedExp * 2;
+                    break;
+                case 2:
+                    calculatedExp = calculatedExp * 4;
+                    break;
+                case 3:
+                    calculatedExp = 0;
+                    break;
+                case 4:
                     calculatedExp = calculatedExp / 2;
                     if(calculatedExp == 0)
                         calculatedExp = 1;
-                    break;
-                case 2:
-                    calculatedExp = calculatedExp;
-                    break;
-                case 3:
-                    calculatedExp = calculatedExp * 2;
-                    break;
-                case 4:
-                    calculatedExp = calculatedExp * 4;
                     break;
             }
             if (viaExpShare) // at least one mon is getting exp via exp share
@@ -3194,7 +3194,7 @@ static void atk23_getexp(void)
                 gBattleScripting.atk23_state = 5;
                 gBattleMoveDamage = 0; // used for exp
             }
-            else if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) >= GetCurrentPartyLevelCap() || gSaveBlock1Ptr->keyFlags.expMod == 0 || FlagGet(FLAG_MASTER_TRAINER_BATTLE))
+            else if (GetMonData(&gPlayerParty[gBattleStruct->expGetterMonId], MON_DATA_LEVEL) >= GetCurrentPartyLevelCap() || gSaveBlock1Ptr->keyFlags.expMod == 3 || FlagGet(FLAG_MASTER_TRAINER_BATTLE))
             {
                 *(&gBattleStruct->sentInPokes) >>= 1;
                 gBattleScripting.atk23_state = 5;

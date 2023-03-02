@@ -154,7 +154,6 @@ void NewGameInitData(void)
     ScriptContext2_RunNewScript(EventScript_ResetAllMapFlags);
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
     ResetTrainerTowerResults();
-    gSaveBlock1Ptr->keyFlags.expMod = 2; // normal exp
     gSaveBlock2Ptr->optionsBattleStyle = 1; //shift battle style as default after starting new game, if old game had forcedstyle enabled
 }
 

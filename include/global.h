@@ -749,10 +749,10 @@ struct TrainerNameRecord
 struct KeySystemFlags
 {
     u16 version:1;      //0 for FR, 1 for LG
-    u16 difficulty:2;   //0 for normal, 1 for challenge, 2 for easy, 3 for maybe another mode?
+    u16 difficulty:2;   //0 for normal, 1 for challenge, 2 for easy
     u16 nuzlocke:2;     //0 for normal, 1 for Shiny clause on, 2 for Shiny clause off
     u16 levelcap:3;     //0 for off, 1 for strict, 2 for harsh, 3 for relaxed
-    u16 expMod:4;       //0 for 0x, 1 for 1/2x, 2 for 1x, 3 for 2x, 4 for 4x
+    u16 expMod:4;       //0 for 1x, 1 for 2x, 2 for 4x, 3 for 0x, 4 for 1/2x
     u16 ivCalcMode:2;   //0 for normal, 1 for all 31, 2 for all zero
     u16 evCalcMode:1;   //0 for normal, 1 for all zero
     u16 noPMC:1;        //0 for normal, 1 for no Pokemon Center healing
