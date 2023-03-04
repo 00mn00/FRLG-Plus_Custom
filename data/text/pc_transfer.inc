@@ -23,8 +23,7 @@ Text_MonSentToBoxBillsBoxFull:: @ 81A5DB1
     .string "BOX “{STR_VAR_1}.”$"
 
 Text_PlayerObtainedTheMon:: @ 81A5DF1
-    .string "{PLAYER} obtained\n"
-    .string "the {STR_VAR_1}!$"
+    .string "{PLAYER} obtained {STR_VAR_1}!$"
 
 Text_NoMoreRoomForPokemon:: @ 81A5E31
     .string "There's no more room for POKéMON!\p"

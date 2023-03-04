@@ -178,7 +178,7 @@ CinnabarIsland_Gym_Text_QuizQuestion5:: @ 8199E00
     .string "are not identical?$"
 
 CinnabarIsland_Gym_Text_QuizQuestion6:: @ 8199E36
-    .string "TM28 contains TOMBSTONY?$"
+    .string "TM {NO}28 contains TOMBSTONY?$"
 
 CinnabarIsland_Gym_Text_CorrectGoOnThrough:: @ 8199E4F
     .string "You're absolutely correct!\p"

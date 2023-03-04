@@ -21,11 +21,10 @@ VermilionCity_House1_EventScript_GiveOldRod:: @ 816B3D9
 	checkitemspace ITEM_OLD_ROD, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq VermilionCity_House1_EventScript_NoRoomForOldRod
+	additem ITEM_OLD_ROD
 	msgbox VermilionCity_House1_Text_TakeThisAndFish
 	msgreceiveditem VermilionCity_House1_Text_ReceivedOldRodFromFishingGuru, ITEM_OLD_ROD
-	giveitem ITEM_OLD_ROD
 	setflag FLAG_GOT_OLD_ROD
-	message Text_PutItemAway
 	msgbox VermilionCity_House1_Text_FishingIsAWayOfLife
 	release
 	end

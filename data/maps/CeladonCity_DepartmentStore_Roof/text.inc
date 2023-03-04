@@ -13,11 +13,11 @@ CeladonCity_DepartmentStore_Roof_Text_YayFreshWaterHaveThis:: @ 8195D75
     .string "You can have this from me!$"
 
 Text_ReceivedItemFromLittleGirl:: @ 8195DAD
-    .string "{PLAYER} received a {STR_VAR_2}\n"
+    .string "{PLAYER} received {STR_VAR_2}\n"
     .string "from the little girl.$"
 
 CeladonCity_DepartmentStore_Roof_Text_ExplainTM16:: @ 8195DD4
-    .string "TM16 contains LIGHT SCREEN.\p"
+    .string "TM {NO}16 contains LIGHT SCREEN.\p"
     .string "It's a move that weakens the power\n"
     .string "of special attacks by your foe.$"
 
@@ -28,7 +28,7 @@ CeladonCity_DepartmentStore_Roof_Text_YaySodaPopHaveThis:: @ 8195E33
     .string "You can have this from me!$"
 
 CeladonCity_DepartmentStore_Roof_Text_ExplainTM20:: @ 8195E68
-    .string "TM20 contains SAFEGUARD.\p"
+    .string "TM {NO}20 contains SAFEGUARD.\p"
     .string "It's a move that prevents status\n"
     .string "problems among your POKéMON.$"
 
@@ -39,7 +39,7 @@ CeladonCity_DepartmentStore_Roof_Text_YayLemonadeHaveThis:: @ 8195EBF
     .string "You can have this from me!$"
 
 CeladonCity_DepartmentStore_Roof_Text_ExplainTM33:: @ 8195EF4
-    .string "TM33 contains REFLECT.\p"
+    .string "TM {NO}33 contains REFLECT.\p"
     .string "It's a move that weakens the power\n"
     .string "of physical attacks by your foe.$"
 

@@ -83,6 +83,7 @@ gStdScripts:: @ 8160450
 	.4byte Std_ObtainDecoration
 	.4byte Std_PutItemAway
 	.4byte Std_ReceivedItem
+	.4byte Std_ObtainItem2
 	.4byte Std_FindItem2
 	.4byte Std_PutItemAway2
 	.4byte Std_ReceivedItem2

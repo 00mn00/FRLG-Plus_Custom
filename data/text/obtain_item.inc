@@ -1,6 +1,9 @@
 Text_ObtainedTheX:: @ 81A51F6
     .string "Obtained the {STR_VAR_2}!$"
 
+Text_ObtainedTheX2:: @ 81A51F6
+    .string "Obtained {STR_VAR_2}!$"
+
 Text_BagIsFull:: @ 81A5207
     .string "The BAG is full…$"
 

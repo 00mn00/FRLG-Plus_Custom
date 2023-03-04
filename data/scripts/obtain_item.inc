@@ -17,12 +17,32 @@ Std_ObtainItem:: @ 81A667B
 	copyvar VAR_TEXT_COLOR, VAR_PREV_TEXT_COLOR
 	return
 
+Std_ObtainItem2:: @ 81A667B
+	copyvar VAR_PREV_TEXT_COLOR, VAR_TEXT_COLOR
+	textcolor 3
+	copyvar VAR_0x8009, VAR_0x8000
+	additem VAR_0x8000, VAR_0x8001
+	copyvar VAR_0x8007, VAR_RESULT
+	call EventScript_ObtainItemMessage2
+	copyvar VAR_TEXT_COLOR, VAR_PREV_TEXT_COLOR
+	return
+
 EventScript_ObtainItemMessage:: @ 81A6697
 	bufferitemnameplural 1, VAR_0x8000, VAR_0x8001
 	checkitemtype VAR_0x8000
 	call EventScript_BufferPocketNameTryFanfare
 	compare VAR_0x8007, TRUE
 	call_if_eq EventScript_ObtainedItem
+	compare VAR_0x8007, FALSE
+	call_if_eq EventScript_NoRoomForItem
+	return
+
+EventScript_ObtainItemMessage2:: @ 81A6697
+	bufferitemnameplural 1, VAR_0x8000, VAR_0x8001
+	checkitemtype VAR_0x8000
+	call EventScript_BufferPocketNameTryFanfare
+	compare VAR_0x8007, TRUE
+	call_if_eq EventScript_ObtainedItem2
 	compare VAR_0x8007, FALSE
 	call_if_eq EventScript_NoRoomForItem
 	return
@@ -87,6 +107,17 @@ EventScript_ObtainedItem:: @ 81A6749
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway
+	callnative DestroyItemIconOnFindMessage
+	setvar VAR_RESULT, 1
+	return
+
+EventScript_ObtainedItem2:: @ 81A6749
+	message Text_ObtainedTheX2
+	delay 10
+	callnative CreateItemIconOnFindMessage
+	waitfanfare
+	waitmessage
+	msgbox Text_PutItemAway2
 	callnative DestroyItemIconOnFindMessage
 	setvar VAR_RESULT, 1
 	return

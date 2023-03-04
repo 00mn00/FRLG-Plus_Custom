@@ -1605,9 +1605,10 @@
 	STD_PUT_ITEM_AWAY = 8
 	STD_RECEIVED_ITEM = 9
 
-	STD_FIND_ITEM2 = 10
-	STD_PUT_ITEM_AWAY2 = 11
-	STD_RECEIVED_ITEM2 = 12
+	STD_OBTAIN_ITEM2 = 10
+	STD_FIND_ITEM2 = 11
+	STD_PUT_ITEM_AWAY2 = 12
+	STD_RECEIVED_ITEM2 = 13
 
 	YES = 1
 	NO  = 0
@@ -1616,6 +1617,12 @@
 	setorcopyvar VAR_0x8000, \item
 	setorcopyvar VAR_0x8001, \amount
 	callstd STD_OBTAIN_ITEM
+	.endm
+
+	.macro giveitem2 item:req, amount=1
+	setorcopyvar VAR_0x8000, \item
+	setorcopyvar VAR_0x8001, \amount
+	callstd STD_OBTAIN_ITEM2
 	.endm
 
 	.macro finditem item:req, amount=1

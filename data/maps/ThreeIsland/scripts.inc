@@ -60,9 +60,8 @@ ThreeIsland_EventScript_GiveFullRestore:: @ 816781A
 	compare VAR_RESULT, FALSE
 	goto_if_eq ThreeIsland_EventScript_NoRoomForFullRestore
 	msgreceiveditem ThreeIsland_Text_GivenFullRestore, ITEM_FULL_RESTORE
-	giveitem ITEM_FULL_RESTORE
+	additem ITEM_FULL_RESTORE
 	setflag FLAG_GOT_FULL_RESTORE_FROM_THREE_ISLAND_DEFENDER
-	message Text_PutItemAway
 	msgbox ThreeIsland_Text_YouveGotImpressiveMons
 	release
 	end

@@ -172,10 +172,9 @@ TwoIsland_JoyfulGameCorner_EventScript_ReceiveMoonStone:: @ 81715C4
 	checkitemspace ITEM_MOON_STONE, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq TwoIsland_JoyfulGameCorner_EventScript_NoRoomForMoonStone
-	msgreceiveditem TwoIsland_JoyfulGameCorner_Text_ReceivedMoonStoneFromLostellesDaddy, ITEM_MOON_STONE
-	giveitem ITEM_MOON_STONE
+	additem ITEM_MOON_STONE
 	setflag FLAG_GOT_MOON_STONE_FROM_JOYFUL_GAME_CORNER
-	message Text_PutItemAway
+	msgreceiveditem TwoIsland_JoyfulGameCorner_Text_ReceivedMoonStoneFromLostellesDaddy, ITEM_MOON_STONE
 	release
 	end
 

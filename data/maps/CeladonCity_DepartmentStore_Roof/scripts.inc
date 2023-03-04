@@ -147,14 +147,7 @@ CeladonCity_DepartmentStore_Roof_EventScript_GiveDrink:: @ 816BF7C
 	checkitemspace VAR_0x8009, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq CeladonCity_DepartmentStore_Roof_EventScript_NoRoomForReward
-	additem VAR_0x8009
-	textcolor 3
-	playfanfare MUS_LEVEL_UP
-	message Text_ReceivedItemFromLittleGirl
-	waitmessage
-	waitfanfare
-	putitemaway VAR_0x8009
-	call EventScript_RestorePrevTextColor
+	giveitem_msg2 Text_ReceivedItemFromLittleGirl, VAR_0x8009, 1, MUS_LEVEL_UP
 	compare VAR_0x8008, ITEM_FRESH_WATER
 	call_if_eq CeladonCity_DepartmentStore_Roof_EventScript_ExplainTM16
 	compare VAR_0x8008, ITEM_SODA_POP
@@ -270,8 +263,7 @@ CeladonCity_DepartmentStore_Roof_EventScript_TryBuyDrink:: @ 816C0CB
 	updatemoneybox 0, 0, 0
 	getitemname 0, VAR_TEMP_0
 	playse SE_VEND
-	msgbox CeladonCity_DepartmentStore_Roof_Text_DrinkCanPoppedOut
-	additem VAR_TEMP_0
+	giveitem_msg CeladonCity_DepartmentStore_Roof_Text_DrinkCanPoppedOut, VAR_TEMP_0
 	goto CeladonCity_DepartmentStore_Roof_EventScript_ChooseNewDrink
 	end
 

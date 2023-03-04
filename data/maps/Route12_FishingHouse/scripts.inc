@@ -16,11 +16,10 @@ Route12_FishingHouse_EventScript_GiveSuperRod:: @ 816FF34
 	checkitemspace ITEM_SUPER_ROD, 1
 	compare VAR_RESULT, FALSE
 	goto_if_eq Route12_FishingHouse_EventScript_NoRoomForSuperRod
+	additem ITEM_SUPER_ROD
 	msgbox Route12_FishingHouse_Text_TakeThisAndFish
 	msgreceiveditem Route12_FishingHouse_Text_ReceivedSuperRod, ITEM_SUPER_ROD
-	giveitem ITEM_SUPER_ROD
 	setflag FLAG_GOT_SUPER_ROD
-	message Text_PutItemAway
 	msgbox Route12_FishingHouse_Text_IfYouCatchBigMagikarpShowMe
 	release
 	end

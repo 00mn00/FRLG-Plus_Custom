@@ -107,8 +107,7 @@ OneIsland_PokemonCenter_1F_EventScript_MeetCelioScene:: @ 8170CB1
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_CanYouDeliverThisMeteoritePlayer
 	msgreceiveditem OneIsland_PokemonCenter_1F_Text_AcceptedMeteoriteFromBill, ITEM_METEORITE, 1, MUS_OBTAIN_KEY_ITEM
-	giveitem ITEM_METEORITE
-	message Text_PutItemAway
+	additem ITEM_METEORITE
 	applymovement LOCALID_CELIO, Movement_WalkInPlaceFastestDown
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_CelioPleaseTakeThis
@@ -290,7 +289,7 @@ OneIsland_PokemonCenter_1F_EventScript_GiveCelioSapphire:: @ 8170FA5
 	applymovement LOCALID_CELIO, Movement_FacePlayer
 	waitmovement 0
 	msgbox OneIsland_PokemonCenter_1F_Text_ManagedToLinkWithHoennThankYou
-	giveitem ITEM_HM08, 1
+	giveitem2 ITEM_HM08, 1
 	msgbox OneIsland_PokemonCenter_1F_Text_ExplainDive
 	special SetPostgameFlags
 	setflag FLAG_SYS_CAN_LINK_WITH_RS
