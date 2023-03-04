@@ -78,6 +78,8 @@ RockTunnel_1F_Text_ArianaPostBattle:: @ 8179613
     .string "I'm all sweaty now.$"
 
 RockTunnel_1F_Text_RouteSign:: @ 817962D
-    .string "{UP_ARROW} ROCK TUNNEL\n"
-    .string "CERULEAN CITY {RIGHT_ARROW} LAVENDER TOWN$"
+    .string "{UP_ARROW} CERULEAN CITY (VIA ROUTE 10)\n"
+    .string "{DOWN_ARROW} LAVENDER TOWN (VIA ROUTE 10)$"
+    .string "CURRENT LOCATION:\n"
+    .string "ROCK TUNNEL$"
 
