@@ -4627,7 +4627,7 @@
     {
       "english": "TM01",
       "itemId": "ITEM_TM01",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "An extremely powerful attack.\\nHowever, if the user is hit before\\nusing the move, they will flinch.",
@@ -4644,7 +4644,7 @@
     {
       "english": "TM02",
       "itemId": "ITEM_TM02",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "Sharp, huge claws hook and slash\\nthe foe quickly and with great\\npower.",
@@ -4661,7 +4661,7 @@
     {
       "english": "TM03",
       "itemId": "ITEM_TM03",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The foe is hit with a pulsing blast\\nof water. It may also confuse the\\ntarget.",
@@ -4678,7 +4678,7 @@
     {
       "english": "TM04",
       "itemId": "ITEM_TM04",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The user calms its spirit and\\nfocuses its mind to raise its\\nSP. ATK and SP. DEF stats.",
@@ -4695,7 +4695,7 @@
     {
       "english": "TM05",
       "itemId": "ITEM_TM05",
-      "price": 10000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A savage roar that causes the foe\\nto switch out of battle. In the\\nwild, ROAR ends the battle.",
@@ -4712,7 +4712,7 @@
     {
       "english": "TM06",
       "itemId": "ITEM_TM06",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A move that leaves the foe badly\\npoisoned. Its poison damage worsens\\nevery turn.",
@@ -4729,7 +4729,7 @@
     {
       "english": "TM07",
       "itemId": "ITEM_TM07",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "Summons a hailstorm that lasts for\\nfive turns. The hailstorm damages\\nall types except the ICE type.",
@@ -4746,7 +4746,7 @@
     {
       "english": "TM08",
       "itemId": "ITEM_TM08",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The user tightens all its muscles\\nand bulks up, boosting both its\\nATTACK and DEFENSE stats.",
@@ -4763,7 +4763,7 @@
     {
       "english": "TM09",
       "itemId": "ITEM_TM09",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The user shoots seeds at the foe\\nin rapid succession. Two to five\\nseeds are shot at once.",
@@ -4797,7 +4797,7 @@
     {
       "english": "TM11",
       "itemId": "ITEM_TM11",
-      "price": 2000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The weather is turned sunny for\\nfive turns. Over that time, FIRE-\\ntype moves are powered up.",
@@ -4814,7 +4814,7 @@
     {
       "english": "TM12",
       "itemId": "ITEM_TM12",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A taunted foe may become enraged.\\nIt will then only be able to use\\nattack moves.",
@@ -4831,7 +4831,7 @@
     {
       "english": "TM13",
       "itemId": "ITEM_TM13",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "An icy-cold beam is shot at the\\nfoe. It may leave the target\\nfrozen.",
@@ -4848,7 +4848,7 @@
     {
       "english": "TM14",
       "itemId": "ITEM_TM14",
-      "price": 5500,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A vicious snow-and-wind attack that\\nstrikes all foes in battle. It may\\ncause freezing.",
@@ -4882,7 +4882,7 @@
     {
       "english": "TM16",
       "itemId": "ITEM_TM16",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A wall of light is created over\\nfive turns. It reduces damage from\\nSP. ATK attacks.",
@@ -4899,7 +4899,7 @@
     {
       "english": "TM17",
       "itemId": "ITEM_TM17",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The user is completely protected\\nfrom attack in the turn it is used.\\nIt may fail if used in succession.",
@@ -4916,7 +4916,7 @@
     {
       "english": "TM18",
       "itemId": "ITEM_TM18",
-      "price": 2000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A heavy rain is summoned for five\\nturns. Over that time, WATER-type\\nmoves are powered up.",
@@ -4933,7 +4933,7 @@
     {
       "english": "TM19",
       "itemId": "ITEM_TM19",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The user strikes the foe with\\ntentacles or roots, stealing the\\ntarget's HP and healing itself.",
@@ -4950,7 +4950,7 @@
     {
       "english": "TM20",
       "itemId": "ITEM_TM20",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "Protects the party with a shield\\nagainst all status problems over\\nfive turns.",
@@ -4967,7 +4967,7 @@
     {
       "english": "TM21",
       "itemId": "ITEM_TM21",
-      "price": 1000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "This attack move grows more\\npowerful the more the POKéMON\\ndislikes its TRAINER.",
@@ -4984,7 +4984,7 @@
     {
       "english": "TM22",
       "itemId": "ITEM_TM22",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A 2-turn attack that uses the first\\nturn for absorbing sunlight, then\\nblasting the foe in the next turn.",
@@ -5001,7 +5001,7 @@
     {
       "english": "TM23",
       "itemId": "ITEM_TM23",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The foe is slammed with a sturdy\\ntail of steel. It may lower the\\ntarget's DEFENSE stat.",
@@ -5018,7 +5018,7 @@
     {
       "english": "TM24",
       "itemId": "ITEM_TM24",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A massive jolt of electricity is\\nlaunched at the foe. It may cause\\nparalysis.",
@@ -5035,7 +5035,7 @@
     {
       "english": "TM25",
       "itemId": "ITEM_TM25",
-      "price": 5500,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "Strikes the foe with a huge\\nthunderbolt. It may cause\\nparalysis.",
@@ -5052,7 +5052,7 @@
     {
       "english": "TM26",
       "itemId": "ITEM_TM26",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "Causes an earthquake that strikes\\nall POKéMON in battle, excluding\\nthe user.",
@@ -5069,7 +5069,7 @@
     {
       "english": "TM27",
       "itemId": "ITEM_TM27",
-      "price": 1000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "This attack move grows more\\npowerful the more the POKéMON\\nlikes its TRAINER.",
@@ -5086,7 +5086,7 @@
     {
       "english": "TM28",
       "itemId": "ITEM_TM28",
-      "price": 10000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A 2-turn attack in which the user\\ndigs underground, then strikes.\\nIt can be used to exit dungeons.",
@@ -5103,7 +5103,7 @@
     {
       "english": "TM29",
       "itemId": "ITEM_TM29",
-      "price": 2000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A powerful blast of telekinetic\\nenergy strikes the foe. It may\\nlower the target's SP. DEF stat.",
@@ -5120,7 +5120,7 @@
     {
       "english": "TM30",
       "itemId": "ITEM_TM30",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The foe is attacked with a shadowy\\nlump. It may lower the target's\\nSP. DEF stat.",
@@ -5154,7 +5154,7 @@
     {
       "english": "TM32",
       "itemId": "ITEM_TM32",
-      "price": 2000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The user begins moving so quickly\\nthat it creates illusory copies to\\nraise its evasiveness.",
@@ -5171,7 +5171,7 @@
     {
       "english": "TM33",
       "itemId": "ITEM_TM33",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A tough barrier is put up over five\\nturns. It reduces damage from\\nphysical attacks over that time.",
@@ -5188,7 +5188,7 @@
     {
       "english": "TM34",
       "itemId": "ITEM_TM34",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A rapid jolt of electricity strikes\\nthe foe. This attack is impossible\\nto evade.",
@@ -5205,7 +5205,7 @@
     {
       "english": "TM35",
       "itemId": "ITEM_TM35",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The foe is roasted with a heavy\\nblast of fire. It may leave the\\ntarget with a burn.",
@@ -5222,7 +5222,7 @@
     {
       "english": "TM36",
       "itemId": "ITEM_TM36",
-      "price": 1000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "Toxic sludge is hurled at the foe\\nwith great force. It may also\\npoison the target.",
@@ -5239,7 +5239,7 @@
     {
       "english": "TM37",
       "itemId": "ITEM_TM37",
-      "price": 2000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "Summons a sandstorm that lasts for\\nfive turns. It damages all types\\nexcept ROCK, GROUND, and STEEL.",
@@ -5256,7 +5256,7 @@
     {
       "english": "TM38",
       "itemId": "ITEM_TM38",
-      "price": 5500,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The foe is incinerated with an\\nintense flame. It may leave the\\ntarget with a burn.",
@@ -5273,7 +5273,7 @@
     {
       "english": "TM39",
       "itemId": "ITEM_TM39",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "Boulders are hurled at the foe.\\nIt also lowers the target's SPEED\\nstat if it hits.",
@@ -5290,7 +5290,7 @@
     {
       "english": "TM40",
       "itemId": "ITEM_TM40",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "An extremely fast attack against\\none target. It is impossible to\\nevade.",
@@ -5307,7 +5307,7 @@
     {
       "english": "TM41",
       "itemId": "ITEM_TM41",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "If enraged by this move, the target\\nbecomes incapable of using the same\\nmove twice in a row.",
@@ -5324,7 +5324,7 @@
     {
       "english": "TM42",
       "itemId": "ITEM_TM42",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "An attack move that becomes very\\npowerful if the user is poisoned,\\nburned, or paralyzed.",
@@ -5341,7 +5341,7 @@
     {
       "english": "TM43",
       "itemId": "ITEM_TM43",
-      "price": 10000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "An attack move that may have an\\nadditional effect depending on the\\nbattle terrain.",
@@ -5375,7 +5375,7 @@
     {
       "english": "TM45",
       "itemId": "ITEM_TM45",
-      "price": 10000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The foe, if it is the opposite\\ngender as the user, becomes\\ninfatuated and may not attack.",
@@ -5392,7 +5392,7 @@
     {
       "english": "TM46",
       "itemId": "ITEM_TM46",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "An attack that gives the user an\\nopportunity to steal the foe's hold\\nitem.",
@@ -5409,7 +5409,7 @@
     {
       "english": "TM47",
       "itemId": "ITEM_TM47",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "The foe is struck with steel-hard\\nwings. It may also raise the user's\\nDEFENSE stat.",
@@ -5426,7 +5426,7 @@
     {
       "english": "TM48",
       "itemId": "ITEM_TM48",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A special power is transmitted to\\nthe foe, causing it to switch\\nabilities with the user.",
@@ -5443,7 +5443,7 @@
     {
       "english": "TM49",
       "itemId": "ITEM_TM49",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A move that steals the effects of\\nany status-changing or healing move\\nthat the foe tries to use.",
@@ -5460,7 +5460,7 @@
     {
       "english": "TM50",
       "itemId": "ITEM_TM50",
-      "price": 3000,
+      "price": 0,
       "holdEffect": "HOLD_EFFECT_NONE",
       "holdEffectParam": 0,
       "description_english": "A maximum-power attack of great\\nferocity, but one that also sharply\\nreduces the user's SP. ATK stat.",
