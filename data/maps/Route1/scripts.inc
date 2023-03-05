@@ -11,7 +11,7 @@ Route1_EventScript_MartClerk:: @ 8167EFE
 	compare VAR_RESULT, FALSE
 	goto_if_eq EventScript_BagIsFull
 	getitemname 1, ITEM_POTION
-	giveitem_msg Text_ObtainedTheX, ITEM_POTION, 1, MUS_OBTAIN_ITEM
+	giveitem_msg Text_ObtainedTheX, ITEM_POTION
 	setflag FLAG_GOT_POTION_ON_ROUTE_1
 	message Text_PutItemAway
 	call EventScript_RestorePrevTextColor

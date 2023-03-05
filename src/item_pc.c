@@ -896,6 +896,7 @@ static void ItemPc_DoWithdraw(u8 taskId)
 
     if (AddBagItem(itemId, data[8]) == TRUE)
     {
+        GetSetItemObtained(itemId, FLAG_SET_OBTAINED);
         ItemUse_SetQuestLogEvent(QL_EVENT_WITHDREW_ITEM_PC, NULL, itemId, 0xFFFF);
         CopyItemName(itemId, gStringVar1);
         ConvertIntToDecimalStringN(gStringVar2, data[8], STR_CONV_MODE_LEFT_ALIGN, 3);
