@@ -1639,7 +1639,7 @@ bool8 ScrCmd_bufferitemnameplural(struct ScriptContext * ctx)
     u16 quantity = VarGet(ScriptReadHalfword(ctx));
 
     CopyItemName(itemId, sScriptStringVars[stringVarIndex]);
-    if (itemId == ITEM_POKE_BALL && quantity >= 2)
+    if (itemId >= ITEM_MASTER_BALL && itemId <= ITEM_PREMIER_BALL && quantity >= 2)
         StringAppend(sScriptStringVars[stringVarIndex], gUnknown_83A72A0);
     else if (itemId >= ITEM_CHERI_BERRY && itemId < ITEM_ENIGMA_BERRY && quantity >= 2)
     {
