@@ -4266,10 +4266,7 @@ static void HandleAction_UseItem(void)
             }
             break;
         case AI_ITEM_GUARD_SPECS:
-            if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-                gBattleCommunication[MULTISTRING_CHOOSER] = 2;
-            else
-                gBattleCommunication[MULTISTRING_CHOOSER] = 0;
+            gBattleCommunication[MULTISTRING_CHOOSER] = 0;
             break;
         }
 

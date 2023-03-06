@@ -1123,6 +1123,7 @@ static void sub_804BC50(struct Sprite *sprite)
         LaunchBallStarsTaskForPokeball(sprite->pos1.x, sprite->pos1.y - 5, sprite->oam.priority, r6);
         sprite->data[1] = LaunchBallFadeMonTaskForPokeball(1, r8, r5);
         sprite->callback = sub_804BCF8;
+        gSprites[r7].affineAnimPaused = FALSE;
         StartSpriteAffineAnim(&gSprites[r7], 2);
         AnimateSprite(&gSprites[r7]);
         gSprites[r7].data[1] = 0;

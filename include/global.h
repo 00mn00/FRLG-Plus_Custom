@@ -31,8 +31,7 @@
 #define __(x) (x)
 #endif // __APPLE__
 
-#define ARRAY_COUNT(array) (size_t)(sizeof(array) / sizeof((array)[0]))
-
+#define ARRAY_COUNT(array) (sizeof(array) / sizeof((array)[0]))
 #define NELEMS(array) (sizeof(array) / sizeof((array)[0]))
 
 #define SWAP(a, b, temp)    \

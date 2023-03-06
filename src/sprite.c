@@ -419,11 +419,6 @@ void SortSprites(void)
             u8 temp = gSpriteOrder[j];
             gSpriteOrder[j] = gSpriteOrder[j - 1];
             gSpriteOrder[j - 1] = temp;
-
-            // UB: If j equals 1, then j-- makes j equal 0.
-            // Then, gSpriteOrder[-1] gets accessed below.
-            // Although this doesn't result in a bug in the ROM,
-            // the behavior is undefined.
             j--;
 
             if (j == 0)

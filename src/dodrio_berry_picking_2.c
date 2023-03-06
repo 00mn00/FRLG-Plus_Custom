@@ -391,7 +391,7 @@ void sub_8153D08(u8 count)
         struct Sprite * sprite = &gSprites[*gUnknown_203F3E4[i]];
         if (sprite != NULL)
             DestroySpriteAndFreeResources(sprite);
-        // Memory should be freed here but is not.
+        FREE_AND_SET_NULL(gUnknown_203F3E4[i]);
     }
 }
 

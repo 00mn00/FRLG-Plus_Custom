@@ -3747,7 +3747,6 @@ static void Task_MoveDeoxysRock_Step(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     struct Sprite * sprite = &gSprites[data[1]];
-    struct ObjectEvent * objectEvent;
     switch (data[0])
     {
     case 0:
@@ -3756,7 +3755,6 @@ static void Task_MoveDeoxysRock_Step(u8 taskId)
         data[6] = SAFE_DIV(data[2] * 16 - data[4], data[8]);
         data[7] = SAFE_DIV(data[3] * 16 - data[5], data[8]);
         data[0]++;
-        // fallthrough
     case 1:
         if (data[8] != 0)
         {
@@ -3768,11 +3766,11 @@ static void Task_MoveDeoxysRock_Step(u8 taskId)
         }
         else
         {
-            objectEvent = &gObjectEvents[data[9]];
+            struct ObjectEvent * object = &gObjectEvents[data[9]];
             sprite->pos1.x = data[2];
             sprite->pos1.y = data[3];
-            ShiftStillObjectEventCoords(objectEvent);
-            objectEvent->triggerGroundEffectsOnStop = TRUE;
+            ShiftStillObjectEventCoords(object);
+            object->triggerGroundEffectsOnStop = TRUE;
             FieldEffectActiveListRemove(FLDEFF_MOVE_DEOXYS_ROCK);
             DestroyTask(taskId);
         }

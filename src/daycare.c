@@ -28,6 +28,7 @@
 #include "help_system.h"
 #include "field_fadetransition.h"
 #include "trade.h"
+#include "field_weather.h"
 #include "constants/daycare.h"
 #include "constants/region_map_sections.h"
 
@@ -2104,6 +2105,7 @@ static void Task_EggHatchPlayBGM(u8 taskID)
     if (gTasks[taskID].data[0] == 0)
     {
         StopMapMusic();
+        PlayRainStoppingSoundEffect();
     }
     if (gTasks[taskID].data[0] == 1)
         PlayBGM(MUS_EVOLUTION_INTRO);

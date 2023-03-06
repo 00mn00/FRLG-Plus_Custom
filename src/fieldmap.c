@@ -744,9 +744,9 @@ bool8 CameraMove(s32 x, s32 y)
 struct MapConnection *sub_8059600(u8 direction, s32 x, s32 y)
 {
     s32 count;
+    s32 i;
     struct MapConnection *connection;
     const struct MapConnections *connections = gMapHeader.connections;
-    s32 i;
 
     if (connections == NULL || connections->connections == NULL)
         return NULL;
@@ -759,7 +759,6 @@ struct MapConnection *sub_8059600(u8 direction, s32 x, s32 y)
             return connection;
     }
     return NULL;
-
 }
 
 static bool8 sub_8059658(u8 direction, s32 x, s32 y, struct MapConnection *connection)
