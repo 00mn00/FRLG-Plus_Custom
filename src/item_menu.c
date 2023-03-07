@@ -1543,7 +1543,7 @@ static void OpenContextMenu(u8 taskId)
             case 3:
             case 4:
                 sContextMenuItemsPtr = sContextMenuItems_Field[gBagMenuState.pocket];
-                sContextMenuNumItems = 3;
+                sContextMenuNumItems = 4;
                 break;
             }
         }
