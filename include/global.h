@@ -315,7 +315,7 @@ struct SaveBlock2
               u16 optionsBattleIntroAnim:1; // whether battle intro slide is disabled
               u16 optionsExpBarAnimSpeed:1;  // whether exp bar animates instantly
     /*0x018*/ struct Pokedex pokedex;
-    /*0x090*/ u8 filler_90[0x8];
+    /*0x090*/ u8 rivalName[PLAYER_NAME_LENGTH + 1]; //old u8 filler_90[0x8] location
     /*0x098*/ struct Time localTimeOffset;
     /*0x0A0*/ struct Time lastBerryTreeUpdate;
     /*0x0A8*/ u32 gcnLinkFlags; // Read by Pokemon Colosseum/XD
@@ -876,7 +876,7 @@ struct SaveBlock1
     /*0x361C*/ struct RamScript ramScript;
     /*0x3A08*/ u8 filler3A08[16]; //Record Mixing gift. Unused.
     /*0x3A18*/ u8 seen2[52]; //made unreferenced & can be gotten rid of, though PKHeX presumably will still set this
-    /*0x3A4C*/ u8 rivalName[PLAYER_NAME_LENGTH + 1];
+    /*0x3A4C*/ u8 filler3A4C[8]; //old rivalName[PLAYER_NAME_LENGTH + 1] location
     /*0x3A54*/ struct FameCheckerSaveData fameChecker[NUM_FAMECHECKER_PERSONS];
     /*0x3A94*/ u8 filler3A94[44]; //max fame checker people is actually 32, so this is the unused 16 entries
                u8 masterTrainerFlags[20]; //taken from above filler3A94 field, which was originally 64 bytes long. 1 byte longer than necessary for alignment.

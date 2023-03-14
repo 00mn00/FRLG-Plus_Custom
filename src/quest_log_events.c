@@ -1672,11 +1672,11 @@ static const u16 *BufferQuestLogText_DefeatedChampion(const u16 *a0)
     {
     case 0:
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gSaveBlock2Ptr->playerName);
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gSaveBlock1Ptr->rivalName);
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(1, gSaveBlock2Ptr->rivalName);
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_QuestLog_PlayerBattledChampionRival);
         break;
     case 1:
-        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gSaveBlock1Ptr->rivalName);
+        DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gSaveBlock2Ptr->rivalName);
         QuestLog_GetSpeciesName(a0[2], NULL, 1);
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(2, gSaveBlock2Ptr->playerName);
         QuestLog_GetSpeciesName(a0[3], NULL, 3);

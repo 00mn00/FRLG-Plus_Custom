@@ -118,7 +118,7 @@ void NewGameInitData(void)
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_INVALID)
         RtcReset();
 
-    StringCopy(rivalName, gSaveBlock1Ptr->rivalName);
+    StringCopy(rivalName, gSaveBlock2Ptr->rivalName);
     gDifferentSaveFile = TRUE;
     gSaveBlock2Ptr->encryptionKey = 0;
     ZeroPlayerPartyMons();
@@ -159,7 +159,7 @@ void NewGameInitData(void)
     SetAllRenewableItemFlags();
     WarpToPlayersRoom();
     ScriptContext2_RunNewScript(EventScript_ResetAllMapFlags);
-    StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
+    StringCopy(gSaveBlock2Ptr->rivalName, rivalName);
     ResetTrainerTowerResults();
     gSaveBlock1Ptr->keyFlags.expMod = 2; // normal exp
 }

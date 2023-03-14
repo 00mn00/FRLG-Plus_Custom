@@ -1250,7 +1250,7 @@ static void Task_OakSpeech25(u8 taskId)
         {
             ClearStdWindowAndFrameToTransparent(gTasks[taskId].data[13], 1);
             RemoveWindow(gTasks[taskId].data[13]);
-            DoNamingScreen(NAMING_SCREEN_RIVAL, gSaveBlock1Ptr->rivalName, 0, 0, 0, CB2_ReturnFromNamingScreen);
+            DoNamingScreen(NAMING_SCREEN_RIVAL, gSaveBlock2Ptr->rivalName, 0, 0, 0, CB2_ReturnFromNamingScreen);
         }
         DestroyLinkedPikaOrGrassPlatformSprites(taskId, 1);
         FreeAllWindowBuffers();
@@ -1942,7 +1942,7 @@ static void GetDefaultName(u8 arg0, u8 namePick)
             src = sRivalNameChoices_FR[namePick];
         else
             src = sRivalNameChoices_LG[namePick];
-        dest = gSaveBlock1Ptr->rivalName;
+        dest = gSaveBlock2Ptr->rivalName;
     }
     for (i = 0; i < PLAYER_NAME_LENGTH && src[i] != EOS; i++)
         dest[i] = src[i];
