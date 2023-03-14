@@ -4,10 +4,7 @@
 #include "time_events.h"
 #include "field_specials.h"
 #include "lottery_corner.h"
-// #include "dewford_trend.h"
-// #include "tv.h"
 #include "field_weather.h"
-// #include "berry.h"
 #include "main.h"
 #include "overworld.h"
 #include "wallclock.h"
@@ -25,7 +22,7 @@ static void InitTimeBasedEvents(void)
 
 void DoTimeBasedEvents(void)
 {
-    if (FlagGet(FLAG_SYS_CLOCK_SET)) // && !InPokemonCenter()
+    if (FlagGet(FLAG_SYS_CLOCK_SET) && !InPokemonCenter())
     {
         RtcCalcLocalTime();
         UpdatePerDay(&gLocalTime);
@@ -42,15 +39,7 @@ static void UpdatePerDay(struct Time *localTime)
     {
         daysSince = localTime->days - *days;
         ClearDailyFlags();
-        // UpdateDewfordTrendPerDay(daysSince);
-        // UpdateTVShowsPerDay(daysSince);
-        // UpdateWeatherPerDay(daysSince);
         UpdatePartyPokerusTime(daysSince);
-        // UpdateMirageRnd(daysSince);
-        // UpdateBirchState(daysSince);
-        // UpdateFrontierManiac(daysSince);
-        // UpdateFrontierGambler(daysSince);
-        // SetShoalItemFlag(daysSince);
         SetRandomLotteryNumber(daysSince);
         *days = localTime->days;
     }
@@ -67,7 +56,6 @@ static void UpdatePerMinute(struct Time *localTime)
     {
         if (minutes >= 0)
         {
-            // BerryTreeTimeUpdate(minutes);
             gSaveBlock2Ptr->lastBerryTreeUpdate = *localTime;
         }
     }

@@ -1,5 +1,5 @@
 Route7_Text_UndergroundPathSign:: @ 8184097
-    .string "{UP_ARROW} LAVENDER TOWN (VIA UG PATH)\n"
+    .string "{UP_ARROW} LAVENDER TOWN (VIA UNDGRD PATH)\n"
     .string "{LEFT_ARROW} CELADON CITY (VIA ROUTE 7)\l"
     .string "{RIGHT_ARROW} SAFFRON CITY (VIA GATEHOUSE)\p"
     .string "CURRENT LOCATION:\n"

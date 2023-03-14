@@ -312,7 +312,7 @@ int ProcessPlayerFieldInput(struct FieldInput *input)
     if (input->pressedRButton && (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_ON_FOOT)) && EnableAutoRun())
         return TRUE;
     //switch bike gears
-    if (input->pressedBButton && (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE)) && GetCurrentRegionMapSectionId() != MAPSEC_ROUTE_17 && SwitchBikeGears())
+    if (input->pressedRButton && (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE)) && GetCurrentRegionMapSectionId() != MAPSEC_ROUTE_17 && SwitchBikeGears())
         return TRUE;
 
     return FALSE;

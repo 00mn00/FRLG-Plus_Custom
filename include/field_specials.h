@@ -33,6 +33,7 @@ void IncrementResortGorgeousStepCounter(void);
 void IncrementBirthIslandRockStepCount(void);
 void ResetCyclingRoadChallengeData(void);
 void ResetFieldTasksArgs(void);
+bool8 InPokemonCenter(void);
 bool8 UsedPokemonCenterWarp(void);
 void QuestLog_CheckDepartingIndoorsMap(void);
 void QuestLog_TryRecordDepartedLocation(void);

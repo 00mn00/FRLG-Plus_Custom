@@ -27,8 +27,8 @@
 #define INCBIN_S8  INCBIN
 #define INCBIN_S16 INCBIN
 #define INCBIN_S32 INCBIN
-#define _(x) (x)
-#define __(x) (x)
+#define _(x) {x}
+#define __(x) {x}
 #endif // __APPLE__
 
 #define ARRAY_COUNT(array) (sizeof(array) / sizeof((array)[0]))

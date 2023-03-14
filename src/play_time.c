@@ -1,3 +1,4 @@
+#include "field_specials.h"
 #include "play_time.h"
 
 static u8 sPlayTimeCounterState;
@@ -32,7 +33,7 @@ void PlayTimeCounter_Stop(void)
 
 void PlayTimeCounter_Update(void)
 {
-    if (sPlayTimeCounterState == RUNNING)
+    if (sPlayTimeCounterState == RUNNING && !InPokemonCenter())
     {
         gSaveBlock2Ptr->playTimeVBlanks++;
         if (gSaveBlock2Ptr->playTimeVBlanks > 59)
