@@ -1456,7 +1456,7 @@ static void InitListMenuTemplate(void)
     gFameChecker_ListMenuTemplate.cursorShadowPal = 3;
     gFameChecker_ListMenuTemplate.lettersSpacing = 0;
     gFameChecker_ListMenuTemplate.itemVerticalPadding = 0;
-    gFameChecker_ListMenuTemplate.scrollMultiple = LIST_MULTIPLE_SCROLL_L_R;
+    gFameChecker_ListMenuTemplate.scrollMultiple = LIST_NO_MULTIPLE_SCROLL;
     gFameChecker_ListMenuTemplate.fontId = 2;
     gFameChecker_ListMenuTemplate.cursorKind = 0;
 }

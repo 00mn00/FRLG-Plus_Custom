@@ -1204,22 +1204,24 @@ static void Bag_FillMessageBoxWithPalette(u32 a0)
 
 static u8 ProcessPocketSwitchInput(u8 taskId, s16 pocketId)
 {
-    u8 lrState;
+    //u8 lrState;
     if (sBagMenuDisplay->pocketSwitchMode != 0)
         return 0;
-    lrState = GetLRKeysState();
+    //lrState = GetLRKeysState();
     if(pocketId == -4)
         pocketId = POCKET_ITEMS - 1;
     if(pocketId == 8)
         pocketId = POCKET_POKE_BALLS - 1;
-    if (JOY_NEW(DPAD_LEFT) || lrState == 1)
+    if (JOY_NEW(DPAD_LEFT))
+    //if (JOY_NEW(DPAD_LEFT) || lrState == 1)
     {
         PlaySE(SE_BAG_POCKET);
         if (pocketId == POCKET_ITEMS - 1)
             return 3;
         return 1;
     }
-    if (JOY_NEW(DPAD_RIGHT) || lrState == 2)
+    if (JOY_NEW(DPAD_RIGHT))
+    //if (JOY_NEW(DPAD_RIGHT) || lrState == 2)
     {
         PlaySE(SE_BAG_POCKET);
         if (pocketId == POCKET_POKE_BALLS - 1)
