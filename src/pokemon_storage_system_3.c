@@ -2275,6 +2275,7 @@ static void LoadCursorMonGfx(u16 species, u32 pid)
     {
         HandleLoadSpecialPokePic(&gMonFrontPicTable[species], gPSSData->field_22C4, species, pid);
         LZ77UnCompWram(gPSSData->cursorMonPalette, gPSSData->field_2244);
+        HueShiftMonPalette(gPSSData->field_2244, gPSSData->cursorMonPersonality);
         CpuCopy32(gPSSData->field_22C4, gPSSData->field_223C, 0x800);
         LoadPalette(gPSSData->field_2244, gPSSData->field_223A, 0x20);
         gPSSData->cursorMonSprite->invisible = FALSE;

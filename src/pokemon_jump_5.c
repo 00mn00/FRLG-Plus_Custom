@@ -388,7 +388,7 @@ void sub_814ADCC(struct PokemonJump2 *arg0, struct PokemonJump1_MonInfo *jumpMon
 
         spritePalette.data = GetMonSpritePalFromSpeciesAndPersonality(jumpMon->species, jumpMon->otId, jumpMon->personality);
         spritePalette.tag = multiplayerId;
-        LoadCompressedSpritePalette(&spritePalette);
+        LoadHueShiftedMonSpritePalette(&spritePalette, jumpMon->personality);
 
         Free(buffer);
         Free(unusedBuffer);

@@ -684,6 +684,7 @@ void PSA_CreateMonSpriteAtCloseness(u8 closeness)
     {
         HandleLoadSpecialPokePic(&gMonFrontPicTable[species], r6, species, personality);
         LZ77UnCompWram(GetMonFrontSpritePal(pokemon), r4);
+        HueShiftMonPalette((u16*) r4, personality);
         LoadMonSpriteGraphics(r6, r4);
         spriteId = CreateSprite(&sSpriteTemplate_MonSprite, 120, scene->monSpriteY1, 4);
         if (spriteId != MAX_SPRITES)
