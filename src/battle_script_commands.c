@@ -2633,9 +2633,14 @@ void SetMoveEffect(bool8 primary, u8 certain)
                     else if (gBattleMons[gBattlerTarget].item
                         && gBattleMons[gBattlerTarget].ability == ABILITY_STICKY_HOLD)
                     {
-                        gBattlescriptCurrInstr = BattleScript_StickyHoldActivates;
-                        gLastUsedAbility = gBattleMons[gBattlerTarget].ability;
-                        RecordAbilityBattle(gBattlerTarget, gLastUsedAbility);
+                        if (gBattleMons[gBattlerTarget].hp == 0)
+                        {
+                            ++gBattlescriptCurrInstr;
+                        }
+                        else
+                            gBattlescriptCurrInstr = BattleScript_StickyHoldActivates;
+                            gLastUsedAbility = gBattleMons[gBattlerTarget].ability;
+                            RecordAbilityBattle(gBattlerTarget, gLastUsedAbility);
                     }
                     else if (gBattleMons[gBattlerAttacker].item != ITEM_NONE
                           || gBattleMons[gBattlerTarget].item == ITEM_ENIGMA_BERRY

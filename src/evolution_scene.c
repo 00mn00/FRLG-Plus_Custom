@@ -887,8 +887,6 @@ static void Task_EvolutionScene(u8 taskId)
                 else
                 {
                     gTasks[taskId].tLearnMoveState = gTasks[taskId].tData7;
-                    if (gTasks[taskId].tLearnMoveState == 5)
-                        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
                 }
             }
             if (JOY_NEW(B_BUTTON))

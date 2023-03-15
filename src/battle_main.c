@@ -3702,8 +3702,14 @@ static void CheckFocusPunch_ClearVarsBeforeTurnStarts(void)
              && !(gDisableStructs[gBattlerAttacker].truantCounter)
              && !(gProtectStructs[gActiveBattler].noValidMoves))
             {
-                BattleScriptExecute(BattleScript_FocusPunchSetUp);
-                return;
+                if (gActiveBattler == 0 && gChosenActionByBattler[0] == B_ACTION_SWITCH)
+                {
+                    gBattlescriptCurrInstr = BattleScript_ActionSwitch;
+                    return;
+                }
+                else
+                    BattleScriptExecute(BattleScript_FocusPunchSetUp);
+                    return;
             }
         }
     }
