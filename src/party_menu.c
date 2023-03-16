@@ -13,8 +13,9 @@
 #include "event_data.h"
 #include "evolution_scene.h"
 #include "field_effect.h"
-#include "field_player_avatar.h"
 #include "field_fadetransition.h"
+#include "field_player_avatar.h"
+#include "field_specials.h"
 #include "field_weather.h"
 #include "fieldmap.h"
 #include "fldeff.h"
@@ -59,6 +60,7 @@
 #include "union_room.h"
 #include "constants/battle.h"
 #include "constants/easy_chat.h"
+#include "constants/event_objects.h"
 #include "constants/field_effects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
@@ -3016,7 +3018,13 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
 static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 {
     u8 i, j;
+    s16 x, y;
+    u16 tileBehavior = gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior;
+    u16 maxHp = GetMonData(&gPlayerParty[GetCursorSelectionMonId()], MON_DATA_MAX_HP);
+    u16 curHp = GetMonData(&gPlayerParty[GetCursorSelectionMonId()], MON_DATA_HP);
 
+    GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     sPartyMenuInternal->numActions = 0;
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
     // Add field moves to action list
@@ -3033,19 +3041,33 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
                 if (sFieldMoves[j] != MOVE_SURF) // If Mon already knows SURF, prevent it from being added to action list
                 if (sFieldMoves[j] != MOVE_ROCK_SMASH) // If Mon already knows ROCK SMASH, prevent it from being added to action list
                 if (sFieldMoves[j] != MOVE_WATERFALL) // If Mon already knows WATERFALL, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_DIVE) // If Mon already knows DIVE, prevent it from being added to action list
+                if (sFieldMoves[j] != MOVE_TELEPORT) // If Mon already knows TELEPORT, prevent it from being added to action list
                 if (sFieldMoves[j] != MOVE_DIG) // If Mon already knows DIG, prevent it from being added to action list
+                if (sFieldMoves[j] != MOVE_MILK_DRINK) // If Mon already knows MILK DRINK, prevent it from being added to action list
+                if (sFieldMoves[j] != MOVE_SOFT_BOILED) // If Mon already knows SOFT BOILED, prevent it from being added to action list
+                if (sFieldMoves[j] != MOVE_SWEET_SCENT) // If Mon already knows SWEET SCENT, prevent it from being added to action list
+                if (sFieldMoves[j] != MOVE_DIVE) // If Mon already knows DIVE, prevent it from being added to action list
                     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + MENU_FIELD_MOVES);
                     break;
             }
         }
     }
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM01, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM01 and action list consists of < 4 moves, add CUT to action list
+    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM05, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM05 - ITEM_TM01_FOCUS_PUNCH) && (gMapHeader.cave == TRUE) && (!FlagGet(FLAG_SYS_FLASH_ACTIVE)))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 0 + MENU_FIELD_MOVES);
+    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM01, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH) && ((MetatileBehavior_IsPokeGrass(tileBehavior) == TRUE) || (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUT_TREE) == TRUE) || (CutMoveRuinValleyCheck() == TRUE)))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 1 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_HM02, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM02 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn HM02 and action list consists of < 4 moves, add FLY to action list
+    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM02, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM02 - ITEM_TM01_FOCUS_PUNCH) && (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 2 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 5 && CheckBagHasItem(ITEM_TM28, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_TM28 - ITEM_TM01_FOCUS_PUNCH)) // If Mon can learn TM28 and action list consists of < 4 moves, add DIG to action list
+    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_TELEPORT) && (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 7 + MENU_FIELD_MOVES);
+    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_TM28, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_TM28 - ITEM_TM01_FOCUS_PUNCH) && (CanUseEscapeRopeOnCurrMap() == TRUE))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 8 + MENU_FIELD_MOVES);
+    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_MILK_DRINK) && (curHp >= maxHp / 5))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 9 + MENU_FIELD_MOVES);
+    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_SOFT_BOILED) && (curHp >= maxHp / 5))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 10 + MENU_FIELD_MOVES);
+    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_SWEET_SCENT) && ((Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE) || (CanUseEscapeRopeOnCurrMap() == TRUE)))
+        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 11 + MENU_FIELD_MOVES);
 
     if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SWITCH);

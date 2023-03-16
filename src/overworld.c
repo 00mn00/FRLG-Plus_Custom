@@ -132,7 +132,6 @@ static void Overworld_SetWhiteoutRespawnPoint(void);
 static u8 GetAdjustedInitialTransitionFlags(struct InitialPlayerAvatarState *playerStruct, u16 metatileBehavior, u8 mapType);
 static u8 GetAdjustedInitialDirection(struct InitialPlayerAvatarState *playerStruct, u8 transitionFlags, u16 metatileBehavior, u8 mapType);
 static u16 GetCenterScreenMetatileBehavior(void);
-static bool8 CanLearnFlashInParty(void);
 static void SetDefaultFlashLevel(void);
 static void Overworld_TryMapConnectionMusicTransition(void);
 static void ChooseAmbientCrySpecies(void);
@@ -1027,27 +1026,9 @@ bool32 Overworld_IsBikingAllowed(void)
         return TRUE;
 }
 
-static bool8 CanLearnFlashInParty(void)
-{
-    u32 i;
-
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE || GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_EGG)
-            break;
-        if (CanMonLearnTMHM(&gPlayerParty[i], ITEM_HM05 - ITEM_TM01_FOCUS_PUNCH))
-            return TRUE;
-    }
-    return FALSE;
-}
-
 static void SetDefaultFlashLevel(void)
 {
-    if (CheckBagHasItem(ITEM_HM05 ,1) && CanLearnFlashInParty())
-        FlagSet(FLAG_SYS_FLASH_ACTIVE);
-    if (!gMapHeader.cave)
-        gSaveBlock1Ptr->flashLevel = 0;
-    else if (FlagGet(FLAG_SYS_FLASH_ACTIVE))
+    if (!gMapHeader.cave || FlagGet(FLAG_SYS_FLASH_ACTIVE))
         gSaveBlock1Ptr->flashLevel = 0;
     else
         gSaveBlock1Ptr->flashLevel = gMaxFlashLevel;
