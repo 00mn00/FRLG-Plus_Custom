@@ -29,6 +29,7 @@
 #include "event_data.h"
 #include "constants/songs.h"
 #include "constants/items.h"
+#include "constants/layouts.h"
 #include "constants/game_stat.h"
 #include "constants/field_weather.h"
 #include "constants/region_map_sections.h"
@@ -155,7 +156,6 @@ static const u16 sShopInventory_ZeroBadges[] = {
     ITEM_POKE_BALL,
     ITEM_POTION,
     ITEM_ANTIDOTE,
-    ITEM_AWAKENING,
     ITEM_PARALYZE_HEAL,
     ITEM_NONE
 };
@@ -166,31 +166,27 @@ static const u16 sShopInventory_OneBadge[] = {
     ITEM_ANTIDOTE,
     ITEM_AWAKENING,
     ITEM_BURN_HEAL,
-    ITEM_ICE_HEAL,
     ITEM_PARALYZE_HEAL,
-    ITEM_ESCAPE_ROPE,
     ITEM_REPEL,
+    ITEM_ESCAPE_ROPE,
     ITEM_NONE
 };
 
 static const u16 sShopInventory_TwoBadges[] = {
     ITEM_POKE_BALL,
-    ITEM_GREAT_BALL,
     ITEM_POTION,
     ITEM_SUPER_POTION,
     ITEM_ANTIDOTE,
     ITEM_AWAKENING,
     ITEM_BURN_HEAL,
-    ITEM_ICE_HEAL,
     ITEM_PARALYZE_HEAL,
-    ITEM_ESCAPE_ROPE,
     ITEM_REPEL,
+    ITEM_ESCAPE_ROPE,
     ITEM_NONE
 };
 
 static const u16 sShopInventory_ThreeBadges[] = {
     ITEM_POKE_BALL,
-    ITEM_GREAT_BALL,
     ITEM_POTION,
     ITEM_SUPER_POTION,
     ITEM_ANTIDOTE,
@@ -198,9 +194,8 @@ static const u16 sShopInventory_ThreeBadges[] = {
     ITEM_BURN_HEAL,
     ITEM_ICE_HEAL,
     ITEM_PARALYZE_HEAL,
-    ITEM_ESCAPE_ROPE,
     ITEM_REPEL,
-    ITEM_SUPER_REPEL,
+    ITEM_ESCAPE_ROPE,
     ITEM_NONE
 };
 
@@ -215,39 +210,35 @@ static const u16 sShopInventory_FourBadges[] = {
     ITEM_ICE_HEAL,
     ITEM_PARALYZE_HEAL,
     ITEM_REVIVE,
-    ITEM_ESCAPE_ROPE,
     ITEM_REPEL,
     ITEM_SUPER_REPEL,
+    ITEM_ESCAPE_ROPE,
     ITEM_NONE
 };
 
 static const u16 sShopInventory_FiveBadges[] = {
     ITEM_POKE_BALL,
     ITEM_GREAT_BALL,
-    ITEM_ULTRA_BALL,
     ITEM_POTION,
     ITEM_SUPER_POTION,
-    ITEM_HYPER_POTION,
     ITEM_ANTIDOTE,
     ITEM_AWAKENING,
     ITEM_BURN_HEAL,
     ITEM_ICE_HEAL,
     ITEM_PARALYZE_HEAL,
     ITEM_REVIVE,
-    ITEM_ESCAPE_ROPE,
     ITEM_REPEL,
     ITEM_SUPER_REPEL,
+    ITEM_ESCAPE_ROPE,
     ITEM_NONE
 };
 
 static const u16 sShopInventory_SixBadges[] = {
     ITEM_POKE_BALL,
     ITEM_GREAT_BALL,
-    ITEM_ULTRA_BALL,
     ITEM_POTION,
     ITEM_SUPER_POTION,
     ITEM_HYPER_POTION,
-    ITEM_MAX_POTION,
     ITEM_ANTIDOTE,
     ITEM_AWAKENING,
     ITEM_BURN_HEAL,
@@ -255,9 +246,10 @@ static const u16 sShopInventory_SixBadges[] = {
     ITEM_ICE_HEAL,
     ITEM_PARALYZE_HEAL,
     ITEM_REVIVE,
-    ITEM_ESCAPE_ROPE,
     ITEM_REPEL,
     ITEM_SUPER_REPEL,
+    ITEM_MAX_REPEL,
+    ITEM_ESCAPE_ROPE,
     ITEM_NONE
 };
 
@@ -268,7 +260,6 @@ static const u16 sShopInventory_SevenBadges[] = {
     ITEM_POTION,
     ITEM_SUPER_POTION,
     ITEM_HYPER_POTION,
-    ITEM_MAX_POTION,
     ITEM_ANTIDOTE,
     ITEM_AWAKENING,
     ITEM_BURN_HEAL,
@@ -276,10 +267,10 @@ static const u16 sShopInventory_SevenBadges[] = {
     ITEM_ICE_HEAL,
     ITEM_PARALYZE_HEAL,
     ITEM_REVIVE,
-    ITEM_ESCAPE_ROPE,
     ITEM_REPEL,
     ITEM_SUPER_REPEL,
     ITEM_MAX_REPEL,
+    ITEM_ESCAPE_ROPE,
     ITEM_NONE
 };
 
@@ -299,10 +290,10 @@ static const u16 sShopInventory_EightBadges[] = {
     ITEM_ICE_HEAL,
     ITEM_PARALYZE_HEAL,
     ITEM_REVIVE,
-    ITEM_ESCAPE_ROPE,
     ITEM_REPEL,
     ITEM_SUPER_REPEL,
     ITEM_MAX_REPEL,
+    ITEM_ESCAPE_ROPE,
     ITEM_NONE
 };
 
@@ -442,7 +433,7 @@ static void SetShopItemsForSale(const u16 *items)
         gShopData.itemList = items;
 
     gShopData.itemCount = 0;
-    while (gShopData.itemList[i])
+    while (gShopData.itemList[i] != POKEMART_LIST_END)
     {
         gShopData.itemCount++;
         i++;
@@ -529,7 +520,7 @@ static void Task_ReturnToShopMenu(u8 taskId)
         return;
     if(gMapHeader.regionMapSectionId == MAPSEC_SILPH_CO)
         DisplayItemMessageOnField(taskId, GetMartUnk16_4(), gText_DevonSpyShop, ShowShopMenuAfterExitingBuyOrSellMenu);
-    else if(gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2)
+    else if(gMapHeader.regionMapSectionId == MAPSEC_TRAINER_TOWER_2 || gMapHeader.mapLayoutId == LAYOUT_CELADON_CITY_DEPARTMENT_STORE_1F)
         DisplayItemMessageOnField(taskId, GetMartUnk16_4(), gText_CanIHelpWithAnythingElseF, ShowShopMenuAfterExitingBuyOrSellMenu);
     else
         DisplayItemMessageOnField(taskId, GetMartUnk16_4(), gText_CanIHelpWithAnythingElse, ShowShopMenuAfterExitingBuyOrSellMenu);

@@ -2,7 +2,12 @@ CeladonCity_DepartmentStore_1F_Text_WelcomeToDeptStore:: @ 81954DD
     .string "Hello!\n"
     .string "Welcome to CELADON DEPT. STORE.\p"
     .string "The board on the right describes\n"
-    .string "the store layout.$"
+    .string "the store layout.\p"
+    .string "May I help you?$"
+
+CeladonCity_DepartmentStore_1F_Text_PleaseComeAgain:: @ 81955B3
+    .string "Feel free to come back and speak\n"
+    .string "to me if you need anything else!$"
 
 CeladonCity_DepartmentStore_1F_Text_FloorDescriptions:: @ 8195537
     .string "1F: SERVICE COUNTER\p"
@@ -14,4 +19,3 @@ CeladonCity_DepartmentStore_1F_Text_FloorDescriptions:: @ 8195537
 
 CeladonCity_DepartmentStore_1F_Text_ServiceCounter:: @ 81955B3
     .string "1F: SERVICE COUNTER$"
-

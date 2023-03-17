@@ -215,13 +215,13 @@ SilphCo_11F_EventScript_DevonSpyFirstTimeYes::
 
 	.align 2
 SilphCo_11F_DevonSpy_Items:: @ 816EFDC
-	.2byte ITEM_NET_BALL
+	.2byte ITEM_DIVE_BALL
+	.2byte ITEM_LUXURY_BALL
 	.2byte ITEM_NEST_BALL
+	.2byte ITEM_NET_BALL
 	.2byte ITEM_REPEAT_BALL
 	.2byte ITEM_TIMER_BALL
-	.2byte ITEM_LUXURY_BALL
-	.2byte ITEM_DIVE_BALL
-	.2byte ITEM_NONE
+	.2byte POKEMART_LIST_END
 	release
 	end
 

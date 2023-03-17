@@ -26,14 +26,14 @@ CeladonCity_DepartmentStore_5F_EventScript_ClerkXItems:: @ 816BC5C
 
 	.align 2
 CeladonCity_DepartmentStore_5F_XItems:: @ 816BC84
+	.2byte ITEM_DIRE_HIT
+	.2byte ITEM_GUARD_SPEC
+	.2byte ITEM_X_ACCURACY
 	.2byte ITEM_X_ATTACK
 	.2byte ITEM_X_DEFEND
-	.2byte ITEM_X_SPEED
 	.2byte ITEM_X_SPECIAL
-	.2byte ITEM_X_ACCURACY
-	.2byte ITEM_GUARD_SPEC
-	.2byte ITEM_DIRE_HIT
-	.2byte ITEM_NONE
+	.2byte ITEM_X_SPEED
+	.2byte POKEMART_LIST_END
 	release
 	end
 
@@ -50,12 +50,12 @@ CeladonCity_DepartmentStore_5F_EventScript_ClerkVitamins:: @ 816BC96
 
 	.align 2
 CeladonCity_DepartmentStore_5F_Vitamins:: @ 816BCBC
-	.2byte ITEM_HP_UP
-	.2byte ITEM_PROTEIN
-	.2byte ITEM_IRON
 	.2byte ITEM_CALCIUM
-	.2byte ITEM_ZINC
 	.2byte ITEM_CARBOS
-	.2byte ITEM_NONE
+	.2byte ITEM_HP_UP
+	.2byte ITEM_IRON
+	.2byte ITEM_PROTEIN
+	.2byte ITEM_ZINC
+	.2byte POKEMART_LIST_END
 	release
 	end

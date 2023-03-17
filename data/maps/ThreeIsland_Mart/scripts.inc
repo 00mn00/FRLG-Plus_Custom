@@ -12,18 +12,6 @@ ThreeIsland_Mart_EventScript_Clerk:: @ 817188D
 	release
 	end
 
-	.align 2
-ThreeIsland_Mart_Items:: @ 81718B4
-	.2byte ITEM_ULTRA_BALL
-	.2byte ITEM_HYPER_POTION
-	.2byte ITEM_REVIVE
-	.2byte ITEM_FULL_HEAL
-	.2byte ITEM_ESCAPE_ROPE
-	.2byte ITEM_MAX_REPEL
-	.2byte ITEM_NONE
-	release
-	end
-
 ThreeIsland_Mart_EventScript_Picnicker:: @ 81718C4
 	msgbox ThreeIsland_Mart_Text_TrueThatCeldadonDeptStoreBigger, MSGBOX_NPC
 	end
