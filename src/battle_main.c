@@ -2352,6 +2352,8 @@ static void BattleStartClearSetData(void)
     *(gBattleStruct->AI_monToSwitchIntoId + 0) = PARTY_SIZE;
     *(gBattleStruct->AI_monToSwitchIntoId + 1) = PARTY_SIZE;
     *(&gBattleStruct->givenExpMons) = 0;
+    gBattleStruct->leftTarget = B_POSITION_OPPONENT_LEFT;
+    gBattleStruct->rightTarget = B_POSITION_OPPONENT_LEFT;
     for (i = 0; i < 11; ++i)
         gBattleResults.catchAttempts[i] = 0;
     gBattleResults.battleTurnCounter = 0;
