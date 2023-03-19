@@ -18,6 +18,9 @@ CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize:: @ 819707A
 CeladonCity_GameCorner_PrizeRoom_Text_YouWantPrize:: @ 819709D
     .string "So, you want the {STR_VAR_1}?$"
 
+CeladonCity_GameCorner_PrizeRoom_Text_YouWantPrize2:: @ 819709D
+    .string "So, you want {STR_VAR_1}?$"
+
 CeladonCity_GameCorner_PrizeRoom_Text_YouWantTM:: @ 81970B2
     .string "Okay, a TM of {STR_VAR_2}\n"
     .string "is what you want?$"
