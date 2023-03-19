@@ -4090,8 +4090,10 @@ BattleScript_IntimidateEnd::
 
 BattleScript_IntimidateAbilityFail::
 	pause 0x20
+	loadabilitypopup LOAD_ABILITY_NORMAL, BS_TARGET, LOAD_ABILITY_FROM_BUFFER
 	printstring STRINGID_PREVENTEDFROMWORKING
 	waitmessage 0x40
+	removeabilitypopup BS_TARGET
 	goto BattleScript_IntimidateFail
 
 BattleScript_DroughtActivates::

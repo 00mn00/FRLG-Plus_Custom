@@ -9552,17 +9552,24 @@ static void atkF7_finishturn(void)
 
 static void atkF8_loadabilitypopup(void)
 {
-	u8 animId;
-	const u16 *argumentPtr = NULL;
-	
-	gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[2]);
-	
-	if (gBattlescriptCurrInstr[1] != REMOVE_POP_UP)
-		animId = B_ANIM_LOAD_ABILITY_POP_UP;
-	else
-		animId = B_ANIM_REMOVE_ABILITY_POP_UP;
-	
-	BtlController_EmitBattleAnimation(0, animId, *argumentPtr);
-	MarkBattlerForControllerExec(gActiveBattler);
-	gBattlescriptCurrInstr += 5;
+    u8 animId;
+    const u16 *argumentPtr = NULL;
+    
+    gActiveBattler = GetBattlerForBattleScript(gBattlescriptCurrInstr[2]);
+    
+    if (gBattlescriptCurrInstr[1] != REMOVE_POP_UP)
+    {
+        if (gBattleScripting.fixedAbilityPopUp && gActiveAbilityPopUps & gBitTable[gActiveBattler])
+        {
+            gBattlescriptCurrInstr += 5;
+            return;
+        }
+        animId = B_ANIM_LOAD_ABILITY_POP_UP;
+    }
+    else
+        animId = B_ANIM_REMOVE_ABILITY_POP_UP;
+    
+    BtlController_EmitBattleAnimation(0, animId, *argumentPtr);
+    MarkBattlerForControllerExec(gActiveBattler);
+    gBattlescriptCurrInstr += 5;
 }

@@ -1250,6 +1250,10 @@
 	.2byte \ability
 	.endm
 
+	.macro removeabilitypopup battler:req
+	loadabilitypopup REMOVE_POP_UP, \battler, LOAD_ABILITY_FROM_BUFFER
+	.endm
+
 @ various command changed to more readable macros
 	.macro cancelmultiturnmoves battler:req
 	various \battler, VARIOUS_CANCEL_MULTI_TURN_MOVES
@@ -1378,8 +1382,4 @@
 
 	.macro jumpifnotbattletype flags:req, jumpptr:req
 	jumpifword CMP_NO_COMMON_BITS, gBattleTypeFlags, \flags, \jumpptr
-	.endm
-
-	.macro removeabilitypopup battler:req
-	loadabilitypopup REMOVE_POP_UP, \battler, LOAD_ABILITY_FROM_BUFFER
 	.endm
