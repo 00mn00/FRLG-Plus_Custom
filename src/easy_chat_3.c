@@ -614,8 +614,7 @@ bool8 LoadEasyChatGraphics(void)
 
 void DestroyEasyChatGraphicsResources(void)
 {
-    if (sEasyChatGraphicsResources)
-        Free(sEasyChatGraphicsResources);
+    TRY_FREE_AND_SET_NULL(sEasyChatGraphicsResources);
 }
 
 void EasyChatInterfaceCommand_Setup(u16 id)

@@ -673,25 +673,13 @@ static void BuyMenuPrintCursorAtYPosition(u8 y, u8 a1)
 
 static void BuyMenuFreeMemory(void)
 {
-    if (gShopTilemapBuffer1 != NULL)
-        Free(gShopTilemapBuffer1);
-    
-    if (gShopTilemapBuffer2 != NULL)
-        Free(gShopTilemapBuffer2);
-    
-    if (gShopTilemapBuffer3 != NULL)
-        Free(gShopTilemapBuffer3);
-    
-    if (gShopTilemapBuffer4 != NULL)
-        Free(gShopTilemapBuffer4);
-    
-    if (sShopMenuListMenu != NULL)
-        Free(sShopMenuListMenu);
-    
-    if (sShopMenuItemStrings != NULL)
-        Free(sShopMenuItemStrings);
-    
-    FreeAllWindowBuffers();        
+    TRY_FREE_AND_SET_NULL(gShopTilemapBuffer1);
+    TRY_FREE_AND_SET_NULL(gShopTilemapBuffer2);
+    TRY_FREE_AND_SET_NULL(gShopTilemapBuffer3);
+    TRY_FREE_AND_SET_NULL(gShopTilemapBuffer4);
+    TRY_FREE_AND_SET_NULL(sShopMenuListMenu);
+    TRY_FREE_AND_SET_NULL(sShopMenuItemStrings);
+    FreeAllWindowBuffers();
 }
 
 static void SetShopExitCallback(void)

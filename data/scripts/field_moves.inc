@@ -298,4 +298,4 @@ EventScript_EnableAutoRun::
     msgbox AutoRunEnabled MSGBOX_SIGN
     end
 AutoRunEnabled:
-    .string "Pressing R toggles running by default.\nAuto running is now enabled.$"
+    .string "Pressing {COLOR GREEN}R{COLOR DARK_GRAY} toggles running by default.\nAuto running is now enabled.$"

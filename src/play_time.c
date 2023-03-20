@@ -13,6 +13,7 @@ enum
 void PlayTimeCounter_Reset(void)
 {
     sPlayTimeCounterState = STOPPED;
+
     gSaveBlock2Ptr->playTimeHours = 0;
     gSaveBlock2Ptr->playTimeMinutes = 0;
     gSaveBlock2Ptr->playTimeSeconds = 0;
@@ -22,6 +23,7 @@ void PlayTimeCounter_Reset(void)
 void PlayTimeCounter_Start(void)
 {
     sPlayTimeCounterState = RUNNING;
+
     if (gSaveBlock2Ptr->playTimeHours > 999)
         PlayTimeCounter_SetToMax();
 }
@@ -33,27 +35,31 @@ void PlayTimeCounter_Stop(void)
 
 void PlayTimeCounter_Update(void)
 {
-    if (sPlayTimeCounterState == RUNNING && !InPokemonCenter())
-    {
+    if (sPlayTimeCounterState != RUNNING || InPokemonCenter())
+        return;
+
         gSaveBlock2Ptr->playTimeVBlanks++;
-        if (gSaveBlock2Ptr->playTimeVBlanks > 59)
-        {
-            gSaveBlock2Ptr->playTimeVBlanks = 0;
-            gSaveBlock2Ptr->playTimeSeconds++;
-            if (gSaveBlock2Ptr->playTimeSeconds > 59)
-            {
-                gSaveBlock2Ptr->playTimeSeconds = 0;
-                gSaveBlock2Ptr->playTimeMinutes++;
-                if (gSaveBlock2Ptr->playTimeMinutes > 59)
-                {
-                    gSaveBlock2Ptr->playTimeMinutes = 0;
-                    gSaveBlock2Ptr->playTimeHours++;
-                    if (gSaveBlock2Ptr->playTimeHours > 999)
-                        PlayTimeCounter_SetToMax();
-                }
-            }
-        }
-    }
+
+    if (gSaveBlock2Ptr->playTimeVBlanks < 60)
+        return;
+
+    gSaveBlock2Ptr->playTimeVBlanks = 0;
+    gSaveBlock2Ptr->playTimeSeconds++;
+
+    if (gSaveBlock2Ptr->playTimeSeconds < 60)
+        return;
+
+    gSaveBlock2Ptr->playTimeSeconds = 0;
+    gSaveBlock2Ptr->playTimeMinutes++;
+
+    if (gSaveBlock2Ptr->playTimeMinutes < 60)
+        return;
+
+    gSaveBlock2Ptr->playTimeMinutes = 0;
+    gSaveBlock2Ptr->playTimeHours++;
+
+    if (gSaveBlock2Ptr->playTimeHours > 999)
+            PlayTimeCounter_SetToMax();
 }
 
 void PlayTimeCounter_SetToMax(void)

@@ -4313,7 +4313,7 @@ bool8 TryRunFromBattle(u8 battler)
     {
         if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
         {
-            if (gBattleMons[battler].speed < gBattleMons[BATTLE_OPPOSITE(battler)].speed && gBattleStruct->runTries < 2)
+            if (gBattleMons[battler].speed < gBattleMons[BATTLE_OPPOSITE(battler)].speed)
             {
                 speedVar = (gBattleMons[battler].speed * 128) / (gBattleMons[BATTLE_OPPOSITE(battler)].speed) + (gBattleStruct->runTries * 30);
                 if (speedVar > (Random() & 0xFF))

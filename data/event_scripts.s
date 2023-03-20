@@ -816,7 +816,7 @@ Text_WantWhichFloor:: @ 81A535C
 
 Text_BagItemCanBeRegistered:: @ 81A5375
 	.string "An item in the BAG can be\n"
-	.string "registered to SELECT for easy use.$"
+	.string "registered to {COLOR GREEN}SELECT{COLOR DARK_GRAY} for easy use.$"
 
 Text_PlayerBootedUpPC:: @ 81A5420
 	.string "{PLAYER} booted up the PC.$"

@@ -676,7 +676,7 @@ Route25_Text_WayneRematchIntro:: @ 81C35BC
 	.string "First, we battle!$"
 
 Route24_Text_ShaneRematchIntro:: @ 81C35EE
-	.string "I saw your feet from the grass!$"
+	.string "I saw your feat from the grass!$"
 
 Route24_Text_EthanRematchIntro:: @ 81C360E
 	.string "Okay!\n"

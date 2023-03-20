@@ -8517,12 +8517,14 @@ void ObjectEventUpdateZCoord(struct ObjectEvent *objEvent)
         objEvent->previousElevation = z;
 }
 
-void SetObjectSubpriorityByZCoord(u8 a, struct Sprite *sprite, u8 b)
+void SetObjectSubpriorityByZCoord(u8 elevation, struct Sprite *sprite, u8 subpriority)
 {
-    u16 y = (sprite->pos1.y - sprite->centerToCornerVecY + gSpriteCoordOffsetY + 8) & 0xFF;
-    y = (16 - (y >> 4)) << 1;
-
-    sprite->subpriority = sUnknown_083A706C[a] + y + b;
+    s32 tmp = sprite->centerToCornerVecY;
+    u32 tmpa = *(u16 *)&sprite->pos1.y;
+    u32 tmpb = *(u16 *)&gSpriteCoordOffsetY;
+    s32 tmp2 = (tmpa - tmp) + tmpb;
+    u16 tmp3 = (16 - ((((u32)tmp2 + 8) & 0xFF) >> 4)) * 2;
+    sprite->subpriority = tmp3 + sUnknown_083A706C[elevation] + subpriority;
 }
 
 static void ObjectEventUpdateSubpriority(struct ObjectEvent *objEvent, struct Sprite *sprite)
