@@ -199,10 +199,10 @@ static void HandleInputChooseAction(void)
             BtlController_EmitTwoReturnValues(1, B_ACTION_USE_MOVE, 0);
             break;
         case 1:
-            BtlController_EmitTwoReturnValues(1, B_ACTION_USE_ITEM, 0);
+            BtlController_EmitTwoReturnValues(1, B_ACTION_SWITCH, 0);
             break;
         case 2:
-            BtlController_EmitTwoReturnValues(1, B_ACTION_SWITCH, 0);
+            BtlController_EmitTwoReturnValues(1, B_ACTION_USE_ITEM, 0);
             break;
         case 3:
             BtlController_EmitTwoReturnValues(1, B_ACTION_RUN, 0);
@@ -291,7 +291,7 @@ static void SimulateInputChooseAction(void)
             // Move cursor to BAG
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(0);
-            ActionSelectionCreateCursorAt(1, 0);
+            ActionSelectionCreateCursorAt(2, 0);
             gBattleStruct->simulatedInputState[2] = 64;
             ++gBattleStruct->simulatedInputState[0];
         }

@@ -2453,10 +2453,10 @@ static void PokedudeSimulateInputChooseAction(void)
             BtlController_EmitTwoReturnValues(1, B_ACTION_USE_MOVE, 0);
             break;
         case 1:
-            BtlController_EmitTwoReturnValues(1, B_ACTION_USE_ITEM, 0);
+            BtlController_EmitTwoReturnValues(1, B_ACTION_SWITCH, 0);
             break;
         case 2:
-            BtlController_EmitTwoReturnValues(1, B_ACTION_SWITCH, 0);
+            BtlController_EmitTwoReturnValues(1, B_ACTION_USE_ITEM, 0);
             break;
         case 3:
             BtlController_EmitTwoReturnValues(1, B_ACTION_RUN, 0);
