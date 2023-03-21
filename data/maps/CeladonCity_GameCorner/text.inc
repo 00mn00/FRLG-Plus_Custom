@@ -1,10 +1,9 @@
 CeladonCity_GameCorner_Text_CanExchangeCoinsNextDoor:: @ 8196940
-    .string "Welcome!\p"
+    .string "Welcome to ROCKET GAME CORNER!\p"
     .string "You can exchange your COINS for\n"
     .string "fabulous prizes next door.$"
 
 CeladonCity_GameCorner_Text_WelcomeBuySomeCoins:: @ 8196984
-    .string "Welcome to ROCKET GAME CORNER!\p"
     .string "Do you need some game COINS?\n"
     .string "Would you like to buy some?$"
 

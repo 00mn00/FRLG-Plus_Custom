@@ -210,17 +210,18 @@ CeladonCity_DepartmentStore_Roof_EventScript_VendingMachine:: @ 816C034
 	lockall
 	message CeladonCity_DepartmentStore_Roof_Text_VendingMachineWhatDoesItHave
 	waitmessage
-	showmoneybox 0, 0, 0
 	goto CeladonCity_DepartmentStore_Roof_EventScript_ChooseDrink
 	end
 
 CeladonCity_DepartmentStore_Roof_EventScript_ChooseDrink:: @ 816C045
+	showmoneybox 0, 0, 0
 	multichoice 12, 0, MULTICHOICE_CELADON_VENDING_MACHINE, FALSE
 	copyvar VAR_TEMP_1, VAR_RESULT
 	switch VAR_TEMP_1
 	case 0, CeladonCity_DepartmentStore_Roof_EventScript_BuyFreshWater
 	case 1, CeladonCity_DepartmentStore_Roof_EventScript_BuySodaPop
 	case 2, CeladonCity_DepartmentStore_Roof_EventScript_BuyLemonade
+	hidemoneybox 0, 0
 	msgbox CeladonCity_DepartmentStore_Roof_Text_NotThirsty
 	goto CeladonCity_DepartmentStore_Roof_EventScript_ExitVendingMachine
 	end
@@ -292,6 +293,5 @@ CeladonCity_DepartmentStore_Roof_EventScript_NoRoomForDrink:: @ 816C13F
 	end
 
 CeladonCity_DepartmentStore_Roof_EventScript_ExitVendingMachine:: @ 816C14D
-	hidemoneybox 0, 0
 	releaseall
 	end

@@ -22,6 +22,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkMons:: @ 816CB88
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon_FR:: @ 816CBB2
+	textcolor 0
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
 	showcoinsbox 0, 0
@@ -37,6 +38,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon_FR:: @ 816CBB2
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon_LG:: @ 816CBB2
+	textcolor 0
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
 	showcoinsbox 0, 0
@@ -233,13 +235,15 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_CheckReceivedMon_LG:: @ 816CD52
 CeladonCity_GameCorner_PrizeRoom_EventScript_PartyFull_FR:: @ 816CD74
 	textcolor 3
 	msgbox Text_NoMoreRoomForPokemon
-	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon_FR
+	hidecoinsbox 0, 0
+	release
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_PartyFull_LG:: @ 816CD74
 	textcolor 3
 	msgbox Text_NoMoreRoomForPokemon
-	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeMon_LG
+	hidecoinsbox 0, 0
+	release
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_NicknamePartyMon_FR:: @ 816CD83
@@ -378,6 +382,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkTMs:: @ 816CE1D
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeTM:: @ 816CE47
+	textcolor 0
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
 	showcoinsbox 0, 0
@@ -481,13 +486,15 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_TryGivePrize2:: @ 816CF3F
 CeladonCity_GameCorner_PrizeRoom_EventScript_BagFull:: @ 816CF79
 	textcolor 3
 	msgbox Text_TooBadBagFull
-	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeItem
+	hidecoinsbox 0, 0
+	release
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_BagFull2:: @ 816CF79
 	textcolor 3
 	msgbox Text_TooBadBagFull
-	goto CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeTM
+	hidecoinsbox 0, 0
+	release
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkItems:: @ 816CF88
@@ -500,6 +507,7 @@ CeladonCity_GameCorner_PrizeRoom_EventScript_PrizeClerkItems:: @ 816CF88
 	end
 
 CeladonCity_GameCorner_PrizeRoom_EventScript_ChoosePrizeItem:: @ 816CFB2
+	textcolor 0
 	message CeladonCity_GameCorner_PrizeRoom_Text_WhichPrize
 	waitmessage
 	showcoinsbox 0, 0
