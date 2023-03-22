@@ -30,6 +30,8 @@ struct WildEncounterData
 
 static EWRAM_DATA struct WildEncounterData sWildEncounterData = {};
 static EWRAM_DATA bool8 sWildEncountersDisabled = FALSE;
+EWRAM_DATA static u8 sPreviousEncounterZoneDirection = DIR_NORTH;
+EWRAM_DATA static u8 sEncounterZoneDirectionReversals = 0;
 
 static bool8 UnlockedTanobyOrAreNotInTanoby(void);
 static u32 GenerateUnownPersonalityByLetter(u8 letter);
@@ -367,18 +369,17 @@ static u16 GenerateFishingEncounter(const struct WildPokemonInfo * info, u8 rod)
     return info->wildPokemon[slot].species;
 }
 
-static bool8 DoWildEncounterRateDiceRoll(u16 a0)
+static bool8 DoWildEncounterRateDiceRoll(u16 encounterRate)
 {
-    if (WildEncounterRandom() % 1600 < a0)
+    if (WildEncounterRandom() % 2880 < encounterRate)
         return TRUE;
-    return FALSE;
+    else
+        return FALSE;
 }
 
 static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility)
 {
     encounterRate *= 16;
-    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
-        encounterRate = encounterRate * 80 / 100;
     encounterRate += sWildEncounterData.encounterRateBuff * 16 / 200;
     ApplyFluteEncounterRateMod(&encounterRate);
     ApplyCleanseTagEncounterRateMod(&encounterRate);
@@ -394,8 +395,8 @@ static bool8 DoWildEncounterRateTest(u32 encounterRate, bool8 ignoreAbility)
             break;
         }
     }
-    if (encounterRate > 1600)
-        encounterRate = 1600;
+    if (encounterRate > 2880)
+        encounterRate = 2880;
     return DoWildEncounterRateDiceRoll(encounterRate);
 }
 
@@ -421,9 +422,45 @@ static u8 GetAbilityEncounterRateModType(void)
 
 static bool8 DoGlobalWildEncounterDiceRoll(void)
 {
-    if ((Random() % 100) >= 60)
+    u8 encounterRate = 20;
+
+    if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_DASH))
+        encounterRate = 40;
+    else if (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
+        encounterRate = 70;
+
+    if ((GetPlayerFacingDirection() == DIR_NORTH && sPreviousEncounterZoneDirection == DIR_SOUTH) || (GetPlayerFacingDirection() == DIR_SOUTH && sPreviousEncounterZoneDirection == DIR_NORTH) || (GetPlayerFacingDirection() == DIR_EAST && sPreviousEncounterZoneDirection == DIR_WEST) || (GetPlayerFacingDirection() == DIR_WEST && sPreviousEncounterZoneDirection == DIR_EAST))
+    {
+        if (sEncounterZoneDirectionReversals < 3)
+            sEncounterZoneDirectionReversals++;
+    }
+    else
+    {
+        sEncounterZoneDirectionReversals = 0;
+    }
+
+    sPreviousEncounterZoneDirection = GetPlayerFacingDirection();
+
+    switch (sEncounterZoneDirectionReversals)
+    {
+        case 1:
+            encounterRate += 30;
+            break;
+        case 2:
+            encounterRate += 40;
+            break;
+        case 3:
+            encounterRate += 60;
+            break;
+    }
+
+    if (encounterRate > 100)
+        encounterRate = 100;
+
+    if ((Random() % 100) >= encounterRate)
         return FALSE;
-    return TRUE;
+    else
+        return TRUE;
 }
 
 bool8 StandardWildEncounter(u32 currMetatileAttrs, u16 previousMetatileBehavior)
