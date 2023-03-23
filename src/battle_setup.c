@@ -35,6 +35,13 @@
 #include "constants/pokemon.h"
 #include "constants/trainer_classes.h"
 
+enum {
+    TRANSITION_TYPE_NORMAL,
+    TRANSITION_TYPE_CAVE,
+    TRANSITION_TYPE_FLASH,
+    TRANSITION_TYPE_WATER,
+};
+
 enum
 {
     TRAINER_PARAM_LOAD_VAL_8BIT,
@@ -80,18 +87,18 @@ EWRAM_DATA u8 HasAlreadyCapturedHere = 0;
 
 static const u8 sBattleTransitionTable_Wild[][2] =
 {
-    { B_TRANSITION_SLICED_SCREEN,        B_TRANSITION_WHITEFADE_IN_STRIPES },
-    { B_TRANSITION_CLOCKWISE_BLACKFADE,  B_TRANSITION_GRID_SQUARES         },
-    { B_TRANSITION_BLUR,                 B_TRANSITION_GRID_SQUARES         },
-    { B_TRANSITION_BLACK_WAVE_TO_RIGHT,  B_TRANSITION_FULLSCREEN_WAVE      },
+    [TRANSITION_TYPE_NORMAL] = { B_TRANSITION_SLICED_SCREEN,       B_TRANSITION_WHITEFADE_IN_STRIPES },
+    [TRANSITION_TYPE_CAVE]   = { B_TRANSITION_CLOCKWISE_BLACKFADE, B_TRANSITION_GRID_SQUARES         },
+    [TRANSITION_TYPE_FLASH]  = { B_TRANSITION_BLUR,                B_TRANSITION_GRID_SQUARES         },
+    [TRANSITION_TYPE_WATER]  = { B_TRANSITION_BLACK_WAVE_TO_RIGHT, B_TRANSITION_FULLSCREEN_WAVE      },
 };
 
 static const u8 sBattleTransitionTable_Trainer[][2] =
 {
-    { B_TRANSITION_SLIDING_POKEBALLS,    B_TRANSITION_BLACK_DOODLES        },
-    { B_TRANSITION_HORIZONTAL_CORRUGATE, B_TRANSITION_BIG_POKEBALL         },
-    { B_TRANSITION_BLUR,                 B_TRANSITION_GRID_SQUARES         },
-    { B_TRANSITION_DISTORTED_WAVE,       B_TRANSITION_FULLSCREEN_WAVE      },
+    [TRANSITION_TYPE_NORMAL] = { B_TRANSITION_SLIDING_POKEBALLS,    B_TRANSITION_BLACK_DOODLES       },
+    [TRANSITION_TYPE_CAVE]   = { B_TRANSITION_HORIZONTAL_CORRUGATE, B_TRANSITION_BIG_POKEBALL        },
+    [TRANSITION_TYPE_FLASH]  = { B_TRANSITION_BLUR,                 B_TRANSITION_GRID_SQUARES        },
+    [TRANSITION_TYPE_WATER]  = { B_TRANSITION_DISTORTED_WAVE,       B_TRANSITION_FULLSCREEN_WAVE     },
 };
 
 static const struct TrainerBattleParameter sOrdinaryBattleParams[] =
@@ -642,21 +649,22 @@ static u8 GetBattleTransitionTypeByMap(void)
 
     PlayerGetDestCoords(&x, &y);
     tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+
     if (Overworld_GetFlashLevel())
-        return B_TRANSITION_HORIZONTAL_CORRUGATE;
-    if (!MetatileBehavior_IsSurfable(tileBehavior) && !(TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && MetatileBehavior_IsBridge(tileBehavior) == TRUE))
+        return TRANSITION_TYPE_FLASH;
+
+    if ((MetatileBehavior_IsSurfable(tileBehavior) && (TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))) || MetatileBehavior_IsBridge(tileBehavior) == TRUE)
+        return TRANSITION_TYPE_WATER;
+
+    switch (gMapHeader.mapType)
     {
-        switch (gMapHeader.mapType)
-        {
-        case MAP_TYPE_UNDERGROUND:
-            return B_TRANSITION_DISTORTED_WAVE;
-        case MAP_TYPE_UNDERWATER:
-            return B_TRANSITION_BIG_POKEBALL;
-        default:
-            return B_TRANSITION_BLUR;
-        }
+    case MAP_TYPE_UNDERGROUND:
+        return TRANSITION_TYPE_CAVE;
+    case MAP_TYPE_UNDERWATER:
+        return TRANSITION_TYPE_WATER;
+    default:
+        return TRANSITION_TYPE_NORMAL;
     }
-    return B_TRANSITION_BIG_POKEBALL;
 }
 
 static u16 GetSumOfPlayerPartyLevel(u8 numMons)

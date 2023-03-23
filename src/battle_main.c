@@ -1577,7 +1577,12 @@ static u8 CreateNPCTrainerParty(struct Pokemon *party, u16 trainerNum)
             else
                 personalityValue = 0x88;
             for (j = 0; sTrainers[trainerNum].trainerName[j] != EOS; ++j)
-                nameHash += sTrainers[trainerNum].trainerName[j];
+            {
+                if (sTrainers[trainerNum].trainerName[j] >= 0xD5 && sTrainers[trainerNum].trainerName[j] <= 0xEE)
+                    nameHash += sTrainers[trainerNum].trainerName[j] - 26;
+                else
+                    nameHash += sTrainers[trainerNum].trainerName[j];
+            }
             switch (sTrainers[trainerNum].partyFlags)
             {
                 case 0:
