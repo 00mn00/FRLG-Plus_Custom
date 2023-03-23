@@ -5179,7 +5179,7 @@ static void PokeSum_SeekToNextMon(u8 taskId, s8 direction)
 
     if (sMonSummaryScreen->isBoxMon == TRUE)
     {
-        if (sMonSummaryScreen->curPageIndex != PSS_PAGE_INFO)
+        if (sMonSummaryScreen->curPageIndex != PSS_PAGE_UNK4)
         {
             if (direction == 1)
                 direction = 0;

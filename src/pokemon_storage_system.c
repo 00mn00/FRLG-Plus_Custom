@@ -142,31 +142,37 @@ void SetBoxWallpaper(u8 boxId, u8 wallpaperId)
 
 s16 SeekToNextMonInBox(struct BoxPokemon * boxMons, s8 curIndex, u8 maxIndex, u8 flags)
 {
-    // flags:
-    // bit 0: Allow eggs
-    // bit 1: Search backwards
     s32 i;
-    s16 adder;
+    s16 direction = -1;
     if (flags == 0 || flags == 1)
-        adder = 1;
-    else
-        adder = -1;
+        direction = 1;
+    i = (s8)curIndex + direction;
 
     if (flags == 1 || flags == 3)
     {
-        for (i = curIndex + adder; i >= 0 && i <= maxIndex; i += adder)
+        while (TRUE)
         {
+            if (i < 0)
+                i = maxIndex;
+            else if (i > maxIndex)
+                i = 0;
             if (GetBoxMonData(&boxMons[i], MON_DATA_SPECIES) != SPECIES_NONE)
                 return i;
+            i += direction;
         }
     }
     else
     {
-        for (i = curIndex + adder; i >= 0 && i <= maxIndex; i += adder)
+        while (TRUE)
         {
+            if (i < 0)
+                i = maxIndex;
+            else if (i > maxIndex)
+                i = 0;
             if (GetBoxMonData(&boxMons[i], MON_DATA_SPECIES) != SPECIES_NONE
                 && !GetBoxMonData(&boxMons[i], MON_DATA_IS_EGG))
                 return i;
+            i += direction;
         }
     }
 
