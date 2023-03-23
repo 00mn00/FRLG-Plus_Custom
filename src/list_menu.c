@@ -530,7 +530,7 @@ static void ListMenuScroll(struct ListMenu *list, u8 count, bool8 movingDown)
         {
             u16 y, width, height;
 
-            ScrollWindow(list->template.windowId, 1, count * yMultiplier, PIXEL_FILL(list->template.fillValue));
+            ScrollWindow(list->template.windowId, movingDown ^ 1, count * yMultiplier, PIXEL_FILL(list->template.fillValue));
             ListMenuPrintEntries(list, list->cursorPos, 0, count);
 
             y = (list->template.maxShowed * yMultiplier) + list->template.upText_Y;

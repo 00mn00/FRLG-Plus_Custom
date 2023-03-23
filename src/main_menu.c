@@ -10,6 +10,7 @@
 #include "overworld.h"
 #include "quest_log.h"
 #include "mystery_gift_menu.h"
+#include "region_map.h"
 #include "strings.h"
 #include "title_screen.h"
 #include "help_system.h"
@@ -66,6 +67,7 @@ static void MoveWindowByMenuTypeAndCursorPos(u8 menuType, u8 cursorPos);
 static bool8 HandleMenuInput(u8 taskId);
 static void PrintMessageOnWindow4(const u8 *str);
 static void PrintContinueStats(void);
+static void PrintPlayerLocation(void);
 static void PrintPlayerName(void);
 static void PrintPlayTime(void);
 static void PrintDexCount(void);
@@ -397,6 +399,12 @@ static void Task_WaitFadeAndPrintMainMenuText(u8 taskId)
     }
 }
 
+static void PrintMainMenuHeaderTextCentered(u8 windowId, const u8 *str)
+{
+    u32 x = 192 - GetStringWidth(2, str, -1);
+    AddTextPrinterParameterized3(windowId, 2, x / 2, 2, sTextColor1, -1, str);
+}
+
 static void Task_PrintMainMenuText(u8 taskId)
 {
     u16 pal;
@@ -418,8 +426,8 @@ static void Task_PrintMainMenuText(u8 taskId)
     default:
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_NEWGAME_ONLY, PIXEL_FILL(10));
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_KEYSYSTEM_NEWGAME_ONLY, PIXEL_FILL(10));
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_NEWGAME_ONLY, 2, 2, 2, sTextColor1, -1, gText_NewGame);
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_KEYSYSTEM_NEWGAME_ONLY, 2, 2, 2, sTextColor1, -1, gText_KeySystemSettings);
+        PrintMainMenuHeaderTextCentered(MAIN_MENU_WINDOW_NEWGAME_ONLY, gText_NewGame);
+        PrintMainMenuHeaderTextCentered(MAIN_MENU_WINDOW_KEYSYSTEM_NEWGAME_ONLY, gText_KeySystemSettings);
         MainMenu_DrawWindow(&sWindowTemplate[MAIN_MENU_WINDOW_NEWGAME_ONLY]);
         MainMenu_DrawWindow(&sWindowTemplate[MAIN_MENU_WINDOW_KEYSYSTEM_NEWGAME_ONLY]);
         PutWindowTilemap(MAIN_MENU_WINDOW_NEWGAME_ONLY);
@@ -431,9 +439,8 @@ static void Task_PrintMainMenuText(u8 taskId)
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_CONTINUE, PIXEL_FILL(10));
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_NEWGAME, PIXEL_FILL(10));
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_KEYSYSTEM, PIXEL_FILL(10));
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 2, 2, sTextColor1, -1, gText_Continue);
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_NEWGAME, 2, 2, 2, sTextColor1, -1, gText_NewGame);
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_KEYSYSTEM, 2, 2, 2, sTextColor1, -1, gText_KeySystemSettings);
+        PrintMainMenuHeaderTextCentered(MAIN_MENU_WINDOW_NEWGAME, gText_NewGame);
+        PrintMainMenuHeaderTextCentered(MAIN_MENU_WINDOW_KEYSYSTEM, gText_KeySystemSettings);
         PrintContinueStats();
         MainMenu_DrawWindow(&sWindowTemplate[MAIN_MENU_WINDOW_CONTINUE]);
         MainMenu_DrawWindow(&sWindowTemplate[MAIN_MENU_WINDOW_NEWGAME]);
@@ -450,11 +457,10 @@ static void Task_PrintMainMenuText(u8 taskId)
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_NEWGAME, PIXEL_FILL(10));
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_MYSTERYGIFT, PIXEL_FILL(10));
         FillWindowPixelBuffer(MAIN_MENU_WINDOW_KEYSYSTEM_MYSTERYGIFT_ENABLED, PIXEL_FILL(10));
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 2, 2, sTextColor1, -1, gText_Continue);
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_NEWGAME, 2, 2, 2, sTextColor1, -1, gText_NewGame);
+        PrintMainMenuHeaderTextCentered(MAIN_MENU_WINDOW_NEWGAME, gText_NewGame);
         gTasks[taskId].tMGErrorType = 1;
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_MYSTERYGIFT, 2, 2, 2, sTextColor1, -1, gText_MysteryGift);
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_KEYSYSTEM_MYSTERYGIFT_ENABLED, 2, 2, 2, sTextColor1, -1, gText_KeySystemSettings);
+        PrintMainMenuHeaderTextCentered(MAIN_MENU_WINDOW_MYSTERYGIFT, gText_MysteryGift);
+        PrintMainMenuHeaderTextCentered(MAIN_MENU_WINDOW_KEYSYSTEM_MYSTERYGIFT_ENABLED, gText_KeySystemSettings);
         PrintContinueStats();
         MainMenu_DrawWindow(&sWindowTemplate[MAIN_MENU_WINDOW_CONTINUE]);
         MainMenu_DrawWindow(&sWindowTemplate[MAIN_MENU_WINDOW_NEWGAME]);
@@ -873,23 +879,20 @@ static bool8 HandleMenuInput(u8 taskId)
     return FALSE;
 }
 
-static void PrintMessageOnWindow4(const u8 *str)
-{
-    FillWindowPixelBuffer(MAIN_MENU_WINDOW_ERROR, PIXEL_FILL(10));
-    MainMenu_DrawWindow(&sWindowTemplate[MAIN_MENU_WINDOW_ERROR]);
-    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_ERROR, 2, 0, 2, sTextColor1, 2, str);
-    PutWindowTilemap(MAIN_MENU_WINDOW_ERROR);
-    CopyWindowToVram(MAIN_MENU_WINDOW_ERROR, COPYWIN_GFX);
-    SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE( 19, 221));
-    SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(115, 157));
-}
-
 static void PrintContinueStats(void)
 {
+    PrintPlayerLocation();
     PrintPlayerName();
     PrintDexCount();
     PrintPlayTime();
     PrintBadgeCount();
+}
+
+static void PrintPlayerLocation(void)
+{
+    u8 mapNameStr[32];
+    GetMapNameGeneric(mapNameStr, GetCurrentRegionMapSectionId());
+    PrintMainMenuHeaderTextCentered(MAIN_MENU_WINDOW_CONTINUE, mapNameStr);
 }
 
 static void PrintPlayerName(void)
@@ -902,7 +905,7 @@ static void PrintPlayerName(void)
     for (i = 0; i < OT_NAME_LENGTH; i++)
         *ptr++ = gSaveBlock2Ptr->playerName[i];
     *ptr = EOS;
-    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 52, 18, sTextColor2, -1, name);
+    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 43, 18, sTextColor2, -1, name);
 }
 
 static void PrintPlayTime(void)
@@ -914,7 +917,7 @@ static void PrintPlayTime(void)
     ptr = ConvertIntToDecimalStringN(strbuf, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
     *ptr++ = CHAR_COLON;
     ConvertIntToDecimalStringN(ptr, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 52, 34, sTextColor2, -1, strbuf);
+    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 43, 34, sTextColor2, -1, strbuf);
 }
 
 static void PrintDexCount(void)
@@ -930,10 +933,10 @@ static void PrintDexCount(void)
             dexcount = GetExtendedPokedexCount(FLAG_GET_CAUGHT);
         else
             dexcount = GetKantoPokedexCount(FLAG_GET_CAUGHT);
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 112, 18, sTextColor2, -1, gText_Pokedex);
+        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 112, 34, sTextColor2, -1, gText_Pokedex);
         ptr = ConvertIntToDecimalStringN(strbuf, dexcount, STR_CONV_MODE_LEFT_ALIGN, 3);
         StringAppend(ptr, gTextJPDummy_Hiki);
-        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 162, 18, sTextColor2, -1, strbuf);
+        AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 158, 34, sTextColor2, -1, strbuf);
     }
 }
 
@@ -948,10 +951,10 @@ static void PrintBadgeCount(void)
         if (FlagGet(flagId))
             nbadges++;
     }
-    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 112, 34, sTextColor2, -1, gText_Badges);
+    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 112, 18, sTextColor2, -1, gText_Badges);
     ptr = ConvertIntToDecimalStringN(strbuf, nbadges, STR_CONV_MODE_LEADING_ZEROS, 1);
     StringAppend(ptr, gTextJPDummy_Ko);
-    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 162, 34, sTextColor2, -1, strbuf);
+    AddTextPrinterParameterized3(MAIN_MENU_WINDOW_CONTINUE, 2, 158, 18, sTextColor2, -1, strbuf);
 }
 
 static void LoadUserFrameToBg(u8 bgId)

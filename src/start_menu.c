@@ -965,21 +965,21 @@ static void PrintSaveStats(void)
     x = (u32)(112 - GetStringWidth(2, gStringVar4, -1)) / 2;
     AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 14, sTextColor_StatName, -1, gSaveStatName_Player);
     SaveStatToString(SAVE_STAT_NAME, gStringVar4, 2);
-    Menu_PrintFormatIntlPlayerName(sSaveStatsWindowId, gStringVar4, 60, 14);
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 28, sTextColor_StatName, -1, gSaveStatName_Badges);
-    SaveStatToString(SAVE_STAT_BADGES, gStringVar4, 2);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 14, sTextColor_StatValue, -1, gStringVar4);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 28, sTextColor_StatName, -1, gSaveStatName_Time);
+    SaveStatToString(SAVE_STAT_TIME, gStringVar4, 2);
     AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 28, sTextColor_StatValue, -1, gStringVar4);
     y = 42;
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 42, sTextColor_StatName, -1, gSaveStatName_Badges);
+    SaveStatToString(SAVE_STAT_BADGES, gStringVar4, 2);
+    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 42, sTextColor_StatValue, -1, gStringVar4);
+    y = 56;
     if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
     {
-        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, 42, sTextColor_StatName, -1, gSaveStatName_Pokedex);
+        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, -1, gSaveStatName_Pokedex);
         SaveStatToString(SAVE_STAT_POKEDEX, gStringVar4, 2);
-        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, 42, sTextColor_StatValue, -1, gStringVar4);
-        y = 56;
+        AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, y, sTextColor_StatValue, -1, gStringVar4);
     }
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 2, y, sTextColor_StatName, -1, gSaveStatName_Time);
-    SaveStatToString(SAVE_STAT_TIME, gStringVar4, 2);
-    AddTextPrinterParameterized3(sSaveStatsWindowId, 0, 60, y, sTextColor_StatValue, -1, gStringVar4);
     CopyWindowToVram(sSaveStatsWindowId, COPYWIN_GFX);
 }
 
