@@ -51,10 +51,11 @@ enum
     MAIN_STATE_START_PAGE_SWAP,
     MAIN_STATE_WAIT_PAGE_SWAP,
     MAIN_STATE_6,
-	STATE_WAIT_ASK_TO_TAKE_ITEM_MESSAGE,
+    STATE_WAIT_ASK_TO_TAKE_ITEM_MESSAGE,
+    STATE_WAIT_ASK_TO_TAKE_ITEM_YESNO,
     STATE_TAKE_ITEM_MESSAGE,
-	STATE_WAIT_TAKE_ITEM_MESSAGE,
-	STATE_SENT_TO_PC_MESSAGE,
+    STATE_WAIT_TAKE_ITEM_MESSAGE,
+    STATE_SENT_TO_PC_MESSAGE,
     MAIN_STATE_UPDATE_SENT_TO_PC_MESSAGE,
     MAIN_STATE_BEGIN_FADE_OUT,
     MAIN_STATE_WAIT_FADE_OUT_AND_EXIT,
@@ -131,7 +132,8 @@ static void pokemon_transfer_to_pc_with_message(void);
 static bool8 sub_809E1D4(void);
 static bool8 MainState_StartPageSwap(void);
 static bool8 MainState_WaitPageSwap(void);
-static bool8 MainState_WaitAskToTakeMessage(void);
+static bool8 MainState_WaitAskToTakeItemMessage(void);
+static bool8 MainState_WaitAskToTakeItemYesNo(void);
 static bool8 MainState_TakeItemMessage(void);
 static bool8 MainState_WaitTakeItemMessage(void);
 static bool8 MainState_SentToPCMessage(void);
@@ -560,7 +562,10 @@ static void sub_809DD88(u8 taskId)
         pokemon_store();
         break;
     case STATE_WAIT_ASK_TO_TAKE_ITEM_MESSAGE:
-        MainState_WaitAskToTakeMessage();
+        MainState_WaitAskToTakeItemMessage();
+        break;
+    case STATE_WAIT_ASK_TO_TAKE_ITEM_YESNO:
+        MainState_WaitAskToTakeItemYesNo();
         break;
     case STATE_TAKE_ITEM_MESSAGE:
         MainState_TakeItemMessage();
@@ -707,36 +712,48 @@ static bool8 MainState_WaitFadeOutAndExit(void)
 
 static void DisplayAskToTakeItemMessage(void)
 {
-	if (DoesCaughtMonHaveItem())
-	{
-		StringCopy(gStringVar2, sNamingScreenData->destBuffer);
-		StringExpandPlaceholders(gStringVar4, gText_TakeItemCaptured);
-		DrawDialogueFrame(0, 0);
-		gTextFlags.canABSpeedUpPrint = TRUE;
-		AddTextPrinterParameterized2(0, 1, gStringVar4, GetTextSpeedSetting(), 0, 2, 1, 3);
-		DisplayYesNoMenuDefaultYes();
-		CopyWindowToVram(0, 3);
-	}
-	else
-	{
-		sNamingScreenData->state = STATE_SENT_TO_PC_MESSAGE;
-	}
+    if (DoesCaughtMonHaveItem())
+    {
+        StringCopy(gStringVar2, sNamingScreenData->destBuffer);
+        StringExpandPlaceholders(gStringVar4, gText_TakeItemCaptured);
+        DrawDialogueFrame(0, 0);
+        gTextFlags.canABSpeedUpPrint = TRUE;
+        AddTextPrinterParameterized2(0, 1, gStringVar4, GetTextSpeedSetting(), 0, 2, 1, 3);
+        CopyWindowToVram(0, 3);
+    }
+    else
+    {
+        sNamingScreenData->state = STATE_SENT_TO_PC_MESSAGE;
+    }
 }
 
-static bool8 MainState_WaitAskToTakeMessage(void)
+static bool8 MainState_WaitAskToTakeItemMessage(void)
 {
-	switch (Menu_ProcessInputNoWrapClearOnChoose())
-	{
-	case 0:
-		PlaySE(SE_SELECT);
-		FillWindowPixelBuffer(0, PIXEL_FILL(1));
-		sNamingScreenData->state = STATE_TAKE_ITEM_MESSAGE;
-		break;
-	case 1:
-	case -1:
-		PlaySE(SE_SELECT);
-		sNamingScreenData->state = STATE_SENT_TO_PC_MESSAGE;
-	}
+    RunTextPrinters();
+    if (!IsTextPrinterActive(0))
+    {
+        DisplayYesNoMenuDefaultYes();
+        CopyWindowToVram(0, 3);
+        sNamingScreenData->state = STATE_WAIT_ASK_TO_TAKE_ITEM_YESNO;
+    }
+
+    return FALSE;
+}
+
+static bool8 MainState_WaitAskToTakeItemYesNo(void)
+{
+    switch (Menu_ProcessInputNoWrapClearOnChoose())
+    {
+    case 0:
+        PlaySE(SE_SELECT);
+        FillWindowPixelBuffer(0, PIXEL_FILL(1));
+        sNamingScreenData->state = STATE_TAKE_ITEM_MESSAGE;
+        break;
+    case 1:
+    case -1:
+        PlaySE(SE_SELECT);
+        sNamingScreenData->state = STATE_SENT_TO_PC_MESSAGE;
+    }
 
     RunTextPrinters();
 
@@ -745,35 +762,39 @@ static bool8 MainState_WaitAskToTakeMessage(void)
 
 static bool8 MainState_TakeItemMessage(void)
 {
-	DisplayTakeItemMessage();
-	sNamingScreenData->state = STATE_WAIT_TAKE_ITEM_MESSAGE;
-	return FALSE;
+    DisplayTakeItemMessage();
+    sNamingScreenData->state = STATE_WAIT_TAKE_ITEM_MESSAGE;
+    return FALSE;
 }
 
 static void DisplayTakeItemMessage(void)
 {
-	PutCaughtMonItemInBag();
-	StringExpandPlaceholders(gStringVar4, gText_ItemTaken);
-	DrawDialogueFrame(0, 0);
-	gTextFlags.canABSpeedUpPrint = TRUE;
-	AddTextPrinterParameterized2(0, 1, gStringVar4, GetTextSpeedSetting(), 0, 2, 1, 3);
-	CopyWindowToVram(0, 3);
+    PutCaughtMonItemInBag();
+    StringExpandPlaceholders(gStringVar4, gText_ItemTaken);
+    DrawDialogueFrame(0, 0);
+    gTextFlags.canABSpeedUpPrint = TRUE;
+    AddTextPrinterParameterized2(0, 1, gStringVar4, GetTextSpeedSetting(), 0, 2, 1, 3);
+    CopyWindowToVram(0, 3);
 }
 
 static bool8 MainState_WaitTakeItemMessage(void)
 {
     RunTextPrinters();
-    if (!IsTextPrinterActive(0) && (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)))
+    if (!IsTextPrinterActive(0))
+    {
+        DisplayYesNoMenuDefaultYes();
+        CopyWindowToVram(0, 3);
         sNamingScreenData->state = STATE_SENT_TO_PC_MESSAGE;
+    }
 
     return FALSE;
 }
 
 static bool8 MainState_SentToPCMessage(void)
 {
-	pokemon_transfer_to_pc_with_message();
-	sNamingScreenData->state = MAIN_STATE_UPDATE_SENT_TO_PC_MESSAGE;
-	return FALSE;
+    pokemon_transfer_to_pc_with_message();
+    sNamingScreenData->state = MAIN_STATE_UPDATE_SENT_TO_PC_MESSAGE;
+    return FALSE;
 }
 
 static void pokemon_transfer_to_pc_with_message(void)

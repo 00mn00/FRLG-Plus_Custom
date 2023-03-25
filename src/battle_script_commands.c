@@ -9517,10 +9517,12 @@ static void atkF3_trygivecaughtmonnick(void)
         if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
         {
             SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_NICKNAME, gBattleStruct->caughtMonNick);
+            HandleBattleWindow(0x17, 0x8, 0x1D, 0xD, WINDOW_CLEAR);
             gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
         }
         break;
     case 4:
+        HandleBattleWindow(0x17, 0x8, 0x1D, 0xD, WINDOW_CLEAR);
         if (CalculatePlayerPartyCount() == PARTY_SIZE)
             gBattlescriptCurrInstr += 5;
         else
@@ -9612,14 +9614,16 @@ static void atkF9_trytakecaughtmonitem(void)
         }
         break;
     case 2:
-		itemId = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM);
-		AddBagItem(itemId, 1);
-		itemId = ITEM_NONE;
-		SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, &itemId);
-		gBattlescriptCurrInstr += 5;
+        itemId = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM);
+        AddBagItem(itemId, 1);
+        itemId = ITEM_NONE;
+        SetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattlerAttacker ^ BIT_SIDE]], MON_DATA_HELD_ITEM, &itemId);
+        HandleBattleWindow(0x17, 0x8, 0x1D, 0xD, WINDOW_CLEAR);
+        gBattlescriptCurrInstr += 5;
         break;
     case 3:
-		gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
+        HandleBattleWindow(0x17, 0x8, 0x1D, 0xD, WINDOW_CLEAR);
+        gBattlescriptCurrInstr = T1_READ_PTR(gBattlescriptCurrInstr + 1);
         break;
     }
 }
