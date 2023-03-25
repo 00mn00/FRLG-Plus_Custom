@@ -488,7 +488,7 @@ bool8 StandardWildEncounter(u32 currMetatileAttrs, u16 previousMetatileBehavior)
             else if (TryStartRoamerEncounter() == TRUE)
             {
                 roamer = &gSaveBlock1Ptr->roamer;
-                if (!IsWildLevelAllowedByRepel(roamer->level))
+                if (!IsWildLevelAllowedByRepel(roamer->level) || roamer->species == SPECIES_SUICUNE)
                 {
                     return FALSE;
                 }
@@ -527,7 +527,7 @@ bool8 StandardWildEncounter(u32 currMetatileAttrs, u16 previousMetatileBehavior)
             if (TryStartRoamerEncounter() == TRUE)
             {
                 roamer = &gSaveBlock1Ptr->roamer;
-                if (!IsWildLevelAllowedByRepel(roamer->level))
+                if (!IsWildLevelAllowedByRepel(roamer->level) || roamer->species == SPECIES_RAIKOU || roamer->species == SPECIES_ENTEI)
                 {
                     return FALSE;
                 }
