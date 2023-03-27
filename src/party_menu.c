@@ -3018,13 +3018,13 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
 static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 {
     u8 i, j;
-    s16 x, y;
+    s16 Sx, Sy;
     u16 tileBehavior = gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior;
     u16 maxHp = GetMonData(&gPlayerParty[GetCursorSelectionMonId()], MON_DATA_MAX_HP);
     u16 curHp = GetMonData(&gPlayerParty[GetCursorSelectionMonId()], MON_DATA_HP);
 
-    GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
-    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    PlayerGetDestCoords(&Sx, &Sy);
+    tileBehavior = MapGridGetMetatileBehaviorAt(Sx, Sy);
     sPartyMenuInternal->numActions = 0;
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
     // Add field moves to action list
@@ -3054,7 +3054,7 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
     }
     if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM05, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM05 - ITEM_TM01_FOCUS_PUNCH) && (gMapHeader.cave == TRUE) && (!FlagGet(FLAG_SYS_FLASH_ACTIVE)))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 0 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM01, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH) && ((MetatileBehavior_IsPokeGrass(tileBehavior) == TRUE) || (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUT_TREE) == TRUE) || (CutMoveRuinValleyCheck() == TRUE)))
+    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM01, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH) && ((SetUpFieldMove_Cut())))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 1 + MENU_FIELD_MOVES);
     if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM02, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM02 - ITEM_TM01_FOCUS_PUNCH) && (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 2 + MENU_FIELD_MOVES);
@@ -3066,7 +3066,7 @@ static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 9 + MENU_FIELD_MOVES);
     if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_SOFT_BOILED) && (curHp >= maxHp / 5))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 10 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_SWEET_SCENT) && ((Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE) || (CanUseEscapeRopeOnCurrMap() == TRUE)))
+    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_SWEET_SCENT) && ((MetatileBehavior_IsPokeGrass(tileBehavior) == TRUE) || (MetatileBehavior_SweetScent(tileBehavior) == TRUE)))
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 11 + MENU_FIELD_MOVES);
 
     if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
