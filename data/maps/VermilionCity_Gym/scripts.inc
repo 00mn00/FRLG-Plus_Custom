@@ -48,10 +48,10 @@ VermilionCity_Gym_OnTransition:: @ 816B772
 	setvar TYPE, CHECK_VISITOR_STATE
 	copyvar VAR_0x800A, ARGUMENT
 	setvar ARGUMENT, FAMECHECKER_LTSURGE
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 0
 	call_if_eq VermilionCity_Gym_EventScript_UnlockLtSurge
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 2
 	call_if_eq VermilionCity_Gym_EventScript_UnlockLtSurge
 	callnative UseBattleHouseVar

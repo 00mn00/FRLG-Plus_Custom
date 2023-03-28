@@ -9,10 +9,10 @@ CeruleanCity_Gym_MapScripts:: @ 816AAA0
 CeruleanCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_MISTY
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 0
 	call_if_eq CeruleanCity_Gym_EventScript_UnlockMisty
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 2
 	call_if_eq CeruleanCity_Gym_EventScript_UnlockMisty
 	callnative UseBattleHouseVar

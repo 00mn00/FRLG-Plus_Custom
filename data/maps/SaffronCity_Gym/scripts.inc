@@ -9,10 +9,10 @@ SaffronCity_Gym_MapScripts:: @ 816A592
 SaffronCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_SABRINA
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 0
 	call_if_eq SaffronCity_Gym_EventScript_UnlockSabrina
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 2
 	call_if_eq SaffronCity_Gym_EventScript_UnlockSabrina
 	callnative UseBattleHouseVar

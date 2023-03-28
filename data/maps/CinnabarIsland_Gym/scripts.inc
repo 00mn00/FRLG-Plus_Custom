@@ -17,10 +17,10 @@ CinnabarIsland_Gym_MapScripts:: @ 816D94B
 CinnabarIsland_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_BLAINE
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 0
 	call_if_eq CinnabarIsland_Gym_EventScript_UnlockBlaine
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 2
 	call_if_eq CinnabarIsland_Gym_EventScript_UnlockBlaine
 	callnative UseBattleHouseVar

@@ -37,6 +37,7 @@
 #include "constants/moves.h"
 #include "constants/songs.h"
 #include "constants/field_weather.h"
+#include "constants/region_map_sections.h"
 
 static EWRAM_DATA void (*sItemUseOnFieldCB)(u8 taskId) = NULL;
 
@@ -633,7 +634,10 @@ static void sub_80A1B48(u8 taskId)
 bool8 CanUseEscapeRopeOnCurrMap(void)
 {
     if (gMapHeader.flags & MAP_ALLOW_ESCAPE_ROPE)
+    {
+        if (gMapHeader.regionMapSectionId != MAPSEC_ROCKET_HIDEOUT || (VarGet(VAR_MAP_ROCKETHIDEOUT_GET) != 0))
         return TRUE;
+    }
     else
         return FALSE;
 }

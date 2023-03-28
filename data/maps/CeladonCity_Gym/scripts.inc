@@ -9,10 +9,10 @@ CeladonCity_Gym_MapScripts:: @ 816A592
 CeladonCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_ERIKA
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 0
 	call_if_eq CeladonCity_Gym_EventScript_UnlockErika
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 2
 	call_if_eq CeladonCity_Gym_EventScript_UnlockErika
 	callnative UseBattleHouseVar

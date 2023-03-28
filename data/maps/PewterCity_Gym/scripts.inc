@@ -9,10 +9,10 @@ PewterCity_Gym_MapScripts:: @ 816A592
 PewterCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_BROCK
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 0
 	call_if_eq PewterCity_Gym_EventScript_UnlockBrock
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 2
 	call_if_eq PewterCity_Gym_EventScript_UnlockBrock
 	callnative UseBattleHouseVar

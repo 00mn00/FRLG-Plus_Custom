@@ -173,7 +173,15 @@
     }
   ],
   "coord_events": [
-
+    {
+      "type": "trigger",
+      "x": 12,
+      "y": 2,
+      "elevation": 0,
+      "var": "VAR_MAP_ROCKETHIDEOUT_GET",
+      "var_value": "0",
+      "script": "RocketHideout_EventScript_PreGiovanniTrigger"
+    }
   ],
   "bg_events": [
     {

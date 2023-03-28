@@ -9,10 +9,10 @@ FuchsiaCity_Gym_MapScripts:: @ 816A592
 FuchsiaCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_KOGA
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 0
 	call_if_eq FuchsiaCity_Gym_EventScript_UnlockKoga
-	callnative CheckGymLockMode
+	callnative CheckLocationLockMode
 	compare VAR_RESULT, 2
 	call_if_eq FuchsiaCity_Gym_EventScript_UnlockKoga
 	callnative UseBattleHouseVar

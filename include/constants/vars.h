@@ -199,7 +199,7 @@
 #define VAR_MAP_BADGE06_GET              0x4093
 #define VAR_MAP_BADGE07_GET              0x4094
 #define VAR_MAP_BADGE08_GET              0x4095
-#define VAR_0x4096                 0x4096
+#define VAR_MAP_ROCKETHIDEOUT_GET        0x4096
 #define VAR_0x4097                 0x4097
 #define VAR_0x4098                 0x4098
 #define VAR_0x4099                 0x4099

@@ -835,7 +835,7 @@ void CheckNuzlockeMode(void)
     gSpecialVar_Result = gSaveBlock1Ptr->keyFlags.nuzlocke;
 }
 
-void CheckGymLockMode(void)
+void CheckLocationLockMode(void)
 {
     gSpecialVar_Result = gSaveBlock1Ptr->keyFlags.difficulty;
 }

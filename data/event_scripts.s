@@ -1239,7 +1239,7 @@ EventScript_NoMoreRoomForPokemon:: @ 81A927C
 	.include "data/text/save.inc"
 	.include "data/text/new_game_intro.inc"
 	.include "data/text/pokedude.inc"
-	.include "data/scripts/gym.inc"
+	.include "data/scripts/location_lock.inc"
 
 	.include "data/maps/FarawayIsland_Exterior/scripts.inc"
 	.include "data/maps/FarawayIsland_Exterior/text.inc"
