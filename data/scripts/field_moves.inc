@@ -293,9 +293,30 @@ EventScript_FailSweetScent:: @ 81BE564
 
 Text_LooksLikeNothingHere:: @ 81BE56D
 	.string "Looks like there's nothing here…$"
-    
+
 EventScript_EnableAutoRun::
-    msgbox AutoRunEnabled MSGBOX_SIGN
-    end
+	message AutoRunEnabled
+	waitmessage
+	waitbuttonpress
+	closemessage
+	end
 AutoRunEnabled:
-    .string "Pressing R toggles running by default.\nAuto running is now enabled.$"
+	.string "Pressing {COLOR GREEN}R{COLOR DARK_GRAY} toggles running by default.\nAuto running is now {COLOR GREEN}ENABLED{COLOR DARK_GRAY}.$"
+
+EventScript_DisableAutoRun::
+	message AutoRunDisabled
+	waitmessage
+	waitbuttonpress
+	closemessage
+	end
+AutoRunDisabled:
+	.string "Auto running is now {COLOR RED}DISABLED{COLOR DARK_GRAY}.$"
+
+EventScript_EnableAutoRun2::
+	message AutoRunEnabled2
+	waitmessage
+	waitbuttonpress
+	closemessage
+	end
+AutoRunEnabled2:
+	.string "Auto running is now {COLOR GREEN}ENABLED{COLOR DARK_GRAY}.$"

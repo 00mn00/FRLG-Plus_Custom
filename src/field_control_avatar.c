@@ -331,7 +331,7 @@ void FieldInput_HandleCancelSignpost(struct FieldInput * input)
                 if (IsMsgBoxWalkawayDisabled() == TRUE)
                     return;
                 if (input->dpadDirection == DIR_NORTH)
-                    RegisterQuestLogInput(QL_INPUT_UP);
+                RegisterQuestLogInput(QL_INPUT_UP);
                 else if (input->dpadDirection == DIR_SOUTH)
                     RegisterQuestLogInput(QL_INPUT_DOWN);
                 else if (input->dpadDirection == DIR_WEST)
@@ -1215,7 +1215,10 @@ int SetCableClubWarp(void)
     return 0;
 }
 
+extern const u8 EventScript_DisableAutoRun[];
 extern const u8 EventScript_EnableAutoRun[];
+extern const u8 EventScript_EnableAutoRun2[];
+
 static bool8 EnableAutoRun(void)
 {
     if (!FlagGet(FLAG_AUTO_RUN_TOGGLED))
@@ -1224,6 +1227,8 @@ static bool8 EnableAutoRun(void)
         if(FlagGet(FLAG_AUTO_RUN_EXPLAINED))
         {
             PlaySE(SE_SELECT);
+            DismissMapNamePopup();
+            ScriptContext1_SetupScript(EventScript_EnableAutoRun2);
         }
         else
         {
@@ -1237,6 +1242,8 @@ static bool8 EnableAutoRun(void)
     {
         FlagClear(FLAG_AUTO_RUN_TOGGLED);
         PlaySE(SE_SELECT);
+        DismissMapNamePopup();
+        ScriptContext1_SetupScript(EventScript_DisableAutoRun);
         return FALSE;
     }
 
