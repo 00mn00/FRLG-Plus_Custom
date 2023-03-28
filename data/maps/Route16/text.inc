@@ -71,8 +71,10 @@ Route16_Text_MonSprawledOutInSlumber:: @ 8186F3D
     .string "a deep and comfortable slumber.$"
 
 Route16_Text_CyclingRoadSign:: @ 8186F7A
-    .string "Enjoy the slope!\n"
-    .string "CYCLING ROAD$"
+    .string "{LEFT_ARROW} CYCLING ROAD (VIA ROUTE 16)\n"
+    .string "{RIGHT_ARROW} CELADON CITY (VIA ROUTE 16)\p"
+    .string "CURRENT LOCATION:\n"
+    .string "ROUTE 16$"
 
 Route16_Text_RouteSign:: @ 8186F98
     .string "{RIGHT_ARROW} CELADON CITY (VIA ROUTE 16)\n"

@@ -33,7 +33,7 @@ CeruleanCity_BikeShop_Text_HowDoYouLikeNewBicycle:: @ 8192833
     .string "You can take it out on CYCLING\n"
     .string "ROAD and even into caves!\p"
     .string "You can switch gears for more\n"
-    .string "speed too with the B Button!$"
+    .string "speed too with the R Button!$"
 
 CeruleanCity_BikeShop_Text_MakeRoomForBicycle:: @ 81928A8
     .string "You better make room for your\n"
