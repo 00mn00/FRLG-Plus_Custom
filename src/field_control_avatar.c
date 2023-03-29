@@ -331,7 +331,7 @@ void FieldInput_HandleCancelSignpost(struct FieldInput * input)
                 if (IsMsgBoxWalkawayDisabled() == TRUE)
                     return;
                 if (input->dpadDirection == DIR_NORTH)
-                RegisterQuestLogInput(QL_INPUT_UP);
+                    RegisterQuestLogInput(QL_INPUT_UP);
                 else if (input->dpadDirection == DIR_SOUTH)
                     RegisterQuestLogInput(QL_INPUT_DOWN);
                 else if (input->dpadDirection == DIR_WEST)
@@ -1250,18 +1250,25 @@ static bool8 EnableAutoRun(void)
     return TRUE;
 }
 
+extern const u8 EventScript_BikeGearAcro[];
+extern const u8 EventScript_BikeGearMach[];
+
 static bool8 SwitchBikeGears(void)
 {
     if(!FlagGet(FLAG_BIKE_GEAR))
     {
         FlagSet(FLAG_BIKE_GEAR);
         PlaySE(SE_BIKE_BELL);
+        DismissMapNamePopup();
+        ScriptContext1_SetupScript(EventScript_BikeGearMach);
         return FALSE;
     }
     else
     {
         FlagClear(FLAG_BIKE_GEAR);
         PlaySE(SE_BIKE_BELL);
+        DismissMapNamePopup();
+        ScriptContext1_SetupScript(EventScript_BikeGearAcro);
         return FALSE;
     }
     return TRUE;

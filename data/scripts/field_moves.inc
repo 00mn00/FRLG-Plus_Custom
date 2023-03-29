@@ -301,7 +301,7 @@ EventScript_EnableAutoRun::
 	closemessage
 	end
 AutoRunEnabled:
-	.string "Pressing {COLOR GREEN}R{COLOR DARK_GRAY} toggles running by default.\nAuto running is now {COLOR GREEN}ENABLED{COLOR DARK_GRAY}.$"
+	.string "Pressing R toggles running by default.\nAuto running is now enabled.$"
 
 EventScript_DisableAutoRun::
 	message AutoRunDisabled
@@ -310,7 +310,7 @@ EventScript_DisableAutoRun::
 	closemessage
 	end
 AutoRunDisabled:
-	.string "Auto running is now {COLOR RED}DISABLED{COLOR DARK_GRAY}.$"
+	.string "Auto running is now {COLOR RED}disabled{COLOR DARK_GRAY}.$"
 
 EventScript_EnableAutoRun2::
 	message AutoRunEnabled2
@@ -319,4 +319,22 @@ EventScript_EnableAutoRun2::
 	closemessage
 	end
 AutoRunEnabled2:
-	.string "Auto running is now {COLOR GREEN}ENABLED{COLOR DARK_GRAY}.$"
+	.string "Auto running is now {COLOR GREEN}enabled{COLOR DARK_GRAY}.$"
+
+EventScript_BikeGearAcro::
+	message BikeGearAcro
+	waitmessage
+	waitbuttonpress
+	closemessage
+	end
+BikeGearAcro:
+	.string "Switched gears to {COLOR RED}ACRO{COLOR DARK_GRAY}.$"
+
+EventScript_BikeGearMach::
+	message BikeGearMach
+	waitmessage
+	waitbuttonpress
+	closemessage
+	end
+BikeGearMach:
+	.string "Switched gears to {COLOR BLUE}MACH{COLOR DARK_GRAY}.$"
