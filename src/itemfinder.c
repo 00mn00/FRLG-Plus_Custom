@@ -106,7 +106,7 @@ static const union AffineAnimCmd *const sArrowAndStarSpriteAffineAnimTable[] = {
 
 static const struct SpriteTemplate gUnknown_84647E4 = {
     .tileTag = ARROW_TILE_TAG,
-    .paletteTag = 0xFFFF,
+    .paletteTag = SPRITE_PLAYER_TAG,
     .oam = &sArrowAndStarSpriteOamData,
     .anims = sArrowAndStarSpriteAnimTable,
     .affineAnims = sArrowAndStarSpriteAffineAnimTable,
@@ -535,7 +535,7 @@ static void DestroyArrowAndStarTiles(void)
 static void CreateArrowSprite(u8 animNum, u8 direction)
 {
     u8 spriteId = CreateSprite(&gUnknown_84647E4, 120, 76, 0);
-    gSprites[spriteId].oam.paletteNum = 0;
+    gSprites[spriteId].oam.paletteNum = IndexOfSpritePaletteTag(gUnknown_84647E4.paletteTag);
     StartSpriteAnim(&gSprites[spriteId], animNum);
     gSprites[spriteId].spAnimNum = animNum;
     gSprites[spriteId].spData0 = 0;
@@ -615,7 +615,7 @@ static void SpriteCallback_DestroyArrow(struct Sprite * sprite)
 static u8 CreateStarSprite(void)
 {
     u8 spriteId = CreateSprite(&gUnknown_84647E4, 120, 76, 0);
-    gSprites[spriteId].oam.paletteNum = 0;
+    gSprites[spriteId].oam.paletteNum = IndexOfSpritePaletteTag(gUnknown_84647E4.paletteTag);
     gSprites[spriteId].callback = SpriteCallback_Star;
     StartSpriteAnim(&gSprites[spriteId], 4);
     gSprites[spriteId].spAnimNum = 0;

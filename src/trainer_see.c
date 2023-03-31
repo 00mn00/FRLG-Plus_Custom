@@ -647,7 +647,7 @@ static const union AnimCmd *const sSpriteAnimTable_Emoticons[] = {
 
 static const struct SpriteTemplate sSpriteTemplate_Emoticons = {
     .tileTag = 0xFFFF,
-    .paletteTag = 0xFFFF,
+    .paletteTag = SPRITE_PLAYER_TAG,
     .oam = &sOamData_Emoticons,
     .anims = sSpriteAnimTable_Emoticons,
     .images = sSpriteImages_Emoticons,

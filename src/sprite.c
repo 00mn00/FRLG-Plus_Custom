@@ -82,7 +82,6 @@ static void GetAffineAnimFrame(u8 matrixNum, struct Sprite *sprite, struct Affin
 static void ApplyAffineAnimFrame(u8 matrixNum, struct AffineAnimFrameCmd *frameCmd);
 static u8 IndexOfSpriteTileTag(u16 tag);
 static void AllocSpriteTileRange(u16 tag, u16 start, u16 count);
-static void DoLoadSpritePalette(const u16 *src, u16 paletteOffset);
 static void obj_update_pos2(struct Sprite* sprite, s32 a1, s32 a2);
 
 typedef void (*AnimFunc)(struct Sprite *);
@@ -581,7 +580,15 @@ u8 CreateSpriteAt(u8 index, const struct SpriteTemplate *template, s16 x, s16 y,
         InitSpriteAffineAnim(sprite);
 
     if (template->paletteTag != 0xFFFF)
-        sprite->oam.paletteNum = IndexOfSpritePaletteTag(template->paletteTag);
+    {
+        u16 paletteTag = template->paletteTag;
+        if (paletteTag == SPRITE_PLAYER_TAG)
+            paletteTag = gSaveBlock2Ptr->playerGender == MALE
+                    ? 0x1100  // OBJ_EVENT_PAL_TAG_PLAYER_RED
+                    : 0x1110; // OBJ_EVENT_PAL_TAG_PLAYER_GREEN
+
+        sprite->oam.paletteNum = IndexOfSpritePaletteTag(paletteTag);
+    }
 
     return index;
 }
@@ -1633,6 +1640,11 @@ u8 AllocSpritePalette(u16 tag)
 u8 IndexOfSpritePaletteTag(u16 tag)
 {
     u32 i;
+    if (tag == SPRITE_PLAYER_TAG)
+        tag = gSaveBlock2Ptr->playerGender == MALE
+                ? 0x1100  // OBJ_EVENT_PAL_TAG_PLAYER_RED
+                : 0x1110; // OBJ_EVENT_PAL_TAG_PLAYER_GREEN
+
     for (i = gReservedSpritePaletteCount; i < 16; i++)
         if (sSpritePaletteTags[i] == tag)
             return i;

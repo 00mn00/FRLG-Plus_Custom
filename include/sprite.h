@@ -4,6 +4,7 @@
 #include "global.h"
 
 #define MAX_SPRITES 64
+#define SPRITE_PLAYER_TAG 0xFFFE
 #define SPRITE_INVALID_TAG 0xFFFF
 
 struct SpriteSheet
@@ -293,8 +294,6 @@ u16 LoadSpriteSheet(const struct SpriteSheet *sheet);
 void LoadSpriteSheets(const struct SpriteSheet *sheets);
 u16 AllocTilesForSpriteSheet(struct SpriteSheet *sheet);
 void AllocTilesForSpriteSheets(struct SpriteSheet *sheets);
-void LoadTilesForSpriteSheet(const struct SpriteSheet *sheet);
-void LoadTilesForSpriteSheets(struct SpriteSheet *sheets);
 void FreeSpriteTilesByTag(u16 tag);
 void FreeSpriteTileRanges(void);
 u16 GetSpriteTileStartByTag(u16 tag);
@@ -320,5 +319,6 @@ void sub_8007FFC(struct Sprite* sprite, s16 a2, s16 a3);
 void FreeSpriteTilesIfNotUsingSheet(struct Sprite *sprite);
 s16 AllocSpriteTiles(u16 tileCount);
 void obj_pos2_update_enable(struct Sprite* sprite, s16 xmod, s16 ymod);
+void DoLoadSpritePalette(const u16 *src, u16 paletteOffset);
 
 #endif //GUARD_SPRITE_H

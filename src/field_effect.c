@@ -20,6 +20,7 @@
 #include "pokemon_storage_system.h"
 #include "quest_log.h"
 #include "script.h"
+#include "sprite.h"
 #include "special_field_anim.h"
 #include "task.h"
 #include "trainer_pokemon_sprites.h"
@@ -58,7 +59,6 @@ static void FieldEffectScript_LoadFadedPal(const u8 **script);
 static void FieldEffectScript_LoadPal(const u8 **script);
 static void FieldEffectScript_CallNative(const u8 **script, u32 *result);
 static void FieldEffectFreeTilesIfUnused(u16 tilesTag);
-static void FieldEffectFreePaletteIfUnused(u8 paletteNum);
 static void Task_PokecenterHeal(u8 taskId);
 static void SpriteCB_PokeballGlow(struct Sprite * sprite);
 static void SpriteCB_PokecenterMonitor(struct Sprite * sprite);
@@ -492,6 +492,7 @@ static void FieldEffectScript_LoadFadedPal(const u8 **script)
     }
     idx = IndexOfSpritePaletteTag(spritePalette->tag);
     LoadSpritePalette(spritePalette);
+    UpdatePaletteGammaType(IndexOfSpritePaletteTag(spritePalette->tag), GAMMA_NORMAL);
     if (idx == 0xFF)
         ApplyGlobalFieldPaletteTint(IndexOfSpritePaletteTag(spritePalette->tag));
     UpdateSpritePaletteWithWeather(IndexOfSpritePaletteTag(spritePalette->tag));
@@ -521,7 +522,7 @@ static void FieldEffectFreeGraphicsResources(struct Sprite * sprite)
     u8 paletteNum = sprite->oam.paletteNum;
     DestroySprite(sprite);
     FieldEffectFreeTilesIfUnused(tileStart);
-    FieldEffectFreePaletteIfUnused(paletteNum);
+    FreeSpritePaletteIfUnused(paletteNum);
 }
 
 void FieldEffectStop(struct Sprite * sprite, u8 fldeff)
@@ -544,7 +545,7 @@ static void FieldEffectFreeTilesIfUnused(u16 tileStart)
     FreeSpriteTilesByTag(tileTag);
 }
 
-static void FieldEffectFreePaletteIfUnused(u8 paletteNum)
+void FreeSpritePaletteIfUnused(u8 paletteNum)
 {
     u32 i;
     u16 paletteTag = GetSpritePaletteTagByPaletteNum(paletteNum);
@@ -3134,10 +3135,11 @@ static void sub_8086D94(struct Sprite * sprite);
 
 u8 FldEff_NpcFlyOut(void)
 {
-    u8 spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0x78, 0, 1);
+    const struct SpriteTemplate *template = gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD];
+    u8 spriteId = CreateSprite(template, 0x78, 0, 1);
     struct Sprite * sprite = &gSprites[spriteId];
 
-    sprite->oam.paletteNum = 0;
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(template->paletteTag);
     sprite->oam.priority = 1;
     sprite->callback = sub_8086D94;
     sprite->data[1] = gFieldEffectArguments[0];
@@ -3325,9 +3327,10 @@ static u8 sub_8087168(void)
 {
     u8 spriteId;
     struct Sprite * sprite;
-    spriteId = CreateSprite(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD], 0xff, 0xb4, 0x1);
+    const struct SpriteTemplate *template = gFieldEffectObjectTemplatePointers[FLDEFFOBJ_BIRD];
+    spriteId = CreateSprite(template, 255, 180, 1);
     sprite = &gSprites[spriteId];
-    sprite->oam.paletteNum = 0;
+    sprite->oam.paletteNum = IndexOfSpritePaletteTag(template->paletteTag);
     sprite->oam.priority = 1;
     sprite->callback = sub_8087220;
     return spriteId;

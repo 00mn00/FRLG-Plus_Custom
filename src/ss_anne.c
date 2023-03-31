@@ -153,7 +153,7 @@ static void CreateWakeBehindBoat(void)
     x = gSprites[boatObject->spriteId].pos1.x + gSprites[boatObject->spriteId].pos2.x + 80;
     spriteId = CreateSprite(&sWakeSpriteTemplate, x, 109, 0xFF);
     gSprites[spriteId].oam.priority = 2;
-    gSprites[spriteId].oam.paletteNum = 10;
+    gSprites[spriteId].oam.paletteNum = 2;
 }
 
 static void WakeSpriteCallback(struct Sprite * sprite)
@@ -187,7 +187,7 @@ static void CreateSmokeSprite(void)
     {
         spriteId = CreateSprite(&sSmokeSpriteTemplate, x, 78, 8);
         if (spriteId != MAX_SPRITES)
-            gSprites[spriteId].oam.paletteNum = 10;
+            gSprites[spriteId].oam.paletteNum = 2;
     }
 }
 
