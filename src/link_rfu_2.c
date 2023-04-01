@@ -41,9 +41,9 @@ static u32 gf_rfu_REQ_api[RFU_API_BUFF_SIZE_RAM / 4];
 static u8 sResendBlock8[14];
 static u16 sResendBlock16[7];
 
-struct GFtgtGname gHostRFUtgtGnameBuffer;
+EWRAM_DATA struct GFtgtGname gHostRFUtgtGnameBuffer = {};
 GF_RFU_MANAGER Rfu;
-u8 gHostRFUtgtUnameBuffer[PLAYER_NAME_LENGTH + 1];
+EWRAM_DATA u8 gHostRFUtgtUnameBuffer[PLAYER_NAME_LENGTH + 1] = {};
 
 static void sub_80F8AA4(void);
 static void sub_80F8AEC(void);
