@@ -60,16 +60,15 @@ static void InitPlayerTrainerId(void)
 static void SetDefaultOptions(void)
 {
     gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_FAST;
-    gSaveBlock2Ptr->optionsWindowFrameType = 0;
-    gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_STEREO;
-    gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
-    gSaveBlock2Ptr->optionsButtonMode = OPTIONS_BUTTON_MODE_HELP;
-    
-    gSaveBlock2Ptr->optionsBattleTransitions = FALSE;
+    gSaveBlock2Ptr->optionsBattleTransitions = 0;
     gSaveBlock2Ptr->optionsBattleIntroAnim = 0;
-    gSaveBlock2Ptr->optionsBattleSceneOff = FALSE;
+    gSaveBlock2Ptr->optionsBattleSceneOff = 0;
     gSaveBlock2Ptr->optionsHpBarAnimSpeed = 0;
     gSaveBlock2Ptr->optionsExpBarAnimSpeed = 0;
+    gSaveBlock2Ptr->optionsBattleStyle = OPTIONS_BATTLE_STYLE_SHIFT;
+    gSaveBlock2Ptr->optionsSound = OPTIONS_SOUND_STEREO;
+    gSaveBlock2Ptr->optionsButtonMode = OPTIONS_BUTTON_MODE_HELP;
+    gSaveBlock2Ptr->optionsWindowFrameType = 0;
 }
 
 static void ClearPokedexFlags(void)
@@ -154,7 +153,7 @@ void NewGameInitData(void)
     ScriptContext2_RunNewScript(EventScript_ResetAllMapFlags);
     StringCopy(gSaveBlock1Ptr->rivalName, rivalName);
     ResetTrainerTowerResults();
-    gSaveBlock2Ptr->optionsBattleStyle = 1; //shift battle style as default after starting new game, if old game had forcedstyle enabled
+    SetDefaultOptions();
 }
 
 static void ResetMiniGamesResults(void)
