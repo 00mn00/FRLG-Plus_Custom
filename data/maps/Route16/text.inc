@@ -78,7 +78,7 @@ Route16_Text_CyclingRoadSign:: @ 8186F7A
 
 Route16_Text_RouteSign:: @ 8186F98
     .string "{RIGHT_ARROW} CELADON CITY (VIA ROUTE 16)\n"
-    .string "{DOWN_ARROW} FUCHSIA CITY (VIA ROUTE 18)\p"
+    .string "{DOWN_ARROW} FUCHSIA CITY (VIA ROUTE 17)\p"
     .string "CURRENT LOCATION:\n"
     .string "ROUTE 16$"
 

@@ -1016,13 +1016,18 @@ EventScript_OutOfCenterPartyHeal:: @ 81A6C26
 
 EventScript_WallTownMap:: @ 81A6C32
 	lockall
-	msgbox Text_ATownMap
+	msgbox Text_ATownMap, MSGBOX_YESNO
+	compare VAR_RESULT, YES
+	goto_if_eq EventScript_WallTownMap2
+	releaseall
+	end
+
+EventScript_WallTownMap2:: @ 81A6C32
 	goto_if_questlog EventScript_ReleaseEnd
 	fadescreen FADE_TO_BLACK
 	special ShowTownMap
-	waitstate
-	releaseall
-	end
+	fadescreen FADE_FROM_BLACK
+	return
 
 	.include "data/text/pokedex_rating.inc"
 	.include "data/scripts/pokedex_rating.inc"

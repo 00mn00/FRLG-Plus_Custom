@@ -4,7 +4,8 @@ Text_Bookshelf:: @ 81C0DB0
 	.string "It's filled with all sorts of books.$"
 
 Text_ATownMap:: @ 81C0DF1
-	.string "A TOWN MAP.$"
+	.string "It's a TOWN MAP. Would you\n"
+	.string "like to look at it?$"
 
 Text_PokeMartShelf:: @ 81C0DFD
 	.string "The shelves brim with all sorts of\n"
