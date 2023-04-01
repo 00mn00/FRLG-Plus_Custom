@@ -515,17 +515,21 @@ static u16 TakeSelectedPokemonFromDaycare(struct DaycareMon *daycareMon)
     u32 experience;
     struct Pokemon pokemon;
     u8 sentPC;
+    u8 levelCap = GetCurrentPartyLevelCap();
 
     DayCare_GetBoxMonNickname(&daycareMon->mon, gStringVar1);
     species = GetBoxMonData(&daycareMon->mon, MON_DATA_SPECIES);
     BoxMonToMon(&daycareMon->mon, &pokemon);
     PopulateBoxHpAndStatusToPartyMon(&pokemon);
 
-    if (GetMonData(&pokemon, MON_DATA_LEVEL) != GetCurrentPartyLevelCap())
+    if (GetMonData(&pokemon, MON_DATA_LEVEL) != levelCap)
     {
-        experience = GetMonData(&pokemon, MON_DATA_EXP) + daycareMon->steps;
-        SetMonData(&pokemon, MON_DATA_EXP, &experience);
-        ApplyDaycareExperience(&pokemon);
+        if (levelCap != MAX_LEVEL && experience > GetExpFromLevelForSpecies(levelCap, species))
+            experience = GetExpFromLevelForSpecies(levelCap, species) - 1;
+        else
+            experience = GetMonData(&pokemon, MON_DATA_EXP) + daycareMon->steps;
+            SetMonData(&pokemon, MON_DATA_EXP, &experience);
+            ApplyDaycareExperience(&pokemon);
     }
 
     if(CalculatePlayerPartyCount() != 6)
@@ -574,9 +578,13 @@ static u8 GetLevelAfterDaycareSteps(struct BoxPokemon *mon, u32 steps)
 {
     struct BoxPokemon tempMon = *mon;
 
+    u8 level;
+    u8 maxLevel = GetCurrentPartyLevelCap();
     u32 experience = GetBoxMonData(mon, MON_DATA_EXP) + steps;
+
     SetBoxMonData(&tempMon, MON_DATA_EXP,  &experience);
-    return GetLevelFromBoxMonExp(&tempMon);
+    level = GetLevelFromBoxMonExp(&tempMon);
+    return ((level < maxLevel) ? level : maxLevel);
 }
 
 static u8 GetNumLevelsGainedFromSteps(struct DaycareMon *daycareMon)

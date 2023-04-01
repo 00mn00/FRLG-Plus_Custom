@@ -471,5 +471,6 @@ u16 ExtendedPokedexNumToSpecies(u16 nationalNum);
 u16 NationalToExtendedOrder(u16 nationalNum);
 u16 SpeciesToExtendedPokedexNum(u16 species);
 u8 GetCurrentPartyLevelCap(void);
+u32 GetExpFromLevelForSpecies(u8 level, u16 species);
 
 #endif // GUARD_POKEMON_H

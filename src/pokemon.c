@@ -8309,3 +8309,8 @@ u8 GetCurrentPartyLevelCap(void)
 
     return MAX_LEVEL;
 }
+
+u32 GetExpFromLevelForSpecies(u8 level, u16 species)
+{
+    return gExperienceTables[gBaseStats[species].growthRate][level];
+}
