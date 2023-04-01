@@ -6416,12 +6416,12 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem)
                 break;
             case EVO_FRIENDSHIP_DAY:
                 RtcCalcLocalTime();
-                if (gLocalTime.hours >= 6 && gLocalTime.hours <= 18 && friendship >= 220)
+                if ((gLocalTime.hours >= 6 || gLocalTime.hours < 18) && friendship >= 220)
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;
                 break;
             case EVO_FRIENDSHIP_NIGHT:
                 RtcCalcLocalTime();
-                if (gLocalTime.hours > 18 && gLocalTime.hours < 6 && friendship >= 220)
+                if ((gLocalTime.hours >= 18 || gLocalTime.hours < 6) && friendship >= 220)
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;
                 break;
             case EVO_LEVEL:

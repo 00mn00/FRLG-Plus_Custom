@@ -697,7 +697,6 @@ void CB2_StartWallClock(void)
     u8 taskId;
     u8 spriteId;
 
-    InitClockWithRtc(taskId);
     LoadWallClockGraphics();
     LZ77UnCompVram(gWallClockStart_Tilemap, (u16 *)BG_SCREEN_ADDR(7));
 
@@ -840,6 +839,7 @@ static void Task_SetClock_HandleInput(u8 taskId)
 
 static void Task_SetClock_AskConfirm(u8 taskId)
 {
+    TextWindow_SetStdFrame0_WithPal(0, 0x001, 0xF0);
     DrawStdFrameWithCustomTileAndPalette(0, FALSE, 0x250, 0x0d);
     AddTextPrinterParameterized(0, 1, gText_IsThisTheCorrectTime, 0, 1, 0, NULL);
     PutWindowTilemap(0);
@@ -915,7 +915,6 @@ static void Task_ViewClock_FadeOut(u8 taskId)
 
 static void Task_ViewClock_Exit(u8 taskId)
 {
-    InitClockWithRtc(taskId);
     if (!gPaletteFade.active)
         SetMainCallback2(gMain.savedCallback);
 }
