@@ -1,5 +1,6 @@
 #include "global.h"
 #include "gflib.h"
+#include "event_data.h"
 #include "event_object_movement.h"
 #include "field_camera.h"
 #include "field_effect.h"
@@ -8,6 +9,7 @@
 #include "metatile_behavior.h"
 #include "overworld.h"
 #include "constants/field_effects.h"
+#include "constants/map_types.h"
 #include "constants/region_map_sections.h"
 #include "constants/event_objects.h"
 #include "constants/songs.h"
@@ -233,7 +235,13 @@ u32 FldEff_Shadow(void)
         gSprites[spriteId].data[1] = gFieldEffectArguments[1];
         gSprites[spriteId].data[2] = gFieldEffectArguments[2];
         gSprites[spriteId].data[3] = (graphicsInfo->height >> 1) - gShadowVerticalOffsets[graphicsInfo->shadowSize];
+        gSprites[spriteId].oam.objMode = ST_OAM_OBJ_BLEND;
     }
+    if (gMapHeader.mapType == MAP_TYPE_UNDERGROUND)
+        return 0;
+    else
+        SetGpuReg(REG_OFFSET_DISPCNT, 0x1F40);
+        SetGpuReg(REG_OFFSET_BLDALPHA, 0x0A10);
     return 0;
 }
 
@@ -243,7 +251,7 @@ void UpdateShadowFieldEffect(struct Sprite * sprite)
     struct ObjectEvent * objectEvent;
     struct Sprite * linkedSprite;
 
-    if (TryGetObjectEventIdByLocalIdAndMap(sprite->data[0], sprite->data[1], sprite->data[2], &objectEventId))
+    if (TryGetObjectEventIdByLocalIdAndMap(sprite->data[0], sprite->data[1], sprite->data[2], &objectEventId) || (gMapHeader.mapType == MAP_TYPE_UNDERGROUND))
     {
         FieldEffectStop(sprite, FLDEFF_SHADOW);
     }
