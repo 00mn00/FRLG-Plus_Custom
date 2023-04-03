@@ -1601,6 +1601,11 @@ static void OpenContextMenu(u8 taskId)
                 }
                 else if (gSpecialVar_ItemId == ITEM_BICYCLE && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE | PLAYER_AVATAR_FLAG_MACH_BIKE))
                     sContextMenuItemsBuffer[0] = ITEMMENUACTION_WALK;
+                else if ((gSaveBlock1Ptr->keyFlags.noIH == 1 || gSaveBlock1Ptr->keyFlags.noIH == 3) && gSpecialVar_ItemId == ITEM_POKE_FLUTE)
+                {
+                    sContextMenuNumItems = 1;
+                    sContextMenuItemsBuffer[0] = ITEMMENUACTION_CANCEL;
+                }
                 else
                     sContextMenuItemsBuffer[0] = ITEMMENUACTION_USE;
                 break;
