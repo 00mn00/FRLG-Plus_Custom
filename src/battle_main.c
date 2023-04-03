@@ -4382,6 +4382,10 @@ static void HandleAction_Run(void)
                 gBattlescriptCurrInstr = BattleScript_PrintFailedToRunString;
                 gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
             }
+            else if ((gBattleTypeFlags & BATTLE_TYPE_SAFARI) && (GetBattlerSide(gBattlerAttacker) == B_SIDE_OPPONENT))
+            {
+                gCurrentActionFuncId = B_ACTION_EXEC_SCRIPT;
+            }
             else
             {
                 gCurrentTurnActionNumber = gBattlersCount;
