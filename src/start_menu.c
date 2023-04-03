@@ -130,7 +130,7 @@ static const struct WindowTemplate sSafariZoneStatsWindowTemplate = {
     .tilemapLeft = 1,
     .tilemapTop = 1,
     .width = 11,
-    .height = 6,
+    .height = 4,
     .paletteNum = 15,
     .baseBlock = 0x008
 };
@@ -255,16 +255,6 @@ static void Task_PutTimeInTimeBox(u8 taskId)
     CopyWindowToVram(sSafariZoneStatsWindowId, COPYWIN_GFX);
 }
 
-static void Task_PutTimeInTimeBox2(u8 taskId)
-{
-    RtcCalcLocalTime();
-    ConvertIntToDecimalStringN(gStringVar1, gLocalTime.hours, STR_CONV_MODE_LEADING_ZEROS, 2);
-    ConvertIntToDecimalStringN(gStringVar2, gLocalTime.minutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-    StringExpandPlaceholders(gStringVar4, gStartMenu_TimeBoxClock2);
-    AddTextPrinterParameterized(sSafariZoneStatsWindowId, 2, gStringVar4, 3, 31, 0xFF, NULL);
-    CopyWindowToVram(sSafariZoneStatsWindowId, COPYWIN_GFX);
-}
-
 static void DrawTimeBox(void)
 {
     bool32 inSafariZone = GetSafariZoneFlag();
@@ -290,13 +280,11 @@ static void DrawTimeBox(void)
         sSafariZoneStatsWindowId = AddWindow(&sSafariZoneStatsWindowTemplate);
         PutWindowTilemap(sSafariZoneStatsWindowId);
         DrawStdWindowFrame(sSafariZoneStatsWindowId, FALSE);
-        FlagSet(FLAG_TEMP_RTC);
-        CreateTask(Task_PutTimeInTimeBox2, 2);
         ConvertIntToDecimalStringN(gStringVar1, gSafariZoneStepCounter, STR_CONV_MODE_RIGHT_ALIGN, 3);
         ConvertIntToDecimalStringN(gStringVar2, 600, STR_CONV_MODE_RIGHT_ALIGN, 3);
         ConvertIntToDecimalStringN(gStringVar3, gNumSafariBalls, STR_CONV_MODE_RIGHT_ALIGN, 2);
         StringExpandPlaceholders(gStringVar4, gUnknown_84162A9);
-        AddTextPrinterParameterized(sSafariZoneStatsWindowId,2, gStringVar4, 3, 3, 0xFF, NULL);
+        AddTextPrinterParameterized(sSafariZoneStatsWindowId,2, gStringVar4, 3, 2, 0xFF, NULL);
         CopyWindowToVram(sSafariZoneStatsWindowId, COPYWIN_GFX);
     }
 }

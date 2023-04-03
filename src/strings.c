@@ -129,7 +129,6 @@ const u8 gUnknown_841623D[] = _("YES\nNO");
 const u8 gText_GoBackToThePreviousMenu[] = _("Go back to the\nprevious menu.");
 const u8 gText_WhatWouldYouLikeToDo[] = _("What would you like to do?");
 const u8 gStartMenu_TimeBoxClock[] = _("{STR_VAR_1}:{STR_VAR_2}");
-const u8 gStartMenu_TimeBoxClock2[] = _("CLOCK: {STR_VAR_1}:{STR_VAR_2}");
 const u8 gStartMenuText_Pokedex[] = _("POKéDEX");
 const u8 gStartMenuText_Bag[] = _("BAG");
 const u8 gStartMenuText_Player[] = _("{PLAYER}");
