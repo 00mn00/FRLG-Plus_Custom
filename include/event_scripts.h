@@ -1285,6 +1285,7 @@ extern const u8 EventScript_Waterfall[];
 extern const u8 EventScript_CantUseWaterfall[];
 extern const u8 EventScript_UseDive[];
 extern const u8 EventScript_UseDiveUnderwater[];
+extern const u8 EventScript_ObstacleCantSurface[];
 extern const u8 EventScript_VsSeekerChargingDone[];
 extern const u8 EventScript_FieldPoison[];
 extern const u8 EventScript_EggHatch[];

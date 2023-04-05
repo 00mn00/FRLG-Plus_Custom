@@ -1849,7 +1849,8 @@ static const u8 sLocationToDepartedTextId[] =
         [QL_LOCATION_CERULEAN_CAVE]      = QL_DEPARTED_CAVE
     };
 
-static const u8 sGymCityMapSecs[] = {
+static const u8 sGymCityMapSecs[] =
+{
     MAPSEC_PEWTER_CITY,
     MAPSEC_CERULEAN_CITY,
     MAPSEC_VERMILION_CITY,
@@ -1861,20 +1862,21 @@ static const u8 sGymCityMapSecs[] = {
 };
 
 static const u8 *const sUsedFieldMoveTexts[] =
-    {
-        [FIELD_MOVE_FLASH]       = gText_QuestLog_UsedFlash,
+{
         [FIELD_MOVE_CUT]         = gText_QuestLog_UsedCut,
         [FIELD_MOVE_FLY]         = gText_QuestLog_UsedFly,
-        [FIELD_MOVE_STRENGTH]    = gText_QuestLog_UsedStrength,
         [FIELD_MOVE_SURF]        = gText_QuestLog_UsedSurf,
+        [FIELD_MOVE_STRENGTH]    = gText_QuestLog_UsedStrength,
+        [FIELD_MOVE_FLASH]       = gText_QuestLog_UsedFlash,
         [FIELD_MOVE_ROCK_SMASH]  = gText_QuestLog_UsedRockSmash,
         [FIELD_MOVE_WATERFALL]   = gText_QuestLog_UsedWaterfall,
+        [FIELD_MOVE_DIVE]        = gText_QuestLog_UsedDive,
         [FIELD_MOVE_TELEPORT]    = gText_QuestLog_UsedTeleportToLocation,
         [FIELD_MOVE_DIG]         = gText_QuestLog_UsedDigInLocation,
         [FIELD_MOVE_MILK_DRINK]  = gText_QuestLog_UsedMilkDrink,
         [FIELD_MOVE_SOFT_BOILED] = gText_QuestLog_UsedSoftboiled,
         [FIELD_MOVE_SWEET_SCENT] = gText_QuestLog_UsedSweetScent
-    };
+};
 
 static u16 *BufferQuestLogData_DepartedLocation(u16 *a0, const u16 *eventData)
 {

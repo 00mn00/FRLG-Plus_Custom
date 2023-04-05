@@ -20,6 +20,7 @@ void CB2_DoChangeMap(void);
 
 // cut
 bool8 SetUpFieldMove_Cut(void);
+bool8 SetUpFieldMove_Cut2(void);
 
 // dig
 bool8 SetUpFieldMove_Dig(void);

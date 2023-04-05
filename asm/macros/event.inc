@@ -1469,12 +1469,6 @@
 	.2byte \localId
 	.endm
 
-	@ Checks if the player has a pokemon that can learn a specific tm/hm and returns the index if so. If not, VAR_RESULT is set to PARTY_SIZE.
-	.macro checkpartytmhm move:req
-	.byte 0xd9
-	.2byte \move
-	.endm
-
 @ Supplementary
 
 	.macro goto_if_unset flag:req, dest:req

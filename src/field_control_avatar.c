@@ -625,18 +625,13 @@ static const u8 *GetInteractedMetatileScript(struct MapPosition *position, u8 me
 
 static const u8 *GetInteractedWaterScript(struct MapPosition *unused1, u8 metatileBehavior, u8 direction)
 {
-    if (MetatileBehavior_IsSemiDeepWater(metatileBehavior) == TRUE &&PartyHasMonWithSurf() == TRUE)
+    if (MetatileBehavior_IsSemiDeepWater(metatileBehavior) == TRUE)
         return EventScript_CurrentTooFast;
-    if (FlagGet(FLAG_BADGE05_GET) == TRUE && PartyHasMonWithSurf() == TRUE && IsPlayerFacingSurfableFishableWater() == TRUE)
+    if (IsPlayerFacingSurfableFishableWater() == TRUE)
         return EventScript_UseSurf;
+    if (MetatileBehavior_IsWaterfall(metatileBehavior) == TRUE && IsPlayerSurfingNorth() == TRUE)
+        return EventScript_Waterfall;
 
-    if (MetatileBehavior_IsWaterfall(metatileBehavior) == TRUE)
-    {
-        if (FlagGet(FLAG_BADGE07_GET) == TRUE && IsPlayerSurfingNorth() == TRUE)
-            return EventScript_Waterfall;
-        else
-            return EventScript_CantUseWaterfall;
-    }
     return NULL;
 }
 
@@ -1263,7 +1258,7 @@ static bool8 SwitchBikeGears(void)
 //dive
 static bool32 TrySetupDiveDownScript(void)
 {
-    if (FlagGet(FLAG_SYS_CAN_LINK_WITH_RS) && TrySetDiveWarp() == 2)
+    if (TrySetDiveWarp() == 2)
     {
         ScriptContext1_SetupScript(EventScript_UseDive);
         return TRUE;
@@ -1273,11 +1268,19 @@ static bool32 TrySetupDiveDownScript(void)
 
 static bool32 TrySetupDiveEmergeScript(void)
 {
+    s16 x, y;
+    u16 tileBehavior;
+
+    PlayerGetDestCoords(&x, &y);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+
+    if (MetatileBehavior_IsUnableToEmerge(tileBehavior))
+    {
+        ScriptContext1_SetupScript(EventScript_ObstacleCantSurface);
+        return TRUE;
+    }
     if(GetCurrentRegionMapSectionId() == MAPSEC_UNDERWATER_124)
     {
-        s16 x, y;
-        PlayerGetDestCoords(&x, &y);
-
         if(MapGridGetMetatileIdAt(x, y) == 0x296) //if emergable tile
         {
             ScriptContext1_SetupScript(EventScript_UseDiveUnderwater);
@@ -1285,11 +1288,10 @@ static bool32 TrySetupDiveEmergeScript(void)
         }
         return FALSE;
     }
-    if (FlagGet(FLAG_SYS_CAN_LINK_WITH_RS) && gMapHeader.mapType == MAP_TYPE_UNDERWATER && TrySetDiveWarp() == 1)
+    if (gMapHeader.mapType == MAP_TYPE_UNDERWATER && TrySetDiveWarp() == 1)
     {
         ScriptContext1_SetupScript(EventScript_UseDiveUnderwater);
         return TRUE;
     }
     return FALSE;
 }
-

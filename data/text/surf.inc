@@ -8,3 +8,7 @@ Text_UsedSurf:: @ 81A55A5
 Text_CurrentTooFast:: @ 81A55B3
 	.string "The current is much too fast!\n"
 	.string "SURF can't be used here…$"
+
+Text_SurfableWater:: @ 81BDFE3
+	.string "The water is dyed a deep blue…\n"
+	.string "A POKéMON may be able to SURF on it.$"

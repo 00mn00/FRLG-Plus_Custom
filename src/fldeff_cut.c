@@ -240,14 +240,6 @@ bool8 SetUpFieldMove_Cut(void)
         gPostMenuFieldCallback = FieldCallback_CutGrass;
         return TRUE;
     }
-
-    if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUT_TREE) == TRUE)
-    {
-        gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
-        gPostMenuFieldCallback = FieldCallback_CutTree;
-        return TRUE;
-    }
-    
     else
     {
         PlayerGetDestCoords(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
@@ -264,6 +256,45 @@ bool8 SetUpFieldMove_Cut(void)
                     {
                         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
                         gPostMenuFieldCallback = FieldCallback_CutGrass;
+                        return TRUE;
+                    }
+                }
+            }
+        }
+        return FALSE;
+    }
+}
+
+bool8 SetUpFieldMove_Cut2(void)
+{
+    s16 x, y;
+    u8 i, j;
+    sScheduleOpenDottedHole = FALSE;
+    if (CutMoveRuinValleyCheck() == TRUE)
+    {
+        sScheduleOpenDottedHole = TRUE;
+        return TRUE;
+    }
+
+    if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_CUT_TREE) == TRUE)
+    {
+        return FALSE;
+    }
+    
+    else
+    {
+        PlayerGetDestCoords(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
+    
+        for (i = 0; i < CUT_SIDE; i++)
+        {
+            y = gPlayerFacingPosition.y - 1 + i;
+            for (j = 0; j < CUT_SIDE; j++)
+            {
+                x = gPlayerFacingPosition.x - 1 + j;
+                if (MapGridGetZCoordAt(x, y) == gPlayerFacingPosition.height)
+                {
+                    if (MetatileAtCoordsIsGrassTile(x, y) == TRUE)
+                    {
                         return TRUE;
                     }
                 }

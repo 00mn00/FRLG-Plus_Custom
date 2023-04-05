@@ -64,10 +64,13 @@
 #include "constants/field_effects.h"
 #include "constants/item_effects.h"
 #include "constants/items.h"
+#include "constants/layouts.h"
 #include "constants/maps.h"
+#include "constants/map_types.h"
 #include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "constants/quest_log.h"
+#include "constants/region_map_sections.h"
 #include "constants/songs.h"
 
 #define PARTY_PAL_SELECTED     (1 << 0)
@@ -3018,63 +3021,81 @@ static void SetPartyMonSelectionActions(struct Pokemon *mons, u8 slotId, u8 acti
 static void SetPartyMonFieldSelectionActions(struct Pokemon *mons, u8 slotId)
 {
     u8 i, j;
-    s16 Sx, Sy;
-    u16 tileBehavior = gObjectEvents[gPlayerAvatar.objectEventId].currentMetatileBehavior;
-    u16 maxHp = GetMonData(&gPlayerParty[GetCursorSelectionMonId()], MON_DATA_MAX_HP);
-    u16 curHp = GetMonData(&gPlayerParty[GetCursorSelectionMonId()], MON_DATA_HP);
+    s16 x, y;
+    u16 tileBehavior;
 
-    PlayerGetDestCoords(&Sx, &Sy);
-    tileBehavior = MapGridGetMetatileBehaviorAt(Sx, Sy);
+    PlayerGetDestCoords(&x, &y);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+
     sPartyMenuInternal->numActions = 0;
-    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
     // Add field moves to action list
     for (i = 0; i < MAX_MON_MOVES; ++i)
     {
         for (j = 0; sFieldMoves[j] != FIELD_MOVE_END; ++j)
         {
-            if (GetMonData(&mons[slotId], i + MON_DATA_MOVE1) == sFieldMoves[j])
+            u16 move = GetMonData(&mons[slotId], i + MON_DATA_MOVE1);
+            if (move == sFieldMoves[j])
             {
-                if (sFieldMoves[j] != MOVE_FLASH) // If Mon already knows FLASH, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_CUT) // If Mon already knows CUT, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_FLY) // If Mon already knows FLY, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_STRENGTH) // If Mon already knows STRENGTH, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_SURF) // If Mon already knows SURF, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_ROCK_SMASH) // If Mon already knows ROCK SMASH, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_WATERFALL) // If Mon already knows WATERFALL, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_TELEPORT) // If Mon already knows TELEPORT, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_DIG) // If Mon already knows DIG, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_MILK_DRINK) // If Mon already knows MILK DRINK, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_SOFT_BOILED) // If Mon already knows SOFT BOILED, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_SWEET_SCENT) // If Mon already knows SWEET SCENT, prevent it from being added to action list
-                if (sFieldMoves[j] != MOVE_DIVE) // If Mon already knows DIVE, prevent it from being added to action list
+                // If Mon already knows any of these moves, prevent it from being added to action list
+                if (move != MOVE_FLASH && move != MOVE_CUT && move != MOVE_FLY && move != MOVE_TELEPORT &&
+                    move != MOVE_DIG && move != MOVE_MILK_DRINK && move != MOVE_SOFT_BOILED && move != MOVE_SWEET_SCENT)
+                {
                     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, j + MENU_FIELD_MOVES);
-                    break;
+                }
+                break; // Once we've found the move, we can stop looking
             }
         }
     }
-    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM05, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM05 - ITEM_TM01_FOCUS_PUNCH) && (gMapHeader.cave == TRUE) && (!FlagGet(FLAG_SYS_FLASH_ACTIVE)))
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 0 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM01, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH) && ((SetUpFieldMove_Cut())))
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 1 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_HM02, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM02 - ITEM_TM01_FOCUS_PUNCH) && (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE))
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 2 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_TELEPORT) && (Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) == TRUE))
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 7 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && CheckBagHasItem(ITEM_TM28, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_TM28 - ITEM_TM01_FOCUS_PUNCH) && (CanUseEscapeRopeOnCurrMap() == TRUE))
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 8 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_MILK_DRINK) && (curHp >= maxHp / 5))
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 9 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_SOFT_BOILED) && (curHp >= maxHp / 5))
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 10 + MENU_FIELD_MOVES);
-    if (sPartyMenuInternal->numActions < 6 && MonKnowsMove(&mons[slotId], MOVE_SWEET_SCENT) && ((MetatileBehavior_IsPokeGrass(tileBehavior) == TRUE) || (MetatileBehavior_SweetScent(tileBehavior) == TRUE)))
-        AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 11 + MENU_FIELD_MOVES);
 
+    if (GetMonData(&mons[slotId], MON_DATA_HP) && !(GetMonData(&mons[slotId], MON_DATA_STATUS) & (STATUS1_ANY)))
+    {
+        if (CheckBagHasItem(ITEM_HM01, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM01 - ITEM_TM01_FOCUS_PUNCH) && FlagGet(FLAG_BADGE02_GET) && SetUpFieldMove_Cut2())
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 1 + MENU_FIELD_MOVES);
+        }
+        if (CheckBagHasItem(ITEM_HM02, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM02 - ITEM_TM01_FOCUS_PUNCH) && FlagGet(FLAG_BADGE03_GET) && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType))
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 2 + MENU_FIELD_MOVES);
+        }
+        if (CheckBagHasItem(ITEM_HM05, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_HM05 - ITEM_TM01_FOCUS_PUNCH) && FlagGet(FLAG_BADGE01_GET) && gMapHeader.regionMapSectionId == MAPSEC_ROCK_TUNNEL && !FlagGet(FLAG_SYS_FLASH_ACTIVE))
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 0 + MENU_FIELD_MOVES);
+        }
+        if (MonKnowsMove(&mons[slotId], MOVE_TELEPORT) && !TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING) && Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType))
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 7 + MENU_FIELD_MOVES);
+        }
+        if (CheckBagHasItem(ITEM_TM28, 1) && CanMonLearnTMHM(&mons[slotId], ITEM_TM28 - ITEM_TM01_FOCUS_PUNCH) && CanUseEscapeRopeOnCurrMap())
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 8 + MENU_FIELD_MOVES);
+        }
+        if (MonKnowsMove(&mons[slotId], MOVE_MILK_DRINK) && SetUpFieldMove_SoftBoiled())
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 9 + MENU_FIELD_MOVES);
+        }
+        if (MonKnowsMove(&mons[slotId], MOVE_SOFT_BOILED) && SetUpFieldMove_SoftBoiled())
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 10 + MENU_FIELD_MOVES);
+        }
+        if (MonKnowsMove(&mons[slotId], MOVE_SWEET_SCENT) && (MetatileBehavior_IsPokeGrass(tileBehavior) || MetatileBehavior_IsWater(tileBehavior) || (gMapHeader.mapLayoutId >= LAYOUT_POKEMON_TOWER_3F && gMapHeader.mapLayoutId <= LAYOUT_POKEMON_TOWER_7F) || (gMapHeader.mapType == MAP_TYPE_UNDERGROUND && (!(MetatileBehavior_IsLadder(tileBehavior) || MetatileBehavior_IsIce(tileBehavior) || MetatileBehavior_IsIce_2(tileBehavior) || MetatileBehavior_IsThinIce(tileBehavior) || MetatileBehavior_IsCrackedIce(tileBehavior) || gMapHeader.mapLayoutId == LAYOUT_DIGLETTS_CAVE_NORTH_ENTRANCE || gMapHeader.mapLayoutId == LAYOUT_DIGLETTS_CAVE_SOUTH_ENTRANCE)))))
+        {
+            AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, 11 + MENU_FIELD_MOVES);
+        }
+    }
+
+    AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SUMMARY);
     if (GetMonData(&mons[1], MON_DATA_SPECIES) != SPECIES_NONE)
+    {
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_SWITCH);
+    }
     if (ItemIsMail(GetMonData(&mons[slotId], MON_DATA_HELD_ITEM)))
+    {
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_MAIL);
+    }
     else
+    {
         AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_ITEM);
+    }
     AppendToList(sPartyMenuInternal->actions, &sPartyMenuInternal->numActions, MENU_CANCEL1);
 }
 
@@ -4823,6 +4844,19 @@ u16 ItemIdToBattleMoveId(u16 item)
     u16 tmNumber = item - ITEM_TM01_FOCUS_PUNCH;
 
     return sTMHMMoves[tmNumber];
+}
+
+u16 BattleMoveIdToItemId(u16 move)
+{
+    u16 i;
+
+    for (i = 0; i < NUM_TECHNICAL_MACHINES + NUM_HIDDEN_MACHINES; i++)
+    {
+        if (sTMHMMoves[i] == move)
+            return ITEM_TM01_FOCUS_PUNCH + i;
+    }
+
+    return 0;
 }
 
 bool8 IsMoveHm(u16 move)

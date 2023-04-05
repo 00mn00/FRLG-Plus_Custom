@@ -1066,9 +1066,9 @@ bool8 MetatileBehavior_IsAshGrass(u8 metatileBehavior)
         return FALSE;
 }
 
-bool8 MetatileBehavior_SweetScent(u8 metatileBehavior)
+bool8 MetatileBehavior_IsOutdoorEncounter(u8 metatileBehavior)
 {
-    if (metatileBehavior == MB_CAVE)
+    if (metatileBehavior == MB_NORMAL)
         return TRUE;
     else
         return FALSE;

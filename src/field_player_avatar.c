@@ -27,7 +27,6 @@
 #include "constants/songs.h"
 #include "constants/metatile_behaviors.h"
 #include "constants/moves.h"
-#include "constants/items.h"
 
 static EWRAM_DATA struct ObjectEvent * sPlayerObjectPtr = NULL;
 static EWRAM_DATA u8 sTeleportSavedFacingDirection = DIR_NONE;
@@ -1246,16 +1245,18 @@ u8 GetPlayerAvatarGenderByGraphicsId(u8 gfxId)
 
 bool8 PartyHasMonWithSurf(void)
 {
-    u32 i;
+    u8 i;
 
-    if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
+    if(CanUseHMMove2(MOVE_SURF))
     {
-        for (i = 0; i < PARTY_SIZE; i++)
+        if (!TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_SURFING))
         {
-            if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE)
-                break;
-            if (CheckBagHasItem(ITEM_HM03, 1))
+            for (i = 0; i < PARTY_SIZE; i++)
+            {
+                if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) == SPECIES_NONE)
+                    break;
                 return TRUE;
+            }
         }
     }
     return FALSE;

@@ -35,12 +35,16 @@
 #include "field_effect.h"
 #include "fieldmap.h"
 #include "field_door.h"
+#include "metatile_behavior.h"
 #include "constants/event_objects.h"
+#include "constants/layouts.h"
+#include "constants/battle.h"
 
 extern u16 (*const gSpecials[])(void);
 extern u16 (*const gSpecialsEnd[])(void);
 extern const u8 *const gStdScripts[];
 extern const u8 *const gStdScriptsEnd[];
+static const u16 sTMHMMoves[];
 
 static bool8 ScriptContext_NextCommandEndsScript(struct ScriptContext * ctx);
 static u8 ScriptContext_GetQuestLogInput(struct ScriptContext * ctx);
@@ -1772,24 +1776,43 @@ bool8 ScrCmd_setmonmove(struct ScriptContext * ctx)
     return FALSE;
 }
 
-bool8 ScrCmd_checkpartymove(struct ScriptContext * ctx)
+bool8 ScrCmd_checkpartymove(struct ScriptContext *ctx)
 {
     u32 i;
     u16 moveId = ScriptReadHalfword(ctx);
+    u16 itemId = BattleMoveIdToItemId(moveId);
+    s16 x, y;
+    u16 tileBehavior;
 
+    PlayerGetDestCoords(&x, &y);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     gSpecialVar_Result = PARTY_SIZE;
-    for (i = 0; i < PARTY_SIZE; i++)
+
+    if (CanUseHMMove2(moveId) && gSpecialVar_Result == PARTY_SIZE)
     {
-        u16 species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL);
-        if (!species)
-            break;
-        if (!GetMonData(&gPlayerParty[i], MON_DATA_IS_EGG) && MonKnowsMove(&gPlayerParty[i], moveId) == TRUE)
+        for (i = 0; i < PARTY_SIZE; i++)
         {
-            gSpecialVar_Result = i;
-            gSpecialVar_0x8004 = species;
-            break;
+            struct Pokemon* mon = &gPlayerParty[i];
+            u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
+
+            if (!GetMonData(mon, MON_DATA_IS_EGG) && CanMonLearnTMHM(mon, itemId - ITEM_TM01_FOCUS_PUNCH))
+            {
+                if (!species)
+                    break;
+
+                if ((GetMonData(mon, MON_DATA_HP) && !(GetMonData(mon, MON_DATA_STATUS) & STATUS1_ANY))
+                    || (gMapHeader.mapLayoutId == LAYOUT_CELADON_CITY_GYM && gSaveBlock1Ptr->keyFlags.difficulty == DIFFICULTY_CHALLENGE)
+                    || !MetatileBehavior_IsSurfable(tileBehavior)
+                    || ((gMapHeader.mapLayoutId == LAYOUT_ROUTE20_UNDERWATER || gMapHeader.mapLayoutId == LAYOUT_THREE_ISLAND_BOND_BRIDGE_UNDERWATER) && MetatileBehavior_IsDiveable(tileBehavior)))
+                {
+                    gSpecialVar_Result = i;
+                    gSpecialVar_0x8004 = species;
+                    break;
+                }
+            }
         }
     }
+
     return FALSE;
 }
 
@@ -2305,22 +2328,5 @@ bool8 ScrCmd_resetobjectmovementtype(struct ScriptContext * ctx)
     u16 localId = VarGet(ScriptReadHalfword(ctx));
 
     Overworld_ResetObjEventTemplateMovementType(localId);
-    return FALSE;
-}
-
-bool8 ScrCmd_checkpartytmhm(struct ScriptContext * ctx)
-{
-    u8 i;
-    u16 machineId = ScriptReadHalfword(ctx);
-
-    gSpecialVar_Result = PARTY_SIZE;
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
-        if (CanMonLearnTMHM(&gPlayerParty[i], machineId - ITEM_TM01))
-        {
-            gSpecialVar_Result = i;
-            break;
-        }
-    }
     return FALSE;
 }
