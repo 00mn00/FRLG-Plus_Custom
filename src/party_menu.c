@@ -44,6 +44,7 @@
 #include "pokemon_special_anim.h"
 #include "pokemon_summary_screen.h"
 #include "quest_log.h"
+#include "random.h"
 #include "region_map.h"
 #include "reshow_battle_screen.h"
 #include "scanline_effect.h"
@@ -6587,29 +6588,66 @@ static bool8 SetUpFieldMove_Dive(void)
 
 void ItemUseCB_PokeBall(u8 taskId, TaskFunc task)
 {
+    // Get the Pokemon in the slot being used.
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+
+    // Get the current and new PokeBall.
     u16 currBall = GetMonData(mon, MON_DATA_POKEBALL);
     u16 newBall = gSpecialVar_ItemId;
-    static const u8 sText_MonBallWasChanged[] = _("{STR_VAR_1} was put in the {STR_VAR_2}.{PAUSE_UNTIL_PRESS}");
 
+    // Set initial values for some variables.
+    bool8 ballBroke = FALSE;
+    static const u8 sText_MonBallWasChanged[] = _("{STR_VAR_1} was swapped\ninto the {STR_VAR_2}.\pThe {STR_VAR_3} was\nput back into the BAG.{PAUSE_UNTIL_PRESS}");
+    static const u8 sText_MonBallWasChangedBallBroke[] = _("{STR_VAR_1} was swapped\ninto the {STR_VAR_2}.\pThe {STR_VAR_3} was\nbroken in the process.{PAUSE_UNTIL_PRESS}");
+
+    // If the Pokemon is already in the new PokeBall, display a message and return to the choose Pokemon menu.
     if (currBall == newBall)
     {
         gPartyMenuUseExitCallback = FALSE;
         DisplayPartyMenuMessage(gText_WontHaveEffect, TRUE);
         ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = task;
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+        return;
+    }
+
+    // There is a 50% chance the current ball will break.
+    if (currBall >= ITEM_MASTER_BALL && currBall <= ITEM_PREMIER_BALL)
+    {
+        ballBroke = Random() % 100 > 51 == TRUE;
+    }
+
+    // Get the nickname of the Pokemon and the names of the PokeBalls.
+    GetMonNickname(mon, gStringVar1);
+    CopyItemName(newBall, gStringVar2);
+    CopyItemName(currBall, gStringVar3);
+
+    // Play a sound effect and set some variables.
+    PlaySE(SE_SELECT);
+    gPartyMenuUseExitCallback = TRUE;
+    SetMonData(mon, MON_DATA_POKEBALL, &newBall);
+    RemoveBagItem(newBall, 1);
+
+    // Display a message depending on whether the PokeBall broke or not.
+    if (ballBroke)
+    {
+        StringExpandPlaceholders(gStringVar4, sText_MonBallWasChangedBallBroke);
     }
     else
     {
-        GetMonNickname(mon, gStringVar1);
-        CopyItemName(newBall, gStringVar2);
-        PlaySE(SE_SELECT);
-        gPartyMenuUseExitCallback = TRUE;
-        SetMonData(mon, MON_DATA_POKEBALL, &newBall);
+        AddBagItem(currBall, 1);
         StringExpandPlaceholders(gStringVar4, sText_MonBallWasChanged);
-        DisplayPartyMenuMessage(gStringVar4, TRUE);
-        ScheduleBgCopyTilemapToVram(2);
-        gTasks[taskId].func = task;
-        RemoveBagItem(newBall, 1);
+    }
+    DisplayPartyMenuMessage(gStringVar4, TRUE);
+    ScheduleBgCopyTilemapToVram(2);
+
+    // If the menu is a field menu and the new PokeBall is still in the bag, return to the choose Pokemon menu.
+    // Otherwise, close the party menu.
+    if (gPartyMenu.menuType == PARTY_MENU_TYPE_FIELD && CheckBagHasItem(gSpecialVar_ItemId, 1))
+    {
+        gTasks[taskId].func = Task_ReturnToChooseMonAfterText;
+    }
+    else
+    {
+        gTasks[taskId].func = Task_ClosePartyMenuAfterText;
     }
 }
