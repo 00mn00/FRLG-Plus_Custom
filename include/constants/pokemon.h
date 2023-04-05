@@ -201,6 +201,8 @@
 #define LEVEL_UP_MOVE_LV   0xFE00
 #define LEVEL_UP_END       0xFFFF
 
+#define MAX_LEVEL_DIFF_PRE_EV    5
+
 #define MON_MALE       0x00
 #define MON_FEMALE     0xFE
 #define MON_GENDERLESS 0xFF
@@ -220,6 +222,9 @@
 #define MAX_TOTAL_EVS 510
 #define UNOWN_FORM_COUNT 28
 #define BOX_NAME_LENGTH 8
+
+#define EVOS_PER_MON 5
+#define NUM_EEVEELUTIONS EVOS_PER_MON
 
 #define EVO_MODE_NORMAL     0
 #define EVO_MODE_TRADE      1

@@ -92,6 +92,7 @@ static u16 GiveMoveToBoxMon(struct BoxPokemon *boxMon, u16 move);
 static u8 GetLevelFromMonExp(struct Pokemon *mon);
 static u16 CalculateBoxMonChecksum(struct BoxPokemon *boxMon);
 static u8 PopulateSpeciesEvoLineForRelearner(u16 species, bool8 isHatched, u16 evoLine[]);
+static u16 GetPreEvolution(u16 species);
 
 #include "data/battle_moves.h"
 
@@ -7103,12 +7104,37 @@ u32 CanMonLearnTMHM(struct Pokemon *mon, u8 tm)
     return FALSE;
 }
 
+static u16 GetPreEvolution(u16 species)
+{
+    int i, j;
+
+    if (species == SPECIES_EEVEE)
+        return SPECIES_NONE;
+    
+    for (i = 0; i < NELEMS(gEeveelutions); i++)
+    {
+        if (species == gEeveelutions[i])
+                return SPECIES_EEVEE;
+    }
+
+    for (i = 1; i < NUM_SPECIES; i++)
+    {
+        for (j = 0; j < EVOS_PER_MON; j++)
+        {
+            if (gEvolutionTable[i][j].targetSpecies == species)
+                return i;
+        }
+    }
+    return SPECIES_NONE;
+}
+
 u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
 {
     u16 learnedMoves[4];
     u8 numMoves = 0;
     u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+    u8 preEvLvl = (level > MAX_LEVEL_DIFF_PRE_EV) ? (level - MAX_LEVEL_DIFF_PRE_EV) : 1;
     bool8 isHatched = FALSE;
     int ii, jj, i, j, k;
     u8 deoxysForme;
@@ -7172,6 +7198,13 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
                 u16 moveLevel;
 
                 if (gLevelUpLearnsets[species][i] == LEVEL_UP_END)
+                {
+                    i = 0;
+                    level = preEvLvl;
+                    species = GetPreEvolution(species);
+                }
+
+                if (species == SPECIES_NONE)
                     break;
 
                 moveLevel = gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_LV;
@@ -7385,6 +7418,7 @@ u8 GetNumberOfRelearnableMoves(struct Pokemon *mon)
     u8 numMoves = 0;
     u16 species = GetMonData(mon, MON_DATA_SPECIES2, NULL);
     u8 level = GetMonData(mon, MON_DATA_LEVEL, NULL);
+    u8 preEvLvl = (level > MAX_LEVEL_DIFF_PRE_EV) ? (level - MAX_LEVEL_DIFF_PRE_EV) : 1;
     int i, j, k;
     u8 deoxysForme;
 
@@ -7429,6 +7463,13 @@ u8 GetNumberOfRelearnableMoves(struct Pokemon *mon)
             u16 moveLevel;
 
             if (gLevelUpLearnsets[species][i] == LEVEL_UP_END)
+            {
+                i = 0;
+                level = preEvLvl;
+                species = GetPreEvolution(species);
+            }
+    
+            if (species == SPECIES_NONE)
                 break;
 
             moveLevel = gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_LV;
