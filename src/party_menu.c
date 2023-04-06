@@ -3070,7 +3070,7 @@ static u8 GetPartyMenuActionsType(struct Pokemon *mon)
         }
         break;
     case PARTY_MENU_TYPE_DAYCARE:
-        actionType = (GetMonData(mon, MON_DATA_IS_EGG)) ? ACTIONS_SUMMARY_ONLY : ACTIONS_STORE;
+        actionType = (GetMonData(mon, MON_DATA_IS_EGG) || GetMonData(mon, MON_DATA_LEVEL) >= GetCurrentPartyLevelCap()) ? ACTIONS_SUMMARY_ONLY : ACTIONS_STORE;
         break;
     case PARTY_MENU_TYPE_UNION_ROOM_REGISTER:
         actionType = ACTIONS_REGISTER;
