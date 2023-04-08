@@ -514,7 +514,7 @@ static void InitTMCaseListMenuItems(void)
     gMultiuseListMenuTemplate.moveCursorFunc = TMCase_MoveCursorFunc;
     gMultiuseListMenuTemplate.itemPrintFunc = TMCase_ItemPrintFunc;
     gMultiuseListMenuTemplate.cursorKind = 0;
-    gMultiuseListMenuTemplate.scrollMultiple = LIST_MULTIPLE_SCROLL_L_R;
+    gMultiuseListMenuTemplate.scrollMultiple = LIST_YES_MULTIPLE_SCROLL;
 }
 
 static void GetTMNumberAndMoveString(u8 * dest, u16 itemId)

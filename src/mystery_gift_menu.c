@@ -220,7 +220,7 @@ const struct ListMenuTemplate sListMenuTemplate_ThreeOptions = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -265,7 +265,7 @@ const struct ListMenuTemplate sListMenu_ReceiveSendToss = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -286,7 +286,7 @@ const struct ListMenuTemplate sListMenu_ReceiveToss = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -307,7 +307,7 @@ const struct ListMenuTemplate sListMenu_ReceiveSend = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -328,7 +328,7 @@ const struct ListMenuTemplate sListMenu_Receive = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 2,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };

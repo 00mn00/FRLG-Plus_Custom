@@ -9,8 +9,7 @@
 #define LIST_HEADER -3
 
 #define LIST_NO_MULTIPLE_SCROLL     0
-#define LIST_MULTIPLE_SCROLL_DPAD   1
-#define LIST_MULTIPLE_SCROLL_L_R    2
+#define LIST_YES_MULTIPLE_SCROLL    1
 
 enum
 {

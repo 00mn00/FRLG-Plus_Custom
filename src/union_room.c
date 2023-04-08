@@ -224,7 +224,7 @@ static const struct ListMenuTemplate sListMenuTemplate_PossibleGroupMembers = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 2,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 1
 };
@@ -284,7 +284,7 @@ static const struct ListMenuTemplate sListMenuTemplate_UnionRoomGroups = {
     .cursorShadowPal = 3,
     .lettersSpacing = 0,
     .itemVerticalPadding = 2,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_YES_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -322,7 +322,7 @@ static const struct ListMenuTemplate sListMenuTemplate_InviteToActivity = {
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -359,7 +359,7 @@ static const struct ListMenuTemplate sListMenuTemplate_TradeBoardRegisterInfoExi
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -411,7 +411,7 @@ static const struct ListMenuTemplate sListMenuTemplate_TypeNames = {
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -465,7 +465,7 @@ static const struct ListMenuTemplate sTradeBoardListMenuTemplate = {
     .cursorShadowPal = 13,
     .lettersSpacing = 1,
     .itemVerticalPadding = 1,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_NO_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };
@@ -515,7 +515,7 @@ static const struct ListMenuTemplate gUnknown_845701C = {
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_YES_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0
 };

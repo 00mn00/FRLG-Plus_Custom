@@ -557,7 +557,7 @@ bool8 BuyMenuBuildListMenuTemplate(void)
     gMultiuseListMenuTemplate.cursorShadowPal = GetFontAttribute(2, FONTATTR_COLOR_SHADOW);
     gMultiuseListMenuTemplate.moveCursorFunc = BuyMenuPrintItemDescriptionAndShowItemIcon;
     gMultiuseListMenuTemplate.itemPrintFunc = BuyMenuPrintPriceInList;
-    gMultiuseListMenuTemplate.scrollMultiple = LIST_MULTIPLE_SCROLL_L_R;
+    gMultiuseListMenuTemplate.scrollMultiple = LIST_YES_MULTIPLE_SCROLL;
     gMultiuseListMenuTemplate.cursorKind = 0;
     
     if (gShopData.martType == MART_TYPE_TMHM)

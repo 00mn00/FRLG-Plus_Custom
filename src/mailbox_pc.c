@@ -119,7 +119,7 @@ u8 MailboxPC_InitListMenu(struct PlayerPCItemPageStruct * playerPcStruct)
     gMultiuseListMenuTemplate.moveCursorFunc = MoveCursorFunc;
     gMultiuseListMenuTemplate.itemPrintFunc = ItemPrintFunc;
     gMultiuseListMenuTemplate.cursorKind = 0;
-    gMultiuseListMenuTemplate.scrollMultiple = LIST_MULTIPLE_SCROLL_L_R;
+    gMultiuseListMenuTemplate.scrollMultiple = LIST_YES_MULTIPLE_SCROLL;
     return ListMenuInit(&gMultiuseListMenuTemplate, playerPcStruct->itemsAbove, playerPcStruct->cursorPos);
 }
 

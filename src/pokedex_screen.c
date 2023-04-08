@@ -352,7 +352,7 @@ static const struct ListMenuTemplate sListMenuTemplate_KantoDexModeSelect = {
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_YES_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0,
 };
@@ -396,7 +396,7 @@ static const struct ListMenuTemplate sListMenuTemplate_NatDexModeSelect = {
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_YES_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0,
 };
@@ -440,7 +440,7 @@ static const struct ListMenuTemplate sListMenuTemplate_KantoExtended = {
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_YES_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0,
 };
@@ -484,7 +484,7 @@ static const struct ListMenuTemplate sListMenuTemplate_ExtendedNational = {
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_YES_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0,
 };
@@ -607,7 +607,7 @@ static const struct ListMenuTemplate sListMenuTemplate_OrderedListMenu = {
     .cursorShadowPal = 3,
     .lettersSpacing = 1,
     .itemVerticalPadding = 0,
-    .scrollMultiple = LIST_MULTIPLE_SCROLL_L_R,
+    .scrollMultiple = LIST_YES_MULTIPLE_SCROLL,
     .fontId = 2,
     .cursorKind = 0,
 };

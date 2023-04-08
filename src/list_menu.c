@@ -195,14 +195,19 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
             leftButton = FALSE;
             rightButton = FALSE;
             break;
-        case LIST_MULTIPLE_SCROLL_DPAD:
-            leftButton = gMain.newAndRepeatedKeys & DPAD_LEFT;
-            rightButton = gMain.newAndRepeatedKeys & DPAD_RIGHT;
-            break;
-        case LIST_MULTIPLE_SCROLL_L_R:
-            leftButton = gMain.newAndRepeatedKeys & L_BUTTON;
-            rightButton = gMain.newAndRepeatedKeys & R_BUTTON;
-            break;
+        case LIST_YES_MULTIPLE_SCROLL:
+            if (gSaveBlock2Ptr->optionsButtonMode != OPTIONS_BUTTON_MODE_LR)
+            {
+                leftButton = gMain.newKeysRaw & DPAD_LEFT;
+                rightButton = gMain.newKeysRaw & DPAD_RIGHT;
+                break;
+            }
+            else
+            {
+                leftButton = gMain.newKeysRaw & L_BUTTON;
+                rightButton = gMain.newKeysRaw & R_BUTTON;
+                break;
+            }
         }
         if (leftButton)
         {

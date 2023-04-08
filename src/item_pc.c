@@ -504,7 +504,7 @@ static void ItemPc_BuildListMenuTemplate(void)
     gMultiuseListMenuTemplate.cursorShadowPal = 3;
     gMultiuseListMenuTemplate.moveCursorFunc = ItemPc_MoveCursorFunc;
     gMultiuseListMenuTemplate.itemPrintFunc = ItemPc_ItemPrintFunc;
-    gMultiuseListMenuTemplate.scrollMultiple = LIST_MULTIPLE_SCROLL_L_R;
+    gMultiuseListMenuTemplate.scrollMultiple = LIST_YES_MULTIPLE_SCROLL;
     gMultiuseListMenuTemplate.cursorKind = 0;
 }
 
