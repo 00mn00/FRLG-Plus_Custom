@@ -4,6 +4,7 @@
 #include "battle_controllers.h"
 #include "berry_pouch.h"
 #include "decompress.h"
+#include "event_data.h"
 #include "event_scripts.h"
 #include "event_object_movement.h"
 #include "field_player_avatar.h"
@@ -34,6 +35,7 @@
 #include "teachy_tv.h"
 #include "tm_case.h"
 #include "constants/items.h"
+#include "constants/region_map_sections.h"
 #include "constants/songs.h"
 #include "constants/global.h"
 
@@ -2168,11 +2170,14 @@ bool8 UseRegisteredKeyItemOnField(void)
 
     if (!IsAllRegisteredItemSlotsFree())
     {
-	    FreezeObjectEvents();
-	    HandleEnforcedLookDirectionOnPlayerStopMoving();
+        FreezeObjectEvents();
+        HandleEnforcedLookDirectionOnPlayerStopMoving();
         StopPlayerAvatar();
-        InitRegisteredItemsToChoose();
-        return TRUE;
+        if (gMapHeader.regionMapSectionId == MAPSEC_ROCK_TUNNEL && gSaveBlock1Ptr->flashLevel)
+            return;
+        else
+            InitRegisteredItemsToChoose();
+            return TRUE;
     }
     ScriptContext1_SetupScript(EventScript_BagItemCanBeRegistered);
     return TRUE;
