@@ -1244,7 +1244,6 @@ static void TradeBufferOTnameAndNicknames(void)
 {
     u8 nickname[20];
     u8 mpId;
-    const struct InGameTrade * inGameTrade;
     if (sTradeData->isLinkTrade)
     {
         mpId = GetMultiplayerId();
@@ -1256,9 +1255,9 @@ static void TradeBufferOTnameAndNicknames(void)
     }
     else
     {
-        inGameTrade = &sInGameTrades[gSpecialVar_0x8004];
-        StringCopy(gStringVar1, inGameTrade->otName);
-        StringCopy10(gStringVar3, inGameTrade->nickname);
+        GetMonData(&gEnemyParty[0], MON_DATA_OT_NAME, gStringVar1);
+        GetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, nickname);
+        StringCopy10(gStringVar3, nickname);
         GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, nickname);
         StringCopy10(gStringVar2, nickname);
     }
