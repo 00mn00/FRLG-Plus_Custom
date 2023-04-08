@@ -1595,9 +1595,17 @@ static void OpenContextMenu(u8 taskId)
                     sContextMenuItemsBuffer[0] = ITEMMENUACTION_OPEN;
                 else if(IsUnregisterableKeyItem(gSpecialVar_ItemId))
                 {
-                    sContextMenuNumItems = 2;
-                    sContextMenuItemsBuffer[0] = ITEMMENUACTION_USE;
-                    sContextMenuItemsBuffer[1] = ITEMMENUACTION_CANCEL;
+                    if (gSpecialVar_ItemId == ITEM_LINK_BRACELET)
+                    {
+                        sContextMenuNumItems = 2;
+                        sContextMenuItemsBuffer[0] = ITEMMENUACTION_USE;
+                        sContextMenuItemsBuffer[1] = ITEMMENUACTION_CANCEL;
+                    }
+                    else
+                    {
+                        sContextMenuNumItems = 1;
+                        sContextMenuItemsBuffer[0] = ITEMMENUACTION_CANCEL;
+                    }
                 }
                 else if (gSpecialVar_ItemId == ITEM_BICYCLE && TestPlayerAvatarFlags(PLAYER_AVATAR_FLAG_ACRO_BIKE | PLAYER_AVATAR_FLAG_MACH_BIKE))
                     sContextMenuItemsBuffer[0] = ITEMMENUACTION_WALK;
