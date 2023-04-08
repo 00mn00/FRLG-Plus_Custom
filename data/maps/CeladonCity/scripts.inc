@@ -10,8 +10,19 @@ CeladonCity_MapScripts:: @ 8166C8F
 
 CeladonCity_OnTransition:: @ 8166C95
 	setworldmapflag FLAG_WORLD_MAP_CELADON_CITY
+	checkpartymove MOVE_CUT
+	compare VAR_RESULT, PARTY_SIZE
+	goto_if_ne CeladonCity_Gym_EventScript_LockGym
+	callnative CheckLocationLockMode
+	compare VAR_RESULT, 1
+	goto_if_ne CeladonCity_Gym_EventScript_LockGym
+	goto_if_set FLAG_BADGE04_GET, CeladonCity_Gym_EventScript_LockGym
 	goto CeladonCity_MapScript_SetMasterTrainerMovementTypes
 	end
+
+CeladonCity_Gym_EventScript_LockGym::
+	setvar VAR_TEMP_F, 1
+	return
 
 CeladonCity_MapScript_SetMasterTrainerMovementTypes::
 	setvar TRAINER, MASTER_GRIMER

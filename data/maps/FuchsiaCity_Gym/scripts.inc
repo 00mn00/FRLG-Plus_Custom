@@ -10,11 +10,8 @@ FuchsiaCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_KOGA
 	callnative CheckLocationLockMode
-	compare VAR_RESULT, 0
-	call_if_eq FuchsiaCity_Gym_EventScript_UnlockKoga
-	callnative CheckLocationLockMode
-	compare VAR_RESULT, 2
-	call_if_eq FuchsiaCity_Gym_EventScript_UnlockKoga
+	compare VAR_RESULT, 1
+	call_if_ne FuchsiaCity_Gym_EventScript_UnlockKoga
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq FuchsiaCity_Gym_EventScript_HideKoga

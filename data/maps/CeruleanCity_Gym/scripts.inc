@@ -10,11 +10,8 @@ CeruleanCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_MISTY
 	callnative CheckLocationLockMode
-	compare VAR_RESULT, 0
-	call_if_eq CeruleanCity_Gym_EventScript_UnlockMisty
-	callnative CheckLocationLockMode
-	compare VAR_RESULT, 2
-	call_if_eq CeruleanCity_Gym_EventScript_UnlockMisty
+	compare VAR_RESULT, 1
+	call_if_ne CeruleanCity_Gym_EventScript_UnlockMisty
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq CeruleanCity_Gym_EventScript_HideMisty

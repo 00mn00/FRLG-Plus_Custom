@@ -10,11 +10,8 @@ SaffronCity_Gym_OnTransition::
 	setvar TYPE, CHECK_VISITOR_STATE
 	setvar ARGUMENT, FAMECHECKER_SABRINA
 	callnative CheckLocationLockMode
-	compare VAR_RESULT, 0
-	call_if_eq SaffronCity_Gym_EventScript_UnlockSabrina
-	callnative CheckLocationLockMode
-	compare VAR_RESULT, 2
-	call_if_eq SaffronCity_Gym_EventScript_UnlockSabrina
+	compare VAR_RESULT, 1
+	call_if_ne SaffronCity_Gym_EventScript_UnlockSabrina
 	callnative UseBattleHouseVar
 	compare VAR_RESULT, 1
 	call_if_eq SaffronCity_Gym_EventScript_HideSabrina

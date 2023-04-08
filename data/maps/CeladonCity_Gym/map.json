@@ -201,7 +201,7 @@
       "elevation": 3,
       "var": "VAR_MAP_BADGE04_GET",
       "var_value": "0",
-      "script": "Gym_EventScript_MissingBadgeTrigger"
+      "script": "Gym_EventScript_MissingBadgeTrigger_RainbowBadge"
     }
   ],
   "bg_events": [

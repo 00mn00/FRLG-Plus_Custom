@@ -187,7 +187,7 @@
       "elevation": 3,
       "var": "VAR_MAP_BADGE08_GET",
       "var_value": "0",
-      "script": "Gym_EventScript_MissingBadgeTrigger"
+      "script": "Gym_EventScript_MissingBadgeTrigger_EarthBadge"
     }
   ],
   "bg_events": [
