@@ -884,9 +884,9 @@
 
 #define FLAG_TOLD_SAFARI_EXPANSION     0x35A
 #define FLAG_FOUR_ISLAND_SNOW          0x35B
+#define FLAG_SKIP_INTRO                0x35C
 
 // Unused?
-#define FLAG_SKIP_INTRO          0x35C
 #define FLAG_0x35D               0x35D
 #define FLAG_0x35E               0x35E
 #define FLAG_0x35F               0x35F

@@ -829,6 +829,7 @@ PalletTown_ProfessorOaksLab_EventScript_ReceiveDexScene:: @ 816961E
 	waitmessage
 	waitfanfare
 	call EventScript_RestorePrevTextColor
+	setflag FLAG_SKIP_INTRO
 	setflag FLAG_SYS_POKEDEX_GET
 	setflag FLAG_SYS_GAME_CLEAR_OLD
 	special SetUnlockedPokedexFlags
