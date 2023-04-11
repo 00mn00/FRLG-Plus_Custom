@@ -341,6 +341,22 @@ static const struct WindowTemplate gUnknown_8248330[] = {
         .height = 4,
         .paletteNum = 7,
         .baseBlock = 0x090
+    }, {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 48,
+        .width = 12,
+        .height = 5,
+        .paletteNum = 5,
+        .baseBlock = 0x0350
+    }, {
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 46,
+        .width = 13,
+        .height = 7,
+        .paletteNum = 5,
+        .baseBlock = 0x0350
     }, DUMMY_WIN_TEMPLATE
 };
 

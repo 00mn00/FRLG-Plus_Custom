@@ -17,10 +17,17 @@
 #include "battle_interface.h"
 #include "battle_message.h"
 #include "battle_script_commands.h"
+#include "fieldmap.h"
+#include "field_player_avatar.h"
 #include "reshow_battle_screen.h"
+#include "new_menu_helpers.h"
+#include "pokemon_summary_screen.h"
+#include "metatile_behavior.h"
 #include "constants/battle_anim.h"
 #include "constants/items.h"
+#include "constants/map_types.h"
 #include "constants/moves.h"
+#include "constants/region_map_sections.h"
 #include "constants/songs.h"
 
 static void PlayerHandleGetMonData(void);
@@ -85,6 +92,8 @@ static void HandleInputChooseTarget(void);
 static void MoveSelectionDisplayPpNumber(void);
 static void MoveSelectionDisplayPpString(void);
 static void MoveSelectionDisplayMoveType(void);
+static void MoveSelectionDisplayMoveDescription(void);
+static void MoveSelectionDisplayMoveDescription2(void);
 static void MoveSelectionDisplayMoveNames(void);
 static void HandleMoveSwitching(void);
 static void WaitForMonSelection(void);
@@ -166,6 +175,8 @@ static void (*const sPlayerBufferCommands[CONTROLLER_CMDS_COUNT])(void) =
     PlayerHandleCmd55,
     PlayerCmdEnd,
 };
+
+static EWRAM_DATA bool8 sDescriptionSubmenu = 0;
 
 static const u8 sTargetIdentities[] = { B_POSITION_PLAYER_LEFT, B_POSITION_PLAYER_RIGHT, B_POSITION_OPPONENT_RIGHT, B_POSITION_OPPONENT_LEFT };
 
@@ -448,7 +459,50 @@ void HandleInputChooseMove(void)
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
 
     PreviewDeterminativeMoveTargets();
-    if (JOY_NEW(A_BUTTON))
+    if (sDescriptionSubmenu)
+    {
+        if (JOY_NEW(START_BUTTON | A_BUTTON | B_BUTTON))
+        {
+            sDescriptionSubmenu = FALSE;
+            FillWindowPixelBuffer(25, PIXEL_FILL(0));
+            ClearStdWindowAndFrame(25, FALSE);
+            ClearStdWindowAndFrame(26, FALSE);
+            CopyWindowToVram(25, COPYWIN_GFX);
+            PlaySE(SE_SELECT);
+            MoveSelectionDisplayPpNumber();
+        }
+        if (gSaveBlock2Ptr->optionsButtonMode != OPTIONS_BUTTON_MODE_LR && JOY_NEW(DPAD_RIGHT))
+        {
+            sDescriptionSubmenu = TRUE;
+            ClearStdWindowAndFrame(26, FALSE);
+            MoveSelectionDisplayMoveDescription2();
+        }
+        else if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR && JOY_NEW(R_BUTTON))
+        {
+            sDescriptionSubmenu = TRUE;
+            ClearStdWindowAndFrame(26, FALSE);
+            MoveSelectionDisplayMoveDescription2();
+        }
+        if (gSaveBlock2Ptr->optionsButtonMode != OPTIONS_BUTTON_MODE_LR && JOY_NEW(DPAD_LEFT))
+        {
+            sDescriptionSubmenu = TRUE;
+            ClearStdWindowAndFrame(26, FALSE);
+            MoveSelectionDisplayMoveDescription();
+        }
+        else if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR && JOY_NEW(L_BUTTON))
+        {
+            sDescriptionSubmenu = TRUE;
+            ClearStdWindowAndFrame(26, FALSE);
+            MoveSelectionDisplayMoveDescription();
+        }
+    }
+    else if (JOY_NEW(START_BUTTON)) //AdditionalBattleInfo
+    {
+        sDescriptionSubmenu = TRUE;
+        PlaySE(SE_SELECT);
+        MoveSelectionDisplayMoveDescription();
+    }
+    else if (JOY_NEW(A_BUTTON))
     {
         u8 moveTarget;
 
@@ -1437,6 +1491,411 @@ static void MoveSelectionDisplayMoveType(void)
         StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
     }
     BattlePutTextOnWindow(gDisplayedStringBattle, 8);
+}
+
+static void MoveSelectionDisplayMoveDescription(void)
+{
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][4]);
+    s16 x, y;
+    u16 tileBehavior;
+    u16 move = moveInfo->moves[gMoveSelectionCursor[gActiveBattler]];
+    u16 pri = gBattleMoves[move].priority;
+    u16 pwr = gBattleMoves[move].power;
+    u16 acc = gBattleMoves[move].accuracy;
+    u16 typ = gBattleMoves[move].type;
+    u16 cat = gBattleMoves[move].category;
+    u8 pri_num[3], pwr_num[3], acc_num[3], typ_num[3], cat_num[3];
+    u8 pri_desc[7] = _("PRI: ");
+    u8 pwr_desc[7] = _("PWR: ");
+    u8 acc_desc[7] = _("ACC: ");
+    u8 typ_desc[7] = _("TYP: ");
+    u8 cat_desc[7] = _("CAT: ");
+    u8 pri_start[] = _("{CLEAR_TO 0x01}");
+    u8 pwr_start[] = _("{CLEAR_TO 0x00}");
+    u8 acc_start[] = _("{CLEAR_TO 0x00}");
+    u8 typ_start[] = _("{CLEAR_TO 0x36}");
+    u8 cat_start[] = _("{CLEAR_TO 0x35}");
+    u8 sText_n1[] = _(" -1");
+    u8 sText_n3[] = _(" -3");
+    u8 sText_n4[] = _(" -4");
+    u8 sText_n5[] = _(" -5");
+    u8 sText_n6[] = _(" -6");
+    u8 sText_nrm[] = _("NRM");
+    u8 sText_fir[] = _("FIR");
+    u8 sText_wat[] = _("WAT");
+    u8 sText_grs[] = _("GRS");
+    u8 sText_ele[] = _("ELE");
+    u8 sText_rck[] = _("RCK");
+    u8 sText_grd[] = _("GRD");
+    u8 sText_ice[] = _("ICE");
+    u8 sText_fly[] = _("FLY");
+    u8 sText_fig[] = _("FIG");
+    u8 sText_gst[] = _("GST");
+    u8 sText_bug[] = _("BUG");
+    u8 sText_psn[] = _("PSN");
+    u8 sText_psy[] = _("PSY");
+    u8 sText_stl[] = _("STL");
+    u8 sText_drk[] = _("DRK");
+    u8 sText_drg[] = _("DRG");
+    u8 sText_mys[] = _("MYS");
+    u8 sText_phy[] = _("PHY");
+    u8 sText_spl[] = _("SPL");
+    u8 sText_sts[] = _("STS");
+    u8 sText_055[] = _(" 55");
+    u8 sText_060[] = _(" 60");
+    u8 sText_065[] = _(" 65");
+    u8 sText_075[] = _(" 75");
+    u8 sText_080[] = _(" 80");
+    u8 sText_090[] = _(" 90");
+    u8 sText_095[] = _(" 95");
+    u8 sText_100[] = _("100");
+    u8 sText_120[] = _("120");
+    u8 sText_shh[] = _(" --");
+    PlayerGetDestCoords(&x, &y);
+    tileBehavior = MapGridGetMetatileBehaviorAt(x, y);
+    LoadStdWindowFrameGfx();
+    DrawStdWindowFrame(25, FALSE);
+    if (pwr < 2 && (acc > 9 && acc < 99))
+        StringCopy(pwr_num, sText_shh);
+    else if (pwr < 2 && acc > 99)
+        StringCopy(pwr_num, gText_ThreeHyphens);
+    else if (pwr < 2)
+        StringCopy(pwr_num, gText_ThreeHyphens);
+    else
+        ConvertIntToDecimalStringN(pwr_num, pwr, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    if (acc < 2 && (pwr > 9 && pwr < 99))
+        StringCopy(acc_num, sText_shh);
+    else if (acc < 2 && pwr > 99)
+        StringCopy(acc_num, gText_ThreeHyphens);
+    else if (acc < 2)
+        StringCopy(acc_num, gText_ThreeHyphens);
+    else
+        ConvertIntToDecimalStringN(acc_num, acc, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    ConvertIntToDecimalStringN(pri_num, pri, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    if (move == MOVE_VITAL_THROW)
+        StringCopy(pri_num, sText_n1);
+    else if (move == MOVE_FOCUS_PUNCH)
+        StringCopy(pri_num, sText_n3);
+    else if (move == MOVE_REVENGE)
+        StringCopy(pri_num, sText_n4);
+    else if (move == MOVE_COUNTER)
+        StringCopy(pri_num, sText_n5);
+    else if (move == MOVE_MIRROR_COAT)
+        StringCopy(pri_num, sText_n5);
+    else if (move == MOVE_WHIRLWIND)
+        StringCopy(pri_num, sText_n6);
+    else if (move == MOVE_ROAR)
+        StringCopy(pri_num, sText_n6);
+    if (typ == TYPE_NORMAL)
+        StringCopy(typ_num, sText_nrm);
+    if (typ == TYPE_FIRE)
+        StringCopy(typ_num, sText_fir);
+    if (typ == TYPE_WATER)
+        StringCopy(typ_num, sText_wat);
+    if (typ == TYPE_GRASS)
+        StringCopy(typ_num, sText_grs);
+    if (typ == TYPE_ELECTRIC)
+        StringCopy(typ_num, sText_ele);
+    if (typ == TYPE_ROCK)
+        StringCopy(typ_num, sText_rck);
+    if (typ == TYPE_GROUND)
+        StringCopy(typ_num, sText_grd);
+    if (typ == TYPE_ICE)
+        StringCopy(typ_num, sText_ice);
+    if (typ == TYPE_FLYING)
+        StringCopy(typ_num, sText_fly);
+    if (typ == TYPE_FIGHTING)
+        StringCopy(typ_num, sText_fig);
+    if (typ == TYPE_GHOST)
+        StringCopy(typ_num, sText_gst);
+    if (typ == TYPE_BUG)
+        StringCopy(typ_num, sText_bug);
+    if (typ == TYPE_POISON)
+        StringCopy(typ_num, sText_psn);
+    if (typ == TYPE_PSYCHIC)
+        StringCopy(typ_num, sText_psy);
+    if (typ == TYPE_STEEL)
+        StringCopy(typ_num, sText_stl);
+    if (typ == TYPE_DARK)
+        StringCopy(typ_num, sText_drk);
+    if (typ == TYPE_DRAGON)
+        StringCopy(typ_num, sText_drg);
+    if (typ == TYPE_MYSTERY)
+        StringCopy(typ_num, sText_mys);
+    if (cat == MOVE_CATEGORY_PHYSICAL)
+        StringCopy(cat_num, sText_phy);
+    if (cat == MOVE_CATEGORY_SPECIAL)
+        StringCopy(cat_num, sText_spl);
+    if (cat == MOVE_CATEGORY_STATUS)
+        StringCopy(cat_num, sText_sts);
+    if (move == MOVE_HIDDEN_POWER)
+    {
+        u8 typeBits  = ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP_IV) & 1) << 0)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_ATK_IV) & 1) << 1)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_DEF_IV) & 1) << 2)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPEED_IV) & 1) << 3)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV) & 1) << 4)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 1) << 5);
+        typ = (15 * typeBits) / 63 + 1;
+        if (typ >= TYPE_MYSTERY)
+        {
+            typ++;
+            StringCopy(cat_num, sText_spl);
+        }
+        else
+            StringCopy(cat_num, sText_phy);
+
+        if (typ == TYPE_FIRE)
+        {
+            typ++;
+            StringCopy(typ_num, sText_fir);
+        }
+        else if (typ == TYPE_WATER)
+        {
+            typ++;
+            StringCopy(typ_num, sText_wat);
+        }
+        else if (typ == TYPE_GRASS)
+        {
+            typ++;
+            StringCopy(typ_num, sText_grs);
+        }
+        else if (typ == TYPE_ELECTRIC)
+        {
+            typ++;
+            StringCopy(typ_num, sText_ele);
+        }
+        else if (typ == TYPE_ROCK)
+        {
+            StringCopy(typ_num, sText_rck);
+        }
+        else if (typ == TYPE_GROUND)
+        {
+            StringCopy(typ_num, sText_grd);
+        }
+        else if (typ == TYPE_ICE)
+        {
+            typ++;
+            StringCopy(typ_num, sText_ice);
+        }
+        else if (typ == TYPE_FLYING)
+        {
+            StringCopy(typ_num, sText_fly);
+        }
+        else if (typ == TYPE_FIGHTING)
+        {
+            StringCopy(typ_num, sText_fig);
+        }
+        else if (typ == TYPE_GHOST)
+        {
+            StringCopy(typ_num, sText_gst);
+        }
+        else if (typ == TYPE_BUG)
+        {
+            StringCopy(typ_num, sText_bug);
+        }
+        else if (typ == TYPE_POISON)
+        {
+            StringCopy(typ_num, sText_psn);
+        }
+        else if (typ == TYPE_PSYCHIC)
+        {
+            typ++;
+            StringCopy(typ_num, sText_psy);
+        }
+        else if (typ == TYPE_STEEL)
+        {
+            StringCopy(typ_num, sText_stl);
+        }
+        else if (typ == TYPE_DARK)
+        {
+            typ++;
+            StringCopy(typ_num, sText_drk);
+        }
+        else if (typ == TYPE_DRAGON)
+        {
+            typ++;
+            StringCopy(typ_num, sText_drg);
+        }
+    }
+    if (move == MOVE_HIDDEN_POWER)
+    {
+        u8 powerBits = ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP_IV) & 2) >> 1)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_ATK_IV) & 2) << 0)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_DEF_IV) & 2) << 1)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPEED_IV) & 2) << 2)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV)& 2) << 3)
+                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 2) << 4);
+        pwr = (40 * powerBits) / 63 + 30;
+        ConvertIntToDecimalStringN(pwr_num, pwr, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+    if (move == MOVE_WEATHER_BALL)
+    {
+        if (gBattleWeather & WEATHER_RAIN_ANY)
+            StringCopy(typ_num, sText_wat);
+        else if (gBattleWeather & WEATHER_SANDSTORM_ANY)
+            StringCopy(typ_num, sText_rck);
+        else if (gBattleWeather & WEATHER_SUN_ANY)
+            StringCopy(typ_num, sText_fir);
+        else if (gBattleWeather & WEATHER_HAIL_ANY)
+            StringCopy(typ_num, sText_ice);
+        else
+            StringCopy(typ_num, sText_nrm);
+    }
+    if (move == MOVE_WEATHER_BALL)
+    {
+        if (gBattleWeather & WEATHER_RAIN_ANY)
+            StringCopy(cat_num, sText_spl);
+        else if (gBattleWeather & WEATHER_SANDSTORM_ANY)
+            StringCopy(cat_num, sText_phy);
+        else if (gBattleWeather & WEATHER_SUN_ANY)
+            StringCopy(cat_num, sText_spl);
+        else if (gBattleWeather & WEATHER_HAIL_ANY)
+            StringCopy(cat_num, sText_spl);
+    }
+    if (move == MOVE_NATURE_POWER)
+    {
+        if (gBattleTerrain == BATTLE_TERRAIN_GRASS)
+            StringCopy(typ_num, sText_grs);
+        if (gBattleTerrain == BATTLE_TERRAIN_LONG_GRASS)
+            StringCopy(typ_num, sText_grs);
+        if (gBattleTerrain == BATTLE_TERRAIN_SAND)
+            StringCopy(typ_num, sText_grd);
+        if (gBattleTerrain == BATTLE_TERRAIN_UNDERWATER)
+            StringCopy(typ_num, sText_wat);
+        if (gBattleTerrain == BATTLE_TERRAIN_WATER)
+            StringCopy(typ_num, sText_wat);
+        if (gBattleTerrain == BATTLE_TERRAIN_POND)
+            StringCopy(typ_num, sText_wat);
+        if (gBattleTerrain == BATTLE_TERRAIN_MOUNTAIN)
+            StringCopy(typ_num, sText_rck);
+        if (gBattleTerrain == BATTLE_TERRAIN_CAVE)
+            StringCopy(typ_num, sText_gst);
+        if (gBattleTerrain == BATTLE_TERRAIN_BUILDING)
+            StringCopy(typ_num, sText_nrm);
+        if (gBattleTerrain == BATTLE_TERRAIN_PLAIN)
+            StringCopy(typ_num, sText_nrm);
+    }
+    if (move == MOVE_NATURE_POWER)
+    {
+        if (gBattleTerrain == BATTLE_TERRAIN_GRASS)
+            StringCopy(cat_num, sText_sts);
+        if (gBattleTerrain == BATTLE_TERRAIN_LONG_GRASS)
+            StringCopy(cat_num, sText_spl);
+        if (gBattleTerrain == BATTLE_TERRAIN_SAND)
+            StringCopy(cat_num, sText_phy);
+        if (gBattleTerrain == BATTLE_TERRAIN_UNDERWATER)
+            StringCopy(cat_num, sText_spl);
+        if (gBattleTerrain == BATTLE_TERRAIN_WATER)
+            StringCopy(cat_num, sText_spl);
+        if (gBattleTerrain == BATTLE_TERRAIN_POND)
+            StringCopy(cat_num, sText_spl);
+        if (gBattleTerrain == BATTLE_TERRAIN_MOUNTAIN)
+            StringCopy(cat_num, sText_phy);
+        if (gBattleTerrain == BATTLE_TERRAIN_CAVE)
+            StringCopy(cat_num, sText_phy);
+        if (gBattleTerrain == BATTLE_TERRAIN_BUILDING)
+            StringCopy(cat_num, sText_phy);
+        if (gBattleTerrain == BATTLE_TERRAIN_PLAIN)
+            StringCopy(cat_num, sText_phy);
+    }
+    if (move == MOVE_NATURE_POWER)
+    {
+        if (gBattleTerrain == BATTLE_TERRAIN_GRASS)
+            StringCopy(pwr_num, sText_shh);
+        if (gBattleTerrain == BATTLE_TERRAIN_LONG_GRASS)
+            StringCopy(pwr_num, sText_055);
+        if (gBattleTerrain == BATTLE_TERRAIN_SAND)
+            StringCopy(pwr_num, sText_100);
+        if (gBattleTerrain == BATTLE_TERRAIN_UNDERWATER)
+            StringCopy(pwr_num, sText_120);
+        if (gBattleTerrain == BATTLE_TERRAIN_WATER)
+            StringCopy(pwr_num, sText_095);
+        if (gBattleTerrain == BATTLE_TERRAIN_POND)
+            StringCopy(pwr_num, sText_065);
+        if (gBattleTerrain == BATTLE_TERRAIN_MOUNTAIN)
+            StringCopy(pwr_num, sText_075);
+        if (gBattleTerrain == BATTLE_TERRAIN_CAVE)
+            StringCopy(pwr_num, sText_080);
+        if (gBattleTerrain == BATTLE_TERRAIN_BUILDING)
+            StringCopy(pwr_num, sText_060);
+        if (gBattleTerrain == BATTLE_TERRAIN_PLAIN)
+            StringCopy(pwr_num, sText_060);
+    }
+    if (move == MOVE_NATURE_POWER)
+    {
+        if (gBattleTerrain == BATTLE_TERRAIN_GRASS)
+            StringCopy(acc_num, sText_075);
+        if (gBattleTerrain == BATTLE_TERRAIN_LONG_GRASS)
+            StringCopy(acc_num, sText_095);
+        if (gBattleTerrain == BATTLE_TERRAIN_SAND)
+            StringCopy(acc_num, sText_100);
+        if (gBattleTerrain == BATTLE_TERRAIN_UNDERWATER)
+            StringCopy(acc_num, sText_080);
+        if (gBattleTerrain == BATTLE_TERRAIN_WATER)
+            StringCopy(acc_num, sText_100);
+        if (gBattleTerrain == BATTLE_TERRAIN_POND)
+            StringCopy(acc_num, sText_100);
+        if (gBattleTerrain == BATTLE_TERRAIN_MOUNTAIN)
+            StringCopy(acc_num, sText_090);
+        if (gBattleTerrain == BATTLE_TERRAIN_CAVE)
+            StringCopy(acc_num, sText_100);
+        if (gBattleTerrain == BATTLE_TERRAIN_BUILDING)
+            StringCopy(acc_num, sText_shh);
+        if (gBattleTerrain == BATTLE_TERRAIN_PLAIN)
+            StringCopy(acc_num, sText_shh);
+    }
+    if (move == MOVE_CAMOUFLAGE)
+    {
+        if (MetatileBehavior_IsIndoorEncounter(tileBehavior) || MetatileBehavior_IsOutdoorEncounter(tileBehavior))
+            StringCopy(typ_num, sText_nrm);
+        if (gMapHeader.mapType == MAP_TYPE_UNDERGROUND || MetatileBehavior_IsMountain(tileBehavior))
+            StringCopy(typ_num, sText_rck);
+        if (MetatileBehavior_IsSandOrShallowFlowingWater(tileBehavior))
+        {
+            if (gMapHeader.regionMapSectionId == MAPSEC_FOUR_ISLAND)
+                StringCopy(typ_num, sText_ice);
+            else
+                StringCopy(typ_num, sText_grd);
+        }
+        if (MetatileBehavior_IsPokeGrass(tileBehavior))
+            StringCopy(typ_num, sText_grs);
+        if (MetatileBehavior_IsWater(tileBehavior))
+            StringCopy(typ_num, sText_wat);
+        if (MetatileBehavior_IsIce(tileBehavior) || MetatileBehavior_IsIce_2(tileBehavior) || MetatileBehavior_IsThinIce(tileBehavior) || MetatileBehavior_IsCrackedIce(tileBehavior))
+            StringCopy(typ_num, sText_ice);
+    }
+    StringCopy(gDisplayedStringBattle, pri_start);
+    StringAppend(gDisplayedStringBattle, pri_desc);
+    StringAppend(gDisplayedStringBattle, pri_num);
+    StringAppend(gDisplayedStringBattle, gText_NewLine);
+    StringAppend(gDisplayedStringBattle, pwr_start);
+    StringAppend(gDisplayedStringBattle, pwr_desc);
+    StringAppend(gDisplayedStringBattle, pwr_num);
+    StringAppend(gDisplayedStringBattle, typ_start);
+    StringAppend(gDisplayedStringBattle, typ_desc);
+    StringAppend(gDisplayedStringBattle, typ_num);
+    StringAppend(gDisplayedStringBattle, gText_NewLine);
+    StringAppend(gDisplayedStringBattle, acc_start);
+    StringAppend(gDisplayedStringBattle, acc_desc);
+    StringAppend(gDisplayedStringBattle, acc_num);
+    StringAppend(gDisplayedStringBattle, cat_start);
+    StringAppend(gDisplayedStringBattle, cat_desc);
+    StringAppend(gDisplayedStringBattle, cat_num);
+    BattlePutTextOnWindow(gDisplayedStringBattle, 25);
+    CopyWindowToVram(25, COPYWIN_BOTH);
+}
+
+static void MoveSelectionDisplayMoveDescription2(void)
+{
+    struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct*)(&gBattleBufferA[gActiveBattler][4]);
+    u16 move = moveInfo->moves[gMoveSelectionCursor[gActiveBattler]];
+
+    LoadStdWindowFrameGfx();
+    DrawStdWindowFrame(26, FALSE);
+    StringCopy(gDisplayedStringBattle, gMoveDescriptionPointers[move -1]);
+    BattlePutTextOnWindow(gDisplayedStringBattle, 26);
+    CopyWindowToVram(26, COPYWIN_BOTH);
 }
 
 void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 arg1)

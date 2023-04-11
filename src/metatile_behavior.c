@@ -523,8 +523,9 @@ bool8 MetatileBehavior_IsCrackedIce(u8 metatileBehavior)
 
 bool8 MetatileBehavior_IsDeepSemiDeepOrSplashingWater(u8 metatileBehavior)
 {
-    if((metatileBehavior >= MB_SEMI_DEEP_WATER && metatileBehavior <= MB_DEEP_WATER)
-        || metatileBehavior == MB_OCEAN_WATER)
+    if (metatileBehavior == MB_OCEAN_WATER
+     || metatileBehavior == MB_SEMI_DEEP_WATER
+     || metatileBehavior == MB_DEEP_WATER)
         return TRUE;
     else
         return FALSE;
@@ -1061,6 +1062,14 @@ bool8 MetatileBehavior_IsTrainerTowerMonitor(u8 metatileBehavior)
 bool8 MetatileBehavior_IsAshGrass(u8 metatileBehavior)
 {
     if (metatileBehavior == MB_ASHGRASS)
+        return TRUE;
+    else
+        return FALSE;
+}
+
+bool8 MetatileBehavior_IsOutdoorEncounter(u8 metatileBehavior)
+{
+    if (metatileBehavior == MB_NORMAL)
         return TRUE;
     else
         return FALSE;
