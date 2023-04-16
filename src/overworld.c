@@ -1065,7 +1065,7 @@ void Overworld_SetWarpDestinationFromWarp(struct WarpData * warp)
 
 static u16 GetLocationMusic(struct WarpData * warp)
 {
-    if(FlagGet(FLAG_SYS_ON_CYCLING_ROAD))
+    if(gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
         return MUS_CYCLING;
     return Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum)->music;
 }
