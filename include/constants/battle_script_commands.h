@@ -81,6 +81,9 @@
 #define VARIOUS_RETURN_OPPONENT_MON2            10
 #define VARIOUS_CHECK_POKEFLUTE                 11
 #define VARIOUS_WAIT_FANFARE                    12
+#define VARIOUS_SAVE_BATTLER_ITEM               13
+#define VARIOUS_RESTORE_BATTLER_ITEM            14
+#define VARIOUS_GIVE_DROPPED_ITEMS              15
 
 // atk80, dmg manipulation
 #define ATK80_DMG_CHANGE_SIGN                               0

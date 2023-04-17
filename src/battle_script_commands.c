@@ -6049,6 +6049,37 @@ static void atk76_various(void)
         if (!IsFanfareTaskInactive())
             return;
         break;
+    case VARIOUS_SAVE_BATTLER_ITEM:
+        gBattleResources->battleHistory->heldItems[gActiveBattler] = gBattleMons[gActiveBattler].item;
+        break;
+    case VARIOUS_RESTORE_BATTLER_ITEM:
+        gBattleMons[gActiveBattler].item = gBattleResources->battleHistory->heldItems[gActiveBattler];
+        break;
+    case VARIOUS_GIVE_DROPPED_ITEMS:
+        {
+            u8 i;
+            u8 battlers[] = {GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT), 
+                            GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)};
+            for (i = 0; i < 1 + IsDoubleBattle(); i++)
+            {
+                gLastUsedItem = gBattleResources->battleHistory->heldItems[battlers[i]];
+                gBattleResources->battleHistory->heldItems[battlers[i]] = ITEM_NONE;
+                if (gLastUsedItem && !(gBattleTypeFlags & (BATTLE_TYPE_TRAINER | BATTLE_TYPE_FIRST_BATTLE)))
+                {
+                    if(AddBagItem(gLastUsedItem, 1))
+                        gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_ITEM_DROPPED;
+                    else
+                        gBattleCommunication[MULTISTRING_CHOOSER] = B_MSG_BAG_IS_FULL;
+                    if (IsDoubleBattle())
+                        BattleScriptPushCursor();
+                    else
+                        BattleScriptPush(gBattlescriptCurrInstr + 3);
+                    gBattlescriptCurrInstr = BattleScript_ItemDropped;
+                    return;
+                }
+            }
+        break;
+        }
     }
     gBattlescriptCurrInstr += 3;
 }

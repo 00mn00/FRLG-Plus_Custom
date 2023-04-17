@@ -2814,6 +2814,7 @@ BattleScript_FaintAttacker::
 	playfaintcry BS_ATTACKER
 	pause 0x40
 	dofaintanimation BS_ATTACKER
+	savebattleritem BS_ATTACKER
 	cleareffectsonfaint BS_ATTACKER
 	printstring STRINGID_ATTACKERFAINTED
 	printstring STRINGID_EMPTYSTRING3
@@ -2823,6 +2824,7 @@ BattleScript_FaintTarget::
 	playfaintcry BS_TARGET
 	pause 0x40
 	dofaintanimation BS_TARGET
+	savebattleritem BS_TARGET
 	cleareffectsonfaint BS_TARGET
 	printstring STRINGID_TARGETFAINTED
 	printstring STRINGID_EMPTYSTRING3
@@ -2932,6 +2934,7 @@ BattleScript_LocalTrainerBattleWon::
 	waitmessage 0x40
 BattleScript_PayDayMoneyAndPickUpItems::
 	givepaydaymoney
+	givedroppeditems
 	pickup
 	end2
 
@@ -4415,4 +4418,9 @@ BattleScript_ActionSelectionItemsCantBeUsed::
 
 BattleScript_FlushMessageBox::
 	printstring STRINGID_EMPTYSTRING3
+	return
+
+BattleScript_ItemDropped::
+	playse SE_BALL_BOUNCE_1
+	printfromtable gItemDroppedStringIds
 	return

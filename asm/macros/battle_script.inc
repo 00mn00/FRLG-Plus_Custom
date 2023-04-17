@@ -1242,6 +1242,19 @@
 	.byte 0xf7
 	.endm
 
+@new commands
+	.macro savebattleritem battler:req
+	various \battler, VARIOUS_SAVE_BATTLER_ITEM
+	.endm
+
+	.macro restorebattleritem battler:req
+	various \battler, VARIOUS_RESTORE_BATTLER_ITEM
+	.endm
+
+	.macro givedroppeditems
+	various BS_FAINTED, VARIOUS_GIVE_DROPPED_ITEMS
+	.endm
+
 @ various command changed to more readable macros
 	.macro cancelmultiturnmoves battler:req
 	various \battler, VARIOUS_CANCEL_MULTI_TURN_MOVES

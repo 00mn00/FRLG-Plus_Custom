@@ -309,6 +309,7 @@ struct BattleHistory
     /*0x22*/ u8 itemEffects[MAX_BATTLERS_COUNT / 2];
     /*0x24*/ u16 trainerItems[MAX_BATTLERS_COUNT];
     /*0x2C*/ u8 itemsNo;
+    /*0x2D*/ u16 heldItems[MAX_BATTLERS_COUNT];
 };
 
 struct BattleScriptsStack

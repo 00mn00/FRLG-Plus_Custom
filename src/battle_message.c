@@ -525,6 +525,8 @@ const u8 gText_HowDissapointing[] = _("OAK: Hm…\nHow disappointing…\pIf you 
 const u8 gText_GrandMaster[] = _("GRAND MASTER ");
 const u8 gText_Master[] = _(" MASTER ");
 
+static const u8 sText_PkmnDroppedItem[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX} dropped\nits {B_LAST_ITEM}!{WAIT_SE}\p");
+static const u8 sText_BagIsFull[] = _("{B_SCR_ACTIVE_NAME_WITH_PREFIX} dropped\nits {B_LAST_ITEM}!{WAIT_SE}\pBut your BAG is full!\p");
 const u8 *const gBattleStringsTable[] = {
     [STRINGID_TRAINER1LOSETEXT - 12]              = sText_Trainer1LoseText,
     [STRINGID_PKMNGAINEDEXP - 12]                 = sText_PkmnGainedEXP,
@@ -902,7 +904,9 @@ const u8 *const gBattleStringsTable[] = {
     [STRINGID_TRAINER1MON1AND2COMEBACK - 12]      = sText_Trainer1RecallBoth,
     [STRINGID_ENEMYABOUTTOSWITCHPKMNNOPREDICT - 12] = sText_EnemyAboutToSwitchPkmnNoPredict,
     [STRINGID_PICKUP - 12]                        = sText_MonPickedUpItem,
-    [STRINGID_PICKUPSOLO - 12]                    = sText_MonPickedUpItemSolo
+    [STRINGID_PICKUPSOLO - 12]                    = sText_MonPickedUpItemSolo,
+    [STRINGID_PKMNDROPPEDITEM - 12]               = sText_PkmnDroppedItem,
+    [STRINGID_BAGISFULL - 12]                     = sText_BagIsFull
 };
 
 const u16 gMissStringIds[] = {
@@ -1228,6 +1232,12 @@ const u16 gTrappingMoves[] = {
     MOVE_WHIRLPOOL,
     MOVE_SAND_TOMB,
     0xFFFF
+};
+
+const u16 gItemDroppedStringIds[] =
+{
+    [B_MSG_ITEM_DROPPED] = STRINGID_PKMNDROPPEDITEM,
+    [B_MSG_BAG_IS_FULL] = STRINGID_BAGISFULL,
 };
 
 const u8 gText_PkmnIsEvolving[] = _("What?\n{STR_VAR_1} is evolving!");
