@@ -1752,7 +1752,7 @@ static void RedrawChooseAPokemonWindow(void)
 
 static void TradeMenuCB_1(void)
 {
-    switch (Menu_ProcessInputNoWrapAround())
+    switch (Menu_ProcessInput())
     {
     case MENU_B_PRESSED:
         PlaySE(SE_SELECT);

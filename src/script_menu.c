@@ -940,7 +940,7 @@ static void Task_MultichoiceMenu_HandleInput(u8 taskId)
         else
         {
             if (data[5] == FALSE)
-                input = Menu_ProcessInputNoWrapAround();
+                input = Menu_ProcessInput();
             else
                 input = Menu_ProcessInput();
             if (JOY_NEW(DPAD_UP | DPAD_DOWN))

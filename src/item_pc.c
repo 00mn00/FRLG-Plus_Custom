@@ -850,7 +850,7 @@ static void Task_ItemPcSubmenuInit(u8 taskId)
 
 static void Task_ItemPcSubmenuRun(u8 taskId)
 {
-    s8 input = Menu_ProcessInputNoWrapAround();
+    s8 input = Menu_ProcessInput();
     switch (input)
     {
     case -1:

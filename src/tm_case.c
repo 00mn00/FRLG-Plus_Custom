@@ -813,7 +813,7 @@ static void Task_TMContextMenu_HandleInput(u8 taskId)
 
     if (MenuHelpers_CallLinkSomething() != TRUE)
     {
-        input = Menu_ProcessInputNoWrapAround();
+        input = Menu_ProcessInput();
         switch (input)
         {
         case -1:

@@ -189,7 +189,7 @@ static void Task_DrawPlayerPcTopMenu(u8 taskId)
 static void Task_TopMenuHandleInput(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    s8 input = Menu_ProcessInputNoWrapAround();
+    s8 input = Menu_ProcessInput();
     switch (input)
     {
     case -2:

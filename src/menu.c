@@ -588,7 +588,7 @@ static void CreateYesNoMenu2(const struct WindowTemplate *window, u8 paletteNum,
 
 s8 Menu_ProcessInputNoWrapClearOnChoose(void)
 {
-    s8 result = Menu_ProcessInputNoWrapAround();
+    s8 result = Menu_ProcessInput();
     if (result != MENU_NOTHING_CHOSEN)
         DestroyYesNoMenu();
     return result;

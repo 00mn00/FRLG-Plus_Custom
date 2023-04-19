@@ -617,7 +617,7 @@ static void Task_DoFireredOrLeafgreenMultichoice(u8 taskId)
         gTasks[taskId].tUnused8++;
         break;
     case 5:
-        input = Menu_ProcessInputNoWrapAround();
+        input = Menu_ProcessInput();
         if (input == 0 || input == 1)
         {
             if(input == 0)

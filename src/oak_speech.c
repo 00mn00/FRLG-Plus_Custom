@@ -1109,7 +1109,7 @@ static void Task_OakSpeech19(u8 taskId)
 
 static void Task_OakSpeech20(u8 taskId)
 {
-    s8 input = Menu_ProcessInputNoWrapAround();
+    s8 input = Menu_ProcessInput();
     switch (input)
     {
     case 0:

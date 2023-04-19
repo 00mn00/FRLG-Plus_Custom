@@ -3120,9 +3120,9 @@ static void Task_HandleSelectionMenuInput(u8 taskId)
         s16 *data = gTasks[taskId].data;
 
         if (sPartyMenuInternal->numActions <= 3)
-            input = Menu_ProcessInputNoWrapAround_other();
+            input = Menu_ProcessInput();
         else
-            input = Menu_ProcessInput_other();
+            input = Menu_ProcessInput();
         if (data[0] != Menu_GetCursorPos())
             sub_8122138(sPartyMenuInternal->actions[Menu_GetCursorPos()]);
         data[0] = Menu_GetCursorPos();

@@ -2449,7 +2449,7 @@ static void SignalStopWinningLineFlashTask(void)
 static void Slot_CreateYesNoMenu(u8 cursorPos)
 {
     CreateYesNoMenu(&sYesNoWindowTemplate, 2, 0, 2, 10, 13, cursorPos);
-    Menu_MoveCursorNoWrapAround(cursorPos);
+    Menu_MoveCursor(cursorPos);
     GetSlotMachineSetupTaskDataPtr()->yesNoMenuActive = TRUE;
 }
 

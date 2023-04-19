@@ -2602,7 +2602,7 @@ static void PrintStorageActionText(u8 id)
 static void ShowYesNoWindow(s8 cursorPos)
 {
     CreateYesNoMenu(&sYesNoWindowTemplate, 1, 0, 2, 0x00b, 14, 1);
-    Menu_MoveCursorNoWrapAround(cursorPos);
+    Menu_MoveCursor(cursorPos);
 }
 
 static void ClearBottomWindow(void)

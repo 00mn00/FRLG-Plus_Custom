@@ -1578,7 +1578,7 @@ static void Task_FieldItemContextMenuHandleInput(u8 taskId)
     s16 input;
     if (MenuHelpers_CallLinkSomething() != TRUE)
     {
-        input = Menu_ProcessInputNoWrapAround2();
+        input = Menu_ProcessInput();
         switch (input)
         {
         case -1:
@@ -2366,7 +2366,7 @@ static void Task_Bag_TeachyTvRegister(u8 taskId)
             break;
         case 408:
             PlaySE(SE_SELECT);
-            Menu_MoveCursorNoWrapAround(1);
+            Menu_MoveCursor(1);
             break;
         case 510:
             PlaySE(SE_SELECT);
@@ -2831,7 +2831,7 @@ static void Task_FieldItemSortMenuHandleInput(u8 taskId)
     s16 input;
     if (MenuHelpers_CallLinkSomething() != TRUE)
     {
-        input = Menu_ProcessInputNoWrapAround2();
+        input = Menu_ProcessInput();
         switch (input)
         {
         case -1:

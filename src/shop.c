@@ -268,7 +268,7 @@ static void SetShopMenuCallback(void (*callback)(void))
 
 static void Task_ShopMenu(u8 taskId)
 {
-    s8 input = Menu_ProcessInputNoWrapAround();
+    s8 input = Menu_ProcessInput();
     
     switch (input)
     {
