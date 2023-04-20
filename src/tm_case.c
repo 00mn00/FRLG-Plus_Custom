@@ -134,7 +134,6 @@ static void ClearTMHMSlots(void);
 static void LoadTMTypePalettes(void);
 static void DrawPartyMonIcons(void);
 static void TintPartyMonIcons(u8 tm);
-static void DestroyPartyMonIcons(void);
 
 static const struct BgTemplate sBGTemplates[] = {
     {
@@ -1516,11 +1515,13 @@ static void DrawPartyMonIcons(void)
         species = GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2);
 
         //create icon sprite
-        #ifndef POKEMON_EXPANSION
+        if (species == SPECIES_EGG)
+        {
             spriteIdData[i] = CreateMonIcon(species, SpriteCb_MonIcon, icon_x, icon_y, 1, GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY), TRUE);
-        #else
-            spriteIdData[i] = CreateMonIcon(species, SpriteCb_MonIcon, icon_x, icon_y, 1, GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY));
-        #endif
+            DestroyMonIcon(&gSprites[spriteIdData[i]]);
+        }
+        else
+            spriteIdData[i] = CreateMonIcon(species, SpriteCb_MonIcon, icon_x, icon_y, 1, GetMonData(&gPlayerParty[0], MON_DATA_PERSONALITY), TRUE);
 
         //Set priority, stop movement and save original palette position
         gSprites[spriteIdData[i]].oam.priority = 0;
@@ -1547,15 +1548,5 @@ static void TintPartyMonIcons(u8 tm)
         {
             gSprites[spriteIdData[i]].oam.objMode = ST_OAM_OBJ_NORMAL;//gMonIconPaletteIndices[species];
         }
-    }
-}
-
-static void DestroyPartyMonIcons(void)
-{
-    u8 i;
-    for (i = 0; i < gPlayerPartyCount; i++)
-    {
-        DestroyMonIcon(&gSprites[spriteIdData[i]]);
-        FreeMonIconPalettes();
     }
 }
