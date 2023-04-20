@@ -168,7 +168,7 @@ string generate_map_events_text(Json map_data) {
 
     text << "@\n@ DO NOT MODIFY THIS FILE! It is auto-generated from data/maps/" 
          << map_data["name"].string_value() 
-         << "/map.json\n@\n\n";
+         << "/map.json\n@\n\n\t.align 2\n\n";
 
     string objects_label, warps_label, coords_label, bgs_label;
 

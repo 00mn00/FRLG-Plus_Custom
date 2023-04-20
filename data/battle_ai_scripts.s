@@ -25,7 +25,7 @@ gBattleAI_ScriptsTable:: @ 81D9BF4
 	.4byte AI_PreferBatonPass
 	.4byte AI_DoubleBattle
 	.4byte AI_HPAware
-	.4byte AI_Unknown
+	.4byte AI_TrySunnyDayStart
 	.4byte AI_Ret
 	.4byte AI_Ret
 	.4byte AI_Ret
@@ -1151,13 +1151,15 @@ AI_CV_AttackDown4:: @ 81DAAB0
 AI_CV_AttackDown_End:: @ 81DAACE
 	end
 
-@ Missing Poison, Flying, and Ghost for unknown reason
 AI_CV_AttackDown_PhysicalTypeList:: @ 81DAACF
 	.byte TYPE_NORMAL
 	.byte TYPE_FIGHTING
+	.byte TYPE_POISON
 	.byte TYPE_GROUND
-	.byte TYPE_ROCK
+	.byte TYPE_FLYING
 	.byte TYPE_BUG
+	.byte TYPE_ROCK
+	.byte TYPE_GHOST
 	.byte TYPE_STEEL
 	.byte -1
 
@@ -2227,7 +2229,6 @@ AI_CV_PsychUp_ScoreUp1:: @ 81DB598
 	score +1
 
 AI_CV_PsychUp3:: @ 81DB59A
-	if_random_less_than 128, AI_CV_PsychUp_End  @ Remove this line
 	score +1
 	end
 
@@ -2763,7 +2764,6 @@ AI_TryToFaint:: @ 81DBA6F
 	if_type_effectiveness AI_EFFECTIVENESS_x4, AI_TryToFaint_DoubleSuperEffective
 	end
 
-
 AI_TryToFaint_DoubleSuperEffective:
 	if_random_less_than 80, AI_TryToFaint_End
 	score +2
@@ -3164,7 +3164,7 @@ AI_HPAware_DiscouragedEffectsWhenTargetLowHP:: @ 81DBC55
 	.byte EFFECT_TOXIC
 	.byte EFFECT_LIGHT_SCREEN
 	.byte EFFECT_OHKO
-	.byte EFFECT_SUPER_FANG  @ Maybe supposed to be EFFECT_RAZOR_WIND
+	.byte EFFECT_RAZOR_WIND
 	.byte EFFECT_SUPER_FANG
 	.byte EFFECT_MIST
 	.byte EFFECT_FOCUS_ENERGY
@@ -3204,14 +3204,12 @@ AI_HPAware_DiscouragedEffectsWhenTargetLowHP:: @ 81DBC55
 	.byte EFFECT_DRAGON_DANCE
 	.byte -1
 
-AI_Unknown:: @ 81DBC91
-	if_not_effect EFFECT_SUNNY_DAY, AI_Unknown_End
-	if_equal 0, AI_Unknown_End
+AI_TrySunnyDayStart:: @ 81DBC91
+	if_not_effect EFFECT_SUNNY_DAY, AI_TrySunnyDayStart_End
 	is_first_turn_for AI_USER
-	if_equal 0, AI_Unknown_End
+	if_equal 0, AI_TrySunnyDayStart_End
 	score +5
-
-AI_Unknown_End:: @ 81DBCA7
+AI_TrySunnyDayStart_End:: @ 81DBCA7
 	end
 
 AI_Roaming:: @ 81DBCA8

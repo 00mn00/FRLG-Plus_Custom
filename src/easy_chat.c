@@ -459,11 +459,7 @@ void InitEasyChatPhrases(void)
             gSaveBlock1Ptr->mail[i].words[j] = EC_WORD_UNDEFINED;
     }
 
-    // BUG: This is supposed to clear 64 bits, but this loop is clearing 64 bytes.
-    // However, this bug has no resulting effect on gameplay because only the
-    // Mauville old man data is corrupted, which is initialized directly after
-    // this function is called when starting a new game.
-    for (i = 0; i < 64; i++)
+    for (i = 0; i < NELEMS(gSaveBlock1Ptr->additionalPhrases); i++)
         gSaveBlock1Ptr->additionalPhrases[i] = 0;
 }
 
@@ -488,8 +484,7 @@ bool8 InitEasyChatSelection(void)
 
 void DestroyEasyChatSelectionData(void)
 {
-    if (sEasyChatSelectionData != NULL)
-        Free(sEasyChatSelectionData);
+    TRY_FREE_AND_SET_NULL(sEasyChatSelectionData);
 }
 
 static void PopulateECGroups(void)

@@ -1730,6 +1730,7 @@ static void Task_WaitStopSurfing(u8 taskId)
         ScriptContext2_Disable();
         UnfreezeObjectEvents();
         DestroySprite(&gSprites[playerObjEvent->fieldEffectSpriteId]);
+        playerObjEvent->triggerGroundEffectsOnMove = TRUE;
         DestroyTask(taskId);
         SetHelpContextForMap();
     }

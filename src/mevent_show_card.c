@@ -438,9 +438,7 @@ static void sub_81461D8(void)
             if (sMEventScreenData->cardIconAndShadowSprites[r6][0] != 0xFF)
             {
                 DestroySprite(&gSprites[sMEventScreenData->cardIconAndShadowSprites[r6][0]]);
-                // This might be a typo.  Uncomment the next line, and comment the one that follows, to get the presumed intended behavior.
-                // if (sMEventScreenData->cardIconAndShadowSprites[r6][1] != 0xFF)
-                if (sMEventScreenData->cardIconAndShadowSprites[r6][0] != 0xFF)
+                if (sMEventScreenData->cardIconAndShadowSprites[r6][1] != 0xFF)
                 {
                     DestroyMonIcon(&gSprites[sMEventScreenData->cardIconAndShadowSprites[r6][1]]);
                 }

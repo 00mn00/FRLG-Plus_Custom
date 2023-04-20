@@ -372,8 +372,7 @@ bool32 UnionRoomChat_RunDisplaySubtask0(void)
 void UnionRoomChat_FreeGraphicsWork(void)
 {
     UnionRoomChat_FreeSpriteWork();
-    if (sWork != NULL)
-        FREE_AND_SET_NULL(sWork);
+    TRY_FREE_AND_SET_NULL(sWork);
 
     FreeAllWindowBuffers();
     gScanlineEffect.state = 3;

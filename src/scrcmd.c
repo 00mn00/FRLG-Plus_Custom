@@ -35,6 +35,7 @@
 #include "field_effect.h"
 #include "fieldmap.h"
 #include "field_door.h"
+#include "help_system.h"
 #include "constants/event_objects.h"
 
 extern u16 (*const gSpecials[])(void);
@@ -2306,4 +2307,16 @@ bool8 ScrCmd_resetobjectmovementtype(struct ScriptContext * ctx)
 
     Overworld_ResetObjEventTemplateMovementType(localId);
     return FALSE;
+}
+
+bool8 ScrCmd_disablehelpmenu(struct ScriptContext * ctx)
+{
+    HelpSystem_Disable();
+    return TRUE;
+}
+
+bool8 ScrCmd_enablehelpmenu(struct ScriptContext * ctx)
+{
+    HelpSystem_Enable();
+    return TRUE;
 }

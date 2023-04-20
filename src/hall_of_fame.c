@@ -478,10 +478,23 @@ static void Task_Hof_InitTeamSaveData(u8 taskId)
 static void Task_Hof_TrySaveData(u8 taskId)
 {
     gGameContinueCallback = CB2_DoHallOfFameScreenDontSaveData;
-    TrySavingData(SAVE_HALL_OF_FAME);
-    PlaySE(SE_SAVE);
-    gTasks[taskId].func = Task_Hof_DelayAfterSave;
-    gTasks[taskId].data[3] = 32;
+    if (TrySavingData(SAVE_HALL_OF_FAME) == SAVE_STATUS_ERROR && gDamagedSaveSectors != 0)
+    {
+        UnsetBgTilemapBuffer(1);
+        UnsetBgTilemapBuffer(3);
+        FreeAllWindowBuffers();
+
+        TRY_FREE_AND_SET_NULL(sHofGfxPtr);
+        TRY_FREE_AND_SET_NULL(sHofMonPtr);
+
+        DestroyTask(taskId);
+    }
+    else
+    {
+        PlaySE(SE_SAVE);
+        gTasks[taskId].func = Task_Hof_DelayAfterSave;
+        gTasks[taskId].data[3] = 32;
+    }
 }
 
 static void Task_Hof_DelayAfterSave(u8 taskId)
@@ -706,10 +719,8 @@ static void Task_Hof_HandleExit(u8 taskId)
         ResetBgsAndClearDma3BusyFlags(0);
         DestroyTask(taskId);
 
-        if (sHofGfxPtr != NULL)
-        FREE_AND_SET_NULL(sHofGfxPtr);
-        if (sHofMonPtr != NULL)
-        FREE_AND_SET_NULL(sHofMonPtr);
+        TRY_FREE_AND_SET_NULL(sHofGfxPtr);
+        TRY_FREE_AND_SET_NULL(sHofMonPtr);
 
         SetWarpsToRollCredits();
     }
@@ -980,10 +991,8 @@ static void Task_HofPC_HandleExit(u8 taskId)
         ResetBgsAndClearDma3BusyFlags(FALSE);
         DestroyTask(taskId);
 
-        if (sHofGfxPtr != NULL)
-            FREE_AND_SET_NULL(sHofGfxPtr);
-        if (sHofMonPtr != NULL)
-            FREE_AND_SET_NULL(sHofMonPtr);
+        TRY_FREE_AND_SET_NULL(sHofGfxPtr);
+        TRY_FREE_AND_SET_NULL(sHofMonPtr);
 
         ReturnFromHallOfFamePC();
     }

@@ -391,7 +391,7 @@ void sub_8153D08(u8 count)
         struct Sprite * sprite = &gSprites[*gUnknown_203F3E4[i]];
         if (sprite != NULL)
             DestroySpriteAndFreeResources(sprite);
-        // Memory should be freed here but is not.
+        FREE_AND_SET_NULL(gUnknown_203F3E4[i]);
     }
 }
 
@@ -669,13 +669,7 @@ static void sub_81543C4(u8 spriteId)
     gSprites[spriteId].pos1.y = 50;
 }
 
-// Gamefreak made a mistake there and goes out of bounds for the data array as it holds 8 elements
-// in turn overwriting sprite's subpriority and subsprites fields.
-#if defined(BUGFIX)
 #define sKeepPosX data[1]
-#else
-#define sKeepPosX data[10]
-#endif // BUGFIX
 
 static void sub_81543E8(struct Sprite * sprite)
 {

@@ -12,10 +12,6 @@
 // Prevent cross-jump optimization.
 #define BLOCK_CROSS_JUMP asm("");
 
-// to help in decompiling
-#define asm_comment(x) asm volatile("@ -- " x " -- ")
-#define asm_unified(x) asm(".syntax unified\n" x "\n.syntax divided")
-
 #if defined (__APPLE__) || defined (__CYGWIN__) || defined(__CLION_IDE__)
 // Get the IDE to stfu
 
@@ -27,8 +23,8 @@
 #define INCBIN_S8  INCBIN
 #define INCBIN_S16 INCBIN
 #define INCBIN_S32 INCBIN
-#define _(x) (x)
-#define __(x) (x)
+#define _(x) {x}
+#define __(x) {x}
 #endif // __APPLE__
 
 #define NELEMS(array) (sizeof(array) / sizeof((array)[0]))
@@ -72,6 +68,10 @@
 #if MODERN
 #define abs(x) (((x) < 0) ? -(x) : (x))
 #endif
+
+// Used in cases where division by 0 can occur in the retail version.
+// Avoids invalid opcodes on some emulators, and the otherwise UB.
+#define SAFE_DIV(a, b) ((b) ? (a) / (b) : 0)
 
 // There are many quirks in the source code which have overarching behavioral differences from
 // a number of other files. For example, diploma.c seems to declare rodata before each use while
@@ -210,8 +210,6 @@ struct BerryCrush
     u32 berryPowderAmount;
     u32 unk;
 };
-
-#define PLAYER_NAME_LENGTH   7
 
 #define LINK_B_RECORDS_COUNT 5
 

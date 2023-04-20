@@ -272,7 +272,7 @@ void DrawMonMarkingsMenu(u8 markings, s16 x, s16 y)
     {
         sMenu->markingsArray[i] = (sMenu->markings >> i) & 1;
     }
-    CreateMonMarkingsMenuSprites(x, y, sMenu->baseTileTag, sMenu->basePaletteTag);;
+    CreateMonMarkingsMenuSprites(x, y, sMenu->baseTileTag, sMenu->basePaletteTag);
 }
 
 void TeardownMonMarkingsMenu(void)

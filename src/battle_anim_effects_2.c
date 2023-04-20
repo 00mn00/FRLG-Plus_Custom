@@ -650,7 +650,7 @@ const struct SpriteTemplate gSoftBoiledEggSpriteTemplate =
 {
     .tileTag = ANIM_TAG_BREAKING_EGG,
     .paletteTag = ANIM_TAG_BREAKING_EGG,
-    .oam = &gOamData_AffineDouble_ObjBlend_32x32,
+    .oam = &gOamData_AffineDouble_ObjNormal_32x32,
     .anims = gDummySpriteAnimTable,
     .images = NULL,
     .affineAnims = sSoftBoiledEggAffineAnimTable,

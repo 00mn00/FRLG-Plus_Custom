@@ -353,31 +353,36 @@ static void WCSS_AddTextPrinterParameterized(u8 windowId, u8 fontId, const u8 * 
 
 static u32 CountMembersInGroup(struct UnkStruct_x20 * unk20, u32 * counts)
 {
-    u32 activity = unk20->gname_uname.gname.activity;
     s32 i, j, k;
+    u32 activity = unk20->gname_uname.gname.activity;
+
+    #define group_activity(i) (sCountParams[(i)][0])
+    #define group_type(i)     (sCountParams[(i)][1])
+    #define group_players(i)  (sCountParams[(i)][2])
 
     for (i = 0; i < NELEMS(sCountParams); i++)
     {
-        if (activity == sCountParams[i][0] && unk20->groupScheduledAnim == UNION_ROOM_SPAWN_IN)
+        if (activity == group_activity(i) && unk20->groupScheduledAnim == UNION_ROOM_SPAWN_IN)
         {
-            if (sCountParams[i][2] == 0)
+            if (group_players(i) == 0)
             {
                 k = 0;
                 for (j = 0; j < RFU_CHILD_MAX; j++)
-                {
                     if (unk20->gname_uname.gname.child_sprite_gender[j] != 0) k++;
-                }
                 k++;
-                counts[sCountParams[i][1]] += k;
+                counts[group_type(i)] += k;
             }
             else
             {
-                counts[sCountParams[i][1]] += sCountParams[i][2];
+                counts[group_type(i)] += group_players(i);
             }
         }
     }
-
     return activity;
+
+    #undef group_activity
+    #undef group_type
+    #undef group_players
 }
 
 static bool32 HaveCountsChanged(const u32 * newCounts, const u32 * prevCounts)

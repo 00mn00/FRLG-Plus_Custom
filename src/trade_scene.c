@@ -55,7 +55,7 @@ struct InGameTrade {
     /*0x24*/ u32 personality;
     /*0x28*/ u16 heldItem;
     /*0x2A*/ u8 mailNum;
-    /*0x2B*/ u8 otName[11];
+    /*0x2B*/ u8 otName[TRAINER_NAME_LENGTH + 1];
     /*0x36*/ u8 otGender;
     /*0x37*/ u8 sheen;
     /*0x38*/ u16 requestedSpecies;
@@ -1244,7 +1244,6 @@ static void TradeBufferOTnameAndNicknames(void)
 {
     u8 nickname[20];
     u8 mpId;
-    const struct InGameTrade * inGameTrade;
     if (sTradeData->isLinkTrade)
     {
         mpId = GetMultiplayerId();
@@ -1256,9 +1255,9 @@ static void TradeBufferOTnameAndNicknames(void)
     }
     else
     {
-        inGameTrade = &sInGameTrades[gSpecialVar_0x8004];
-        StringCopy(gStringVar1, inGameTrade->otName);
-        StringCopy10(gStringVar3, inGameTrade->nickname);
+        GetMonData(&gEnemyParty[0], MON_DATA_OT_NAME, gStringVar1);
+        GetMonData(&gEnemyParty[0], MON_DATA_NICKNAME, nickname);
+        StringCopy10(gStringVar3, nickname);
         GetMonData(&gPlayerParty[gSpecialVar_0x8005], MON_DATA_NICKNAME, nickname);
         StringCopy10(gStringVar2, nickname);
     }

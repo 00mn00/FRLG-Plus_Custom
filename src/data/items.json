@@ -2250,8 +2250,8 @@
       "importance": 0,
       "exitsBagOnUse": 0,
       "pocket": "POCKET_BERRY_POUCH",
-      "type": 4,
-      "fieldUseFunc": "FieldUseFunc_OakStopsYou",
+      "type": 1,
+      "fieldUseFunc": "FieldUseFunc_Medicine",
       "battleUsage": 1,
       "battleUseFunc": "BattleUseFunc_Medicine",
       "secondaryId": 0

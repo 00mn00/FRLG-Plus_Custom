@@ -192,17 +192,17 @@ void InitHeap(void *heapStart, u32 heapSize)
 
 void *Alloc(u32 size)
 {
-    AllocInternal(sHeapStart, size);
+    return AllocInternal(sHeapStart, size);
 }
 
 void *AllocZeroed(u32 size)
 {
-    AllocZeroedInternal(sHeapStart, size);
+    return AllocZeroedInternal(sHeapStart, size);
 }
 
 void Free(void *pointer)
 {
-    FreeInternal(sHeapStart, pointer);
+    return FreeInternal(sHeapStart, pointer);
 }
 
 bool32 CheckMemBlock(void *pointer)

@@ -28,6 +28,7 @@
 #include "help_system.h"
 #include "field_fadetransition.h"
 #include "trade.h"
+#include "field_weather.h"
 #include "constants/daycare.h"
 #include "constants/region_map_sections.h"
 
@@ -830,8 +831,9 @@ static void InheritIVs(struct Pokemon *egg, struct DayCare *daycare)
     for (i = 0; i < NELEMS(selectedIvs); i++)
     {
         // Randomly pick an IV from the available list and stop from being chosen again.
-        selectedIvs[i] = availableIVs[Random() % (NUM_STATS - i)];
-        RemoveIVIndexFromList(availableIVs, selectedIvs[i]);
+        u8 index = Random() % (NUM_STATS - i);
+        selectedIvs[i] = availableIVs[index];
+        RemoveIVIndexFromList(availableIVs, index);
     }
 
     // Determine which parent each of the selected IVs should inherit from.
@@ -1052,11 +1054,11 @@ static u16 DetermineEggSpeciesAndParentSlots(struct DayCare *daycare, u8 *parent
     }
 
     eggSpecies = GetEggSpecies(species[parentSlots[0]]);
-    if (eggSpecies == SPECIES_NIDORAN_F && daycare->offspringPersonality & EGG_GENDER_MALE)
+    if (eggSpecies == SPECIES_NIDORAN_F && (daycare->offspringPersonality & EGG_GENDER_MALE))
     {
         eggSpecies = SPECIES_NIDORAN_M;
     }
-    if (eggSpecies == SPECIES_ILLUMISE && daycare->offspringPersonality & EGG_GENDER_MALE)
+    if (eggSpecies == SPECIES_ILLUMISE && (daycare->offspringPersonality & EGG_GENDER_MALE))
     {
         eggSpecies = SPECIES_VOLBEAT;
     }
@@ -1654,7 +1656,7 @@ static void DaycarePrintMonLvl(struct DayCare *daycare, u8 windowId, u32 daycare
 
 static void DaycarePrintMonInfo(u8 windowId, s32 daycareSlotId, u8 y)
 {
-    if (daycareSlotId < (unsigned) DAYCARE_MON_COUNT)
+    if (daycareSlotId < DAYCARE_MON_COUNT)
     {
         DaycarePrintMonNickname(&gSaveBlock1Ptr->daycare, windowId, daycareSlotId, y);
         DaycarePrintMonLvl(&gSaveBlock1Ptr->daycare, windowId, daycareSlotId, y);
@@ -2103,6 +2105,7 @@ static void Task_EggHatchPlayBGM(u8 taskID)
     if (gTasks[taskID].data[0] == 0)
     {
         StopMapMusic();
+        PlayRainStoppingSoundEffect();
     }
     if (gTasks[taskID].data[0] == 1)
         PlayBGM(MUS_EVOLUTION_INTRO);
@@ -2110,7 +2113,7 @@ static void Task_EggHatchPlayBGM(u8 taskID)
     {
         PlayBGM(MUS_EVOLUTION);
         DestroyTask(taskID);
-        // UB: task is destroyed, yet the value is incremented
+        return;
     }
     gTasks[taskID].data[0]++;
 }
@@ -2305,7 +2308,7 @@ static void SpriteCB_Egg_2(struct Sprite* sprite)
             if (sprite->data[0] == 15)
             {
                 PlaySE(SE_BALL);
-                StartSpriteAnim(sprite, 2);
+                StartSpriteAnim(sprite, 3);
                 CreateRandomEggShardSprite();
                 CreateRandomEggShardSprite();
             }

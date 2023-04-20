@@ -714,8 +714,7 @@ static void StringExpandPlaceholders_AwaitingCommFromAnother(u8 *dst, u8 caseId)
     case ACTIVITY_BPICK:
     case ACTIVITY_WCARD2:
     case ACTIVITY_WNEWS2:
-        // UB: argument *dst isn't used, instead it always prints to gStringVar4
-        StringExpandPlaceholders(gStringVar4, gUnknown_8457234);
+        StringExpandPlaceholders(dst, gUnknown_8457234);
         break;
     }
 }
@@ -838,7 +837,7 @@ static void Task_TryBecomeLinkLeader(u8 taskId)
         }
         break;
     case 10:
-        id = ((sPlayerCurrActivity & 0xF) == 2) ? 1 : 0;
+        id = ((sPlayerActivityGroupSize & 0xF) == 2) ? 0 : 1;
         if (PrintOnTextbox(&data->textState, gUnknown_845767C[id]))
         {
             data->playerCount = UnionRoomLeaderField0CompactionAndCount(data->field_0);
@@ -1631,7 +1630,7 @@ static bool32 IsPartnerActivityAcceptable(u32 activity, u32 group)
     if (group == 0xFF)
         return TRUE;
 
-    if (group <= NELEMS(sAcceptedActivityIds)) // UB: <= may access data outside the array
+    if (group < NELEMS(sAcceptedActivityIds))
     {
         const u8 *bytes = sAcceptedActivityIds[group];
 

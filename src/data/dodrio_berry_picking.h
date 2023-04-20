@@ -224,7 +224,7 @@ static const u8 sUnknown_8472133[5][5] =
     {4, 6},
     {3, 5, 7},
     {2, 4, 6, 8},
-    {1, 3, 5, 6, 9},
+    {1, 3, 5, 7, 9},
 };
 
 static const u16 sDodrioBerryBgPal1[] = INCBIN_U16("graphics/link_games/dodrioberry_bg1.gbapal",

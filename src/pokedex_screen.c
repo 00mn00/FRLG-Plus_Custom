@@ -3024,11 +3024,7 @@ static bool8 DexScreen_FlipCategoryPageInDirection(u8 direction)
         }
         else
         {
-#ifdef BUGFIX
             DexScreen_TurnCategoryPage_BgEffect(0);
-#else
-            DexScreen_TurnCategoryPage_BgEffect(sPokedexScreenData->data[0]);
-#endif
             BeginNormalPaletteFade(0x00007FFF, 0, 16, 16, color);
             sPokedexScreenData->data[0]++;
         }

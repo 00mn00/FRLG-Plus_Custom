@@ -687,16 +687,11 @@ static void TMCaseSetup_UpdateVisualMenuOffset(void)
 
 static void DestroyTMCaseBuffers(void)
 {
-    if (sTMCaseDynamicResources != NULL)
-        Free(sTMCaseDynamicResources);
-    if (sTilemapBuffer != NULL)
-        Free(sTilemapBuffer);
-    if (sListMenuItemsBuffer != NULL)
-        Free(sListMenuItemsBuffer);
-    if (sListMenuStringsBuffer != NULL)
-        Free(sListMenuStringsBuffer);
-    if (sTMSpritePaletteBuffer != NULL)
-        Free(sTMSpritePaletteBuffer);
+    TRY_FREE_AND_SET_NULL(sTMCaseDynamicResources);
+    TRY_FREE_AND_SET_NULL(sTilemapBuffer);
+    TRY_FREE_AND_SET_NULL(sListMenuItemsBuffer);
+    TRY_FREE_AND_SET_NULL(sListMenuStringsBuffer);
+    TRY_FREE_AND_SET_NULL(sTMSpritePaletteBuffer);
     FreeAllWindowBuffers();
 }
 

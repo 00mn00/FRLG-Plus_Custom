@@ -859,11 +859,7 @@ static void CB2_InitSlotMachine(void)
 static void CleanSupSlotMachineState(void)
 {
     DestroySlotMachine();
-    if (sSlotMachineState != NULL)
-    {
-        Free(sSlotMachineState);
-        sSlotMachineState = NULL;
-    }
+    TRY_FREE_AND_SET_NULL(sSlotMachineState);
 }
 
 static void CB2_RunSlotMachine(void)
@@ -1736,11 +1732,7 @@ static bool32 LoadSpriteGraphicsAndAllocateManager(void)
 
 static void DestroyGfxManager(void)
 {
-    if (sSlotMachineGfxManager != NULL)
-    {
-        Free(sSlotMachineGfxManager);
-        sSlotMachineGfxManager = NULL;
-    }
+    TRY_FREE_AND_SET_NULL(sSlotMachineGfxManager);
 }
 
 static void InitGfxManager(struct SlotMachineGfxManager * manager)

@@ -375,7 +375,7 @@ static void HandleInputChooseTarget(void)
             do
             {
                 if (--i < 0)
-                    i = MAX_BATTLERS_COUNT; // UB: array out of range
+                    i = MAX_BATTLERS_COUNT - 1;
                 gMultiUsePlayerCursor = GetBattlerAtPosition(identities[i]);
             }
             while (gMultiUsePlayerCursor == gBattlersCount);

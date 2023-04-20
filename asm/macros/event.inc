@@ -1469,6 +1469,14 @@
 	.2byte \localId
 	.endm
 
+	.macro disablehelpmenu
+	.byte 0xd9
+	.endm
+
+	.macro enablehelpmenu
+	.byte 0xda
+	.endm
+
 @ Supplementary
 
 	.macro goto_if_unset flag:req, dest:req

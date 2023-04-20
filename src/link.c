@@ -875,9 +875,7 @@ void ResetLinkPlayers(void)
     int i;
 
     for (i = 0; i <= MAX_LINK_PLAYERS; i++)
-    {
         gLinkPlayers[i] = (struct LinkPlayer){};
-    }
 }
 
 static void ResetBlockSend(void)
@@ -1261,6 +1259,11 @@ bool8 sub_800A95C(void)
         return TRUE;
     }
     return FALSE;
+}
+
+void ClearSavedLinkPlayers(void)
+{
+    memset(gSavedLinkPlayers, 0, sizeof(gSavedLinkPlayers));
 }
 
 void sub_800A9A4(void)

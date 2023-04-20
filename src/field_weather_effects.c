@@ -639,7 +639,7 @@ static bool8 CreateRainSprite(void)
 
     spriteIndex = gWeatherPtr->rainSpriteCount;
     spriteId = CreateSpriteAtEnd(&sRainSpriteTemplate,
-                                 sRainSpriteCoords[spriteIndex].x, sRainSpriteCoords[spriteIndex].y, 78);
+    sRainSpriteCoords[spriteIndex].x, sRainSpriteCoords[spriteIndex].y, 78);
 
     if (spriteId != MAX_SPRITES)
     {
@@ -737,7 +737,7 @@ void Snow_InitVars(void)
     gWeatherPtr->weatherGfxLoaded = FALSE;
     gWeatherPtr->gammaTargetIndex = 3;
     gWeatherPtr->gammaStepDelay = 20;
-    gWeatherPtr->targetSnowflakeSpriteCount = 40;
+    gWeatherPtr->targetSnowflakeSpriteCount = 32;
     gWeatherPtr->snowflakeVisibleCounter = 0;
 }
 
@@ -883,10 +883,10 @@ static bool8 DestroySnowflakeSprite(void)
 static void InitSnowflakeSpriteMovement(struct Sprite *sprite)
 {
     u16 rand;
-    u16 x = ((sprite->tSnowflakeId * 5) & 7) * 30 + (Random() % 30);
+    s16 x = (((sprite->tSnowflakeId % 16) * 5) & 7) * 30;
 
     sprite->pos1.y = -3 - (gSpriteCoordOffsetY + sprite->centerToCornerVecY);
-    sprite->pos1.x = x - (gSpriteCoordOffsetX + sprite->centerToCornerVecX);
+    sprite->pos1.x = x;
     sprite->tPosY = sprite->pos1.y * 128;
     sprite->pos2.x = 0;
     rand = Random();
@@ -895,7 +895,7 @@ static void InitSnowflakeSpriteMovement(struct Sprite *sprite)
     StartSpriteAnim(sprite, (rand & 1) ? 0 : 1);
     sprite->tWaveIndex = 0;
     sprite->tWaveDelta = ((rand & 3) == 0) ? 2 : 1;
-    sprite->tFallDuration = (rand & 0x1F) + 220;
+    sprite->tFallDuration = (rand & 0x1F) + 210;
     sprite->tFallCounter = 0;
 }
 
@@ -927,35 +927,9 @@ static void UpdateSnowflakeSprite(struct Sprite *sprite)
         x |= -0x100;
 
     if (x < -3)
-        sprite->pos1.x = 242 - (gSpriteCoordOffsetX + sprite->centerToCornerVecX);
-    else if (x > 242)
-        sprite->pos1.x = -3 - (gSpriteCoordOffsetX + sprite->centerToCornerVecX);
-
-    y = (sprite->pos1.y + sprite->centerToCornerVecY + gSpriteCoordOffsetY) & 0xFF;
-    if (y > 163 && y < 171)
-    {
-        sprite->pos1.y = 250 - (gSpriteCoordOffsetY + sprite->centerToCornerVecY);
-        sprite->tPosY = sprite->pos1.y * 128;
-        sprite->tFallCounter = 0;
-        sprite->tFallDuration = 250;
-    }
-    else if (y > 242 && y < 250)
-    {
-        sprite->pos1.y = 163;
-        sprite->tPosY = sprite->pos1.y * 128;
-        sprite->tFallCounter = 0;
-        sprite->tFallDuration = 250;
-        sprite->invisible = TRUE;
-        sprite->callback = WaitSnowflakeSprite;
-    }
-
-    if (++sprite->tFallCounter == sprite->tFallDuration)
-    {
-        InitSnowflakeSpriteMovement(sprite);
-        sprite->pos1.y = 250;
-        sprite->invisible = TRUE;
-        sprite->callback = WaitSnowflakeSprite;
-    }
+        sprite->pos1.x = (x + 240 + 2) - (gSpriteCoordOffsetX + sprite->centerToCornerVecX);
+    if (x > 242)
+        sprite->pos1.x = (x -240 -3) - (gSpriteCoordOffsetX + sprite->centerToCornerVecX);
 }
 
 #undef tPosY
@@ -981,7 +955,6 @@ void Thunderstorm_InitVars(void)
     gWeatherPtr->targetRainSpriteCount = 16;
     gWeatherPtr->gammaTargetIndex = 3;
     gWeatherPtr->gammaStepDelay = 20;
-    gWeatherPtr->weatherGfxLoaded = FALSE;  // duplicate assignment
     gWeatherPtr->thunderTriggered = FALSE;
     SetRainStrengthFromSoundEffect(SE_THUNDERSTORM);
 }
@@ -1010,7 +983,6 @@ void Downpour_InitVars(void)
     gWeatherPtr->targetRainSpriteCount = 24;
     gWeatherPtr->gammaTargetIndex = 3;
     gWeatherPtr->gammaStepDelay = 20;
-    gWeatherPtr->weatherGfxLoaded = FALSE;  // duplicate assignment
     SetRainStrengthFromSoundEffect(SE_DOWNPOUR);
 }
 

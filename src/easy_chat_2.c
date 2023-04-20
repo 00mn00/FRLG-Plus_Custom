@@ -438,8 +438,7 @@ static bool8 EasyChat_AllocateResources(u8 type, u16 *words)
 
 static void EasyChat_FreeResources(void)
 {
-    if (sEasyChatScreen != NULL)
-        Free(sEasyChatScreen);
+    TRY_FREE_AND_SET_NULL(sEasyChatScreen);
 }
 
 static u16 EasyChatScreen_HandleJoypad(void)

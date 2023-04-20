@@ -297,10 +297,7 @@ bool8 IsBattleSEPlaying(u8 battlerId)
     if (IsSEPlaying())
     {
         ++gBattleSpritesDataPtr->healthBoxesData[battlerId].soundTimer;
-        // UB: Uses gActiveBattler instead of battlerId.
-        // In practice, this is never a problem, as this routine
-        // is only ever passed gActiveBattler.
-        if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].soundTimer < 30)
+        if (gBattleSpritesDataPtr->healthBoxesData[battlerId].soundTimer < 30)
             return TRUE;
         m4aMPlayStop(&gMPlayInfo_SE1);
         m4aMPlayStop(&gMPlayInfo_SE2);
@@ -1038,10 +1035,8 @@ void FreeMonSpritesGfx(void)
 {
     if (gMonSpritesGfxPtr == NULL)
         return;
-    if (gMonSpritesGfxPtr->multiUseBuffer != NULL)
-        FREE_AND_SET_NULL(gMonSpritesGfxPtr->multiUseBuffer);
-    if (gMonSpritesGfxPtr->field_178 != NULL)
-        FREE_AND_SET_NULL(gMonSpritesGfxPtr->field_178);
+    TRY_FREE_AND_SET_NULL(gMonSpritesGfxPtr->multiUseBuffer);
+    TRY_FREE_AND_SET_NULL(gMonSpritesGfxPtr->field_178);
     FREE_AND_SET_NULL(gMonSpritesGfxPtr->barFontGfx);
     FREE_AND_SET_NULL(gMonSpritesGfxPtr->firstDecompressed);
     gMonSpritesGfxPtr->sprites[0] = NULL;

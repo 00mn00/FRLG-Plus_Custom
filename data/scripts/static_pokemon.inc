@@ -17,7 +17,9 @@ EventScript_MonFlewAway:: @ 81A9236
 EventScript_AwakenSnorlax:: @ 81A924B
     message Text_PlayedPokeFlute
     waitmessage
+    disablehelpmenu
     playfanfare MUS_POKE_FLUTE
     waitfanfare
+    enablehelpmenu
     msgbox Text_SnorlaxWokeUp
     return

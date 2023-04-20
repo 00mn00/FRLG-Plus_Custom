@@ -260,7 +260,7 @@ void InitRFUAPI(void)
     if (!rfu_initializeAPI(gf_rfu_REQ_api, RFU_API_BUFF_SIZE_RAM, gIntrTable + 1, TRUE))
     {
         gLinkType = 0;
-        // ClearSavedLinkPlayers(); // Em fix
+        ClearSavedLinkPlayers();
         sub_80FB128(FALSE);
         ResetLinkRfuGFLayer();
         rfu_setTimerInterrupt(3, gIntrTable + 2);
@@ -316,10 +316,10 @@ static void ReassignPartnerIds(s32 before, s32 after)
     u8 r4 = 1;
     s32 beforeBak = before;
     s32 r6 = 0;
+    // Initialize linkPlayerIdx to 0
+    memset(Rfu.linkPlayerIdx, 0, sizeof(Rfu.linkPlayerIdx));
     if (after == -1)
     {
-        // First Time Init
-        // UB: linkPlayerIdx may be uninitialized
         for (i = 0; i < RFU_CHILD_MAX; before >>= 1, i++)
         {
             if (before & 1)

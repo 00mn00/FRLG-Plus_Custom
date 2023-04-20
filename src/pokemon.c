@@ -5026,7 +5026,7 @@ void SetBoxMonData(struct BoxPokemon *boxMon, s32 field, const void *dataArg)
         break;
     case MON_DATA_IVS:
     {
-        u32 ivs = *data; // Bug: Only the HP IV and the lower 3 bits of the Attack IV are read. The rest become 0.
+        u32 ivs = data[0] | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
 
         substruct3->hpIV = ivs & 0x1F;
         substruct3->attackIV = (ivs >> 5) & 0x1F;
@@ -5269,8 +5269,7 @@ void GetSpeciesName(u8 *name, u16 species)
 {
     s32 i;
 
-    // Hmm? FRLG has < while Ruby/Emerald has <=
-    for (i = 0; i < POKEMON_NAME_LENGTH; i++)
+    for (i = 0; i <= POKEMON_NAME_LENGTH; i++)
     {
         if (species > NUM_SPECIES)
             name[i] = gSpeciesNames[0][i];
@@ -6777,7 +6776,7 @@ static u16 ModifyStatByNature(u8 nature, u16 n, u8 statIndex)
     if (statIndex < 1 || statIndex > 5)
     {
         // should just be "return n", but it wouldn't match without this
-        u16 retVal = n;
+        u32 retVal = n;
         retVal++;
         retVal--;
         return retVal;
@@ -8099,17 +8098,13 @@ struct OakSpeechNidoranFStruct *OakSpeechNidoranFSetup(u8 battlePosition, bool8 
     }
     if (flags & 2)
     {
-        if (sOakSpeechNidoranResources->frameImages != NULL)
-            FREE_AND_SET_NULL(sOakSpeechNidoranResources->frameImages);
-        if (sOakSpeechNidoranResources->templates != NULL)
-            FREE_AND_SET_NULL(sOakSpeechNidoranResources->templates);
+        TRY_FREE_AND_SET_NULL(sOakSpeechNidoranResources->frameImages);
+        TRY_FREE_AND_SET_NULL(sOakSpeechNidoranResources->templates);
     }
     if (flags & 1)
     {
-        if (sOakSpeechNidoranResources->bufferPtrs != NULL)
-            FREE_AND_SET_NULL(sOakSpeechNidoranResources->bufferPtrs);
-        if (sOakSpeechNidoranResources->dataBuffer != NULL)
-            FREE_AND_SET_NULL(sOakSpeechNidoranResources->dataBuffer);
+        TRY_FREE_AND_SET_NULL(sOakSpeechNidoranResources->bufferPtrs);
+        TRY_FREE_AND_SET_NULL(sOakSpeechNidoranResources->dataBuffer);
     }
     if (flags)
     {
@@ -8134,14 +8129,10 @@ void OakSpeechNidoranFFreeResources(void)
         }
         else
         {
-            if (sOakSpeechNidoranResources->frameImages != NULL)
-                FREE_AND_SET_NULL(sOakSpeechNidoranResources->frameImages);
-            if (sOakSpeechNidoranResources->templates != NULL)
-                FREE_AND_SET_NULL(sOakSpeechNidoranResources->templates);
-            if (sOakSpeechNidoranResources->bufferPtrs != NULL)
-                FREE_AND_SET_NULL(sOakSpeechNidoranResources->bufferPtrs);                    
-            if (sOakSpeechNidoranResources->dataBuffer != NULL)
-                FREE_AND_SET_NULL(sOakSpeechNidoranResources->dataBuffer);
+            TRY_FREE_AND_SET_NULL(sOakSpeechNidoranResources->frameImages);
+            TRY_FREE_AND_SET_NULL(sOakSpeechNidoranResources->templates);
+            TRY_FREE_AND_SET_NULL(sOakSpeechNidoranResources->bufferPtrs);
+            TRY_FREE_AND_SET_NULL(sOakSpeechNidoranResources->dataBuffer);
             memset(sOakSpeechNidoranResources, 0, sizeof(struct OakSpeechNidoranFStruct));
             FREE_AND_SET_NULL(sOakSpeechNidoranResources);
         }

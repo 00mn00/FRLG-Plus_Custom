@@ -382,7 +382,7 @@ void UpdatePulseBlend(struct PulseBlend *pulseBlend)
                         // BUG: This comparison will never be true for maxBlendCoeff values that are >= 8. This is because
                         // maxBlendCoeff is a signed 4-bit field, but blendCoeff is an unsigned 4-bit field. This code is never
                         // reached, anyway, so the bug is not observable in vanilla gameplay.
-                        if (pulseBlendPalette->blendCoeff++ == pulseBlendPalette->pulseBlendSettings.maxBlendCoeff)
+                        if (pulseBlendPalette->blendCoeff++ == (u8)pulseBlendPalette->pulseBlendSettings.maxBlendCoeff)
                         {
                             pulseBlendPalette->fadeCycleCounter++;
                             pulseBlendPalette->blendCoeff = 0;

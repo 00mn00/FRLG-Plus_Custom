@@ -1247,18 +1247,6 @@ static bool8 BT_Phase2ClockwiseBlackFade_Step3(struct Task *task)
     return FALSE;
 }
 
-/*
- * BUG: The following 2 functions are incorrect. The animation after 
- * the rotation angle reaches 1.5π will not be displayed. 
- *
- * There're 2 problems which need to be solved in order to correct the logic. 
- * 1. With current setup, nothing is displayed inside WIN0 and everything
- * is displayed outside WIN0. Thus, if the rotation angle is > 1.5π, it
- * won't be able to handle the situation. 
- * 2. The programmer sometimes swapped the place of left and right boundary
- * of WIN0 (see variables left and right), which will sometimes cause right
- * to be smaller than left. In this way, garbage data will be written to WIN0H. 
- */
 static bool8 BT_Phase2ClockwiseBlackFade_Step4(struct Task *task)
 {
     s16 right, left;
@@ -1273,8 +1261,14 @@ static bool8 BT_Phase2ClockwiseBlackFade_Step4(struct Task *task)
         left = sTransitionStructPtr->trCurrentPtX;
         if (sTransitionStructPtr->trEndPtY <= 80)
         {
-            left = 120;
-            right = sTransitionStructPtr->trCurrentPtX;
+            left = 0;
+            right = 240;
+        }
+        if (right < left)
+        {
+            s16 temp = left;
+            left = right;
+            right = temp;
         }
         win0H = WIN_RANGE2(left, right);
         gScanlineEffectRegBuffers[0][sTransitionStructPtr->trCurrentPtY] = win0H;
@@ -1311,6 +1305,12 @@ static bool8 BT_Phase2ClockwiseBlackFade_Step5(struct Task *task)
         {
             left = 0;
             right = 240;
+        }
+        if (right < left)
+        {
+            s16 temp = left;
+            left = right;
+            right = temp;
         }
         gScanlineEffectRegBuffers[0][sTransitionStructPtr->trCurrentPtY] = WIN_RANGE2(left, right);
     }
@@ -1721,7 +1721,7 @@ static bool8 BT_Phase2AntiClockwiseSpiral_Update(struct Task *task)
         win_bottom = task->data[2] + 112;
         if (win_bottom > 255)
             win_bottom = 255;
-        sTransitionStructPtr->win0V = win_top | win_bottom; // UB: win_top should be shifted
+        sTransitionStructPtr->win0V = (win_top << 8) | win_bottom;
         task->data[2] += 32;
         task->data[1] = 0;
         BT_AntiClockwiseSpiral_DoUpdateFrame(task->data[2], 0, 1);
@@ -1731,7 +1731,7 @@ static bool8 BT_Phase2AntiClockwiseSpiral_Update(struct Task *task)
         win_bottom = task->data[2] + 112;
         if (win_bottom > 255)
             win_bottom = 255;
-        sTransitionStructPtr->win1V = win_top | win_bottom; // UB: win_top should be shifted
+        sTransitionStructPtr->win1V = (win_top << 8) | win_bottom;
         sTransitionStructPtr->vblankDma |= TRUE;
         if (task->data[2] > 159)
         {
@@ -2374,7 +2374,7 @@ static void VBCB_BT_Phase2WhiteFadeInStripes1(void)
     SetGpuReg(REG_OFFSET_BLDCNT, sTransitionStructPtr->bldCnt);
     SetGpuReg(REG_OFFSET_WININ, sTransitionStructPtr->winIn);
     SetGpuReg(REG_OFFSET_WINOUT, sTransitionStructPtr->winOut);
-    SetGpuReg(REG_OFFSET_WIN0V, sTransitionStructPtr->win0H); // BUG: This should obviously be sTransitionStructPtr->win0V
+    SetGpuReg(REG_OFFSET_WIN0V, sTransitionStructPtr->win0V);
     if (sTransitionStructPtr->vblankDma)
         DmaCopy16(3, gScanlineEffectRegBuffers[0], gScanlineEffectRegBuffers[1], 640);
     DmaSet(0, &gScanlineEffectRegBuffers[1][160], &REG_WIN0H, ((DMA_ENABLE | DMA_START_HBLANK | DMA_REPEAT | DMA_16BIT | DMA_SRC_INC | DMA_DEST_FIXED) << 16) | 1);

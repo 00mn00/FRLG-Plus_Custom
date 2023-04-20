@@ -420,11 +420,10 @@ void SortSprites(void)
             gSpriteOrder[j] = gSpriteOrder[j - 1];
             gSpriteOrder[j - 1] = temp;
 
-            // UB: If j equals 1, then j-- makes j equal 0.
-            // Then, gSpriteOrder[-1] gets accessed below.
-            // Although this doesn't result in a bug in the ROM,
-            // the behavior is undefined.
             j--;
+
+            if (j == 0)
+                break;
 
             sprite1 = &gSprites[gSpriteOrder[j - 1]];
             sprite2 = &gSprites[gSpriteOrder[j]];
@@ -634,8 +633,7 @@ void ResetOamRange(u8 a, u8 b)
 
     for (i = a; i < b; i++)
     {
-        struct OamData *oamBuffer = gMain.oamBuffer;
-        oamBuffer[i] = *(struct OamData *)&gDummyOamData;
+        gMain.oamBuffer[i] = *(struct OamData *)&gDummyOamData;
     }
 }
 
@@ -874,12 +872,18 @@ void ResetAllSprites(void)
 
 void FreeSpriteTiles(struct Sprite *sprite)
 {
+    if (!sprite || !sprite->template)
+        return;
+
     if (sprite->template->tileTag != 0xFFFF)
         FreeSpriteTilesByTag(sprite->template->tileTag);
 }
 
 void FreeSpritePalette(struct Sprite *sprite)
 {
+    if (!sprite || !sprite->template)
+        return;
+
     FreeSpritePaletteByTag(sprite->template->paletteTag);
 }
 
@@ -1312,7 +1316,7 @@ void ApplyAffineAnimFrameRelativeAndUpdateMatrix(u8 matrixNum, struct AffineAnim
 s16 ConvertScaleParam(s16 scale)
 {
     s32 val = 0x10000;
-    return val / scale;
+    return SAFE_DIV(val, scale);
 }
 
 void GetAffineAnimFrame(u8 matrixNum, struct Sprite *sprite, struct AffineAnimFrameCmd *frameCmd)

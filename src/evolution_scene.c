@@ -773,8 +773,7 @@ static void Task_EvolutionScene(u8 taskId)
 
             DestroyTask(taskId);
             FreeMonSpritesGfx();
-            Free(sEvoStructPtr);
-            sEvoStructPtr = NULL;
+            FREE_AND_SET_NULL(sEvoStructPtr);
             FreeAllWindowBuffers();
             SetMainCallback2(gCB2_AfterEvolution);
         }
@@ -888,8 +887,6 @@ static void Task_EvolutionScene(u8 taskId)
                 else
                 {
                     gTasks[taskId].tLearnMoveState = gTasks[taskId].tData7;
-                    if (gTasks[taskId].tLearnMoveState == 5)
-                        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
                 }
             }
             if (JOY_NEW(B_BUTTON))
@@ -1083,7 +1080,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
     case 11:
         if (!IsSEPlaying())
         {
-//            Free(sEvoMovingBgPtr);
+            Free(sEvoMovingBgPtr);
             PlayCry1(gTasks[taskId].tPostEvoSpecies, 0);
             memcpy(&gPlttBufferUnfaded[0x20], sEvoStructPtr->savedPalette, 0x60);
             gTasks[taskId].tState++;
@@ -1137,8 +1134,7 @@ static void Task_TradeEvolutionScene(u8 taskId)
         if (!IsTextPrinterActive(0))
         {
             DestroyTask(taskId);
-            Free(sEvoStructPtr);
-            sEvoStructPtr = NULL;
+            FREE_AND_SET_NULL(sEvoStructPtr);
             gTextFlags.useAlternateDownArrow = FALSE;
             SetMainCallback2(gCB2_AfterEvolution);
         }

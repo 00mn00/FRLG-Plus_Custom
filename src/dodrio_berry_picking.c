@@ -1431,7 +1431,8 @@ static void sub_8152174(void)
                 gUnknown_203F3E0->unkA8[r4] = 3;
                 gUnknown_203F3E0->unkB8[r5] = r4;
                 gUnknown_203F3E0->unk31A0[r4].unk2C.unk4 = 1;
-                gUnknown_203F3E0->unk31A0[id].unk2C.unk8 = 1;
+                if (id != 0xFF)
+                    gUnknown_203F3E0->unk31A0[id].unk2C.unk8 = 1;
                 gUnknown_203F3E0->unk86[r4]++;
                 sub_8152D34(0, r5, r4);
                 sub_8152F94(TRUE);
@@ -1689,9 +1690,10 @@ static bool32 sub_8152A00(void)
             gUnknown_203F3E0->unk158[i] = sub_815A5E8(i);
     }
 
-    // This loop won't ever run, the seemingly pointless assingment below is to make the compiler
-    // generate code for it.
-    count = count;
+    count = count; // Needed to force compiler to keep loop below
+
+    i = 1;
+
     for (; i < count; i++)
     {
         if (gUnknown_203F3E0->unk158[i] == 0)

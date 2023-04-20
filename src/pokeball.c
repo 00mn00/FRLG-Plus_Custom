@@ -995,13 +995,13 @@ static u8 LaunchBallFadeMonTaskForPokeball(bool8 unFadeLater, u8 battlerId, u32 
     return LaunchBallFadeMonTask(unFadeLater, battlerId, arg2, BALL_POKE);
 }
 
-void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 battlerId, u8 x, u8 y, u8 oamPriority, u8 subpriortiy, u8 g, u32 h)
+void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 battlerId, u8 x, u8 y, u8 oamPriority, u8 subPriority, u8 g, u32 h)
 {
     u8 spriteId;
 
     LoadCompressedSpriteSheetUsingHeap(&gBallSpriteSheets[0]);
     LoadCompressedSpritePaletteUsingHeap(&gBallSpritePalettes[0]);
-    spriteId = CreateSprite(&gBallSpriteTemplates[0], x, y, subpriortiy);
+    spriteId = CreateSprite(&gBallSpriteTemplates[0], x, y, subPriority);
     gSprites[spriteId].data[0] = monSpriteId;
     gSprites[spriteId].data[5] = gSprites[monSpriteId].pos1.x;
     gSprites[spriteId].data[6] = gSprites[monSpriteId].pos1.y;
@@ -1123,6 +1123,7 @@ static void sub_804BC50(struct Sprite *sprite)
         LaunchBallStarsTaskForPokeball(sprite->pos1.x, sprite->pos1.y - 5, sprite->oam.priority, r6);
         sprite->data[1] = LaunchBallFadeMonTaskForPokeball(1, r8, r5);
         sprite->callback = sub_804BCF8;
+        gSprites[r7].affineAnimPaused = FALSE;
         StartSpriteAffineAnim(&gSprites[r7], 2);
         AnimateSprite(&gSprites[r7]);
         gSprites[r7].data[1] = 0;

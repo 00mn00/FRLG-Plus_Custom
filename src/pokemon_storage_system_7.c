@@ -477,7 +477,8 @@ static void sub_80957C8(void)
         {
             struct BoxPokemon *boxMon = GetBoxedMonPtr(boxId, boxPosition);
 
-            sMoveMonsPtr->boxMons[monArrayId] = *boxMon;
+            if (boxMon != NULL)
+                sMoveMonsPtr->boxMons[monArrayId] = *boxMon;
             monArrayId++;
             boxPosition++;
         }

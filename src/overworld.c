@@ -1475,9 +1475,9 @@ static void InitOverworldBgs_NoResetHeap(void)
 void CleanupOverworldWindowsAndTilemaps(void)
 {
     FreeAllOverworldWindowBuffers();
-    Free(gBGTilemapBuffers3);
-    Free(gBGTilemapBuffers1);
-    Free(gBGTilemapBuffers2);
+    TRY_FREE_AND_SET_NULL(gBGTilemapBuffers3);
+    TRY_FREE_AND_SET_NULL(gBGTilemapBuffers1);
+    TRY_FREE_AND_SET_NULL(gBGTilemapBuffers2);
 }
 
 static void ResetSafariZoneFlag_(void)

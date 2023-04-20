@@ -256,8 +256,8 @@ struct PokemonStorageSystemData
     u16 field_2DE;
     u16 field_2E0;
     u8 filler[22];
-    u8 field_2F8[512];
-    u8 field_4F8[512];
+    u8 ALIGNED(2) field_2F8[512];
+    u8 ALIGNED(2) field_4F8[512];
     u8 field_6F8;
     u8 field_6F9;
     u8 field_6FA;

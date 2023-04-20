@@ -296,5 +296,6 @@ void sub_800A9A4(void);
 void SetLocalLinkPlayerId(u8 playerId);
 bool32 IsSendingKeysToLink(void);
 u32 GetLinkRecvQueueLength(void);
+void ClearSavedLinkPlayers(void);
 
 #endif // GUARD_LINK_H

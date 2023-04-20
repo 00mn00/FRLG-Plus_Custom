@@ -519,7 +519,7 @@ static const struct SpritePalette sObjectEventSpritePalettes[] = {
     {gEmMayPalette,                           OBJ_EVENT_PAL_TAG_29},
     {gObjectEventPal_CableCar,                OBJ_EVENT_PAL_TAG_CABLE_CAR},
     {gObjectEventPal_Lady,                    OBJ_EVENT_PAL_TAG_LADY},
-    {},
+    {NULL,                                    OBJ_EVENT_PAL_TAG_NONE},
 };
 
 static const u16 sPlayerReflectionPaletteTags[] = {
@@ -2222,11 +2222,7 @@ static void LoadObjectEventPalette(u16 paletteTag)
 {
     u16 i = FindObjectEventPaletteIndexByTag(paletteTag);
 
-#ifdef BUGFIX
     if (sObjectEventSpritePalettes[i].tag != OBJ_EVENT_PAL_TAG_NONE)
-#else
-    if (i != OBJ_EVENT_PAL_TAG_NONE) // always true
-#endif
     {
         TryLoadObjectPalette(&sObjectEventSpritePalettes[i]);
     }
@@ -2533,7 +2529,10 @@ u8 CameraObjectGetFollowedObjectId(void)
 
 void CameraObjectReset2(void)
 {
-    FindCameraObject()->data[1] = 2;
+    struct Sprite *cameraObject = FindCameraObject();
+
+    if (cameraObject)
+        cameraObject->data[1] = 2;
 }
 
 u8 CopySprite(struct Sprite *sprite, s16 x, s16 y, u8 subpriority)
@@ -2574,13 +2573,9 @@ u8 CreateCopySpriteAt(struct Sprite *sprite, s16 x, s16 y, u8 subpriority)
 
 void SetObjectEventDirection(struct ObjectEvent *objectEvent, u8 direction)
 {
-    s8 d2;
     objectEvent->previousMovementDirection = objectEvent->facingDirection;
     if (!objectEvent->facingDirectionLocked)
-    {
-        d2 = direction;
-        objectEvent->facingDirection = d2;
-    }
+        objectEvent->facingDirection = direction;
     objectEvent->movementDirection = direction;
 }
 
@@ -2596,7 +2591,12 @@ const u8 *GetObjectEventScriptPointerByObjectEventId(u8 objectEventId)
 
 static u16 GetObjectEventFlagIdByLocalIdAndMap(u8 localId, u8 mapNum, u8 mapGroup)
 {
-    return GetObjectEventTemplateByLocalIdAndMap(localId, mapNum, mapGroup)->flagId;
+    struct ObjectEventTemplate *obj = GetObjectEventTemplateByLocalIdAndMap(localId, mapNum, mapGroup);
+
+    if (obj == NULL)
+        return 0;
+
+    return obj->flagId;
 }
 
 static u16 GetObjectEventFlagIdByObjectEventId(u8 objectEventId)
@@ -8514,14 +8514,12 @@ void ObjectEventUpdateZCoord(struct ObjectEvent *objEvent)
         objEvent->previousElevation = z;
 }
 
-void SetObjectSubpriorityByZCoord(u8 a, struct Sprite *sprite, u8 b)
+void SetObjectSubpriorityByZCoord(u8 elevation, struct Sprite *sprite, u8 subpriority)
 {
-    s32 tmp = sprite->centerToCornerVecY;
-    u32 tmpa = *(u16 *)&sprite->pos1.y;
-    u32 tmpb = *(u16 *)&gSpriteCoordOffsetY;
-    s32 tmp2 = (tmpa - tmp) + tmpb;
-    u16 tmp3 = (0x10 - ((((u32)tmp2 + 8) & 0xFF) >> 4)) * 2;
-    sprite->subpriority = tmp3 + sUnknown_083A706C[a] + b;
+    u16 y = (sprite->pos1.y - sprite->centerToCornerVecY + gSpriteCoordOffsetY + 8) & 0xFF;
+    y = (16 - (y >> 4)) << 1;
+
+    sprite->subpriority = sUnknown_083A706C[elevation] + y + subpriority;
 }
 
 static void ObjectEventUpdateSubpriority(struct ObjectEvent *objEvent, struct Sprite *sprite)
@@ -8828,7 +8826,7 @@ static void DoGroundEffects_OnSpawn(struct ObjectEvent *objEvent, struct Sprite 
 {
     u32 flags;
 
-    if (objEvent->triggerGroundEffectsOnMove)
+    if (objEvent->triggerGroundEffectsOnMove && objEvent->localId != OBJ_EVENT_ID_CAMERA)
     {
         flags = 0;
         UpdateObjectEventZCoordAndPriority(objEvent, sprite);
@@ -8844,7 +8842,7 @@ static void DoGroundEffects_OnBeginStep(struct ObjectEvent *objEvent, struct Spr
 {
     u32 flags;
 
-    if (objEvent->triggerGroundEffectsOnMove)
+    if (objEvent->triggerGroundEffectsOnMove && objEvent->localId != OBJ_EVENT_ID_CAMERA)
     {
         flags = 0;
         UpdateObjectEventZCoordAndPriority(objEvent, sprite);
@@ -8861,7 +8859,7 @@ static void DoGroundEffects_OnFinishStep(struct ObjectEvent *objEvent, struct Sp
 {
     u32 flags;
 
-    if (objEvent->triggerGroundEffectsOnStop)
+    if (objEvent->triggerGroundEffectsOnStop && objEvent->localId != OBJ_EVENT_ID_CAMERA)
     {
         flags = 0;
         UpdateObjectEventZCoordAndPriority(objEvent, sprite);

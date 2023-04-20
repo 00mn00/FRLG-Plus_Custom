@@ -1520,8 +1520,9 @@ void ply_xxx(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
 void ply_xwave(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
 {
     u32 wav;
+    wav = 0;
 
-    READ_XCMD_BYTE(wav, 0) // UB: uninitialized variable
+    READ_XCMD_BYTE(wav, 0)
     READ_XCMD_BYTE(wav, 1)
     READ_XCMD_BYTE(wav, 2)
     READ_XCMD_BYTE(wav, 3)
@@ -1587,8 +1588,9 @@ void ply_xswee(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track
 void ply_xcmd_0C(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
 {
     u32 unk;
+    unk = 0;
 
-    READ_XCMD_BYTE(unk, 0) // UB: uninitialized variable
+    READ_XCMD_BYTE(unk, 0)
     READ_XCMD_BYTE(unk, 1)
 
     if (track->unk_3A < (u16)unk)
@@ -1607,8 +1609,9 @@ void ply_xcmd_0C(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *tra
 void ply_xcmd_0D(struct MusicPlayerInfo *mplayInfo, struct MusicPlayerTrack *track)
 {
     u32 unk;
+    unk = 0;
 
-    READ_XCMD_BYTE(unk, 0) // UB: uninitialized variable
+    READ_XCMD_BYTE(unk, 0)
     READ_XCMD_BYTE(unk, 1)
     READ_XCMD_BYTE(unk, 2)
     READ_XCMD_BYTE(unk, 3)
