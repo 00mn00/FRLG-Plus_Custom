@@ -45,6 +45,10 @@ ViridianCity_Mart_EventScript_ParcelScene:: @ 816A205
 	msgbox ViridianCity_Mart_Text_TakeThisToProfOak
 	setvar VAR_MAP_SCENE_VIRIDIAN_CITY_MART, 1
 	giveitem_msg ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk, ITEM_OAKS_PARCEL, 1, MUS_OBTAIN_KEY_ITEM
+	msgbox ViridianCity_Mart_Text_HaveTheseAsThanks
+	giveitem_msg ViridianCity_Mart_Text_ReceivedBerryPouchFromClerk, ITEM_BERRY_POUCH, 1, MUS_OBTAIN_KEY_ITEM
+	giveitem_msg ViridianCity_Mart_Text_ReceivedTMCaseFromClerk, ITEM_TM_CASE, 1, MUS_OBTAIN_KEY_ITEM
+	msgbox ViridianCity_Mart_Text_SayHiToOakForMe
 	setvar VAR_MAP_SCENE_PALLET_TOWN_PROFESSOR_OAKS_LAB, 5
 	releaseall
 	end

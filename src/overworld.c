@@ -1628,8 +1628,6 @@ void CB2_NewGame(void)
     StopMapMusic();
     ResetSafariZoneFlag_();
     NewGameInitData();
-    AddBagItem(ITEM_BERRY_POUCH, 1);
-    AddBagItem(ITEM_TM_CASE, 1);
     gSaveBlock1Ptr->keyFlags.version = versionBackup;
     ResetInitialPlayerAvatarState();
     PlayTimeCounter_Start();

@@ -11,6 +11,18 @@ ViridianCity_Mart_Text_ReceivedOaksParcelFromClerk:: @ 8190289
     .string "{PLAYER} received OAK'S PARCEL\n"
     .string "from the POKéMON MART clerk.$"
 
+ViridianCity_Mart_Text_HaveTheseAsThanks:: @ 819023A
+    .string "You can have the last of our two\n"
+    .string "most popular items for your efforts.$"
+
+ViridianCity_Mart_Text_ReceivedBerryPouchFromClerk:: @ 8190289
+    .string "{PLAYER} received the BERRY POUCH\n"
+    .string "from the POKéMON MART clerk.$"
+
+ViridianCity_Mart_Text_ReceivedTMCaseFromClerk:: @ 8190289
+    .string "{PLAYER} received the TM CASE\n"
+    .string "from the POKéMON MART clerk.$"
+
 ViridianCity_Mart_Text_SayHiToOakForMe:: @ 81902BF
     .string "Okay, thanks! Please say hi to\n"
     .string "PROF. OAK for me, too.$"
