@@ -1849,23 +1849,33 @@ static bool8 Fishing5(struct Task *task)
 
     AlignFishingAnimationFrames(&gSprites[gPlayerAvatar.spriteId]);
     task->tFrameCounter++;
-    if (task->tFrameCounter >= 20)
+    if (gMain.newKeys & A_BUTTON)
     {
-        task->tFrameCounter = 0;
-        if (task->tNumDots >= task->tDotsRequired)
-        {
-            task->tStep++;
-            if (task->tRoundsPlayed != 0)
-                task->tStep++;
-            task->tRoundsPlayed++;
-        }
-        else
-        {
-            AddTextPrinterParameterized(0, 2, dot, task->tNumDots * 12, 1, 0, NULL);
-            task->tNumDots++;
-        }
+        task->tStep = FISHING_GOT_BITE;
+        if (task->tRoundsPlayed != 0)
+            task->tStep = FISHING_GOT_AWAY;
+        return TRUE;
     }
-    return FALSE;
+    else
+    {
+        if (task->tFrameCounter >= 20)
+        {
+            task->tFrameCounter = 0;
+            if (task->tNumDots >= task->tDotsRequired)
+            {
+                task->tStep++;
+                if (task->tRoundsPlayed != 0)
+                    task->tStep++;
+                task->tRoundsPlayed++;
+            }
+            else
+            {
+                AddTextPrinterParameterized(0, 2, dot, task->tNumDots * 12, 1, 0, NULL);
+                task->tNumDots++;
+            }
+        }
+        return FALSE;
+    }
 }
 
 // Determine if fish bites
@@ -1910,7 +1920,10 @@ static bool8 Fishing6(struct Task *task)
 // Oh! A Bite!
 static bool8 Fishing7(struct Task *task)
 {
-    task->tStep += 3;
+    AlignFishingAnimationFrames(&gSprites[gPlayerAvatar.spriteId]);
+    AddTextPrinterParameterized(0, 2, gText_OhABite, 0, 17, 0, NULL);
+    task->tStep++;
+    task->tFrameCounter = 0;
     return FALSE;
 }
 
@@ -2016,6 +2029,7 @@ static bool8 Fishing13(struct Task *task)
 {
     AlignFishingAnimationFrames(&gSprites[gPlayerAvatar.spriteId]);
     StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], GetFishingNoCatchDirectionAnimNum(GetPlayerFacingDirection()));
+    FillWindowPixelBuffer(0, PIXEL_FILL(1));
     AddTextPrinterParameterized2(0, 2, gText_ItGotAway, 1, NULL, TEXT_COLOR_DARK_GRAY, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_GRAY);
     task->tStep++;
     return TRUE;
