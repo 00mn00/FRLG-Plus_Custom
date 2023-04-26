@@ -2916,6 +2916,13 @@ extern const u8 gUnknown_8E86BE8[];
 extern const u8 gUnknown_8E86D6C[];
 extern const u32 gUnknown_8E86F98[];
 
+// wall clock
+extern const u32 gWallClock_Gfx[];
+extern const u16 gWallClockMale_Pal[];
+extern const u16 gWallClockFemale_Pal[];
+extern const u32 gWallClockStart_Tilemap[];
+extern const u32 gWallClockView_Tilemap[];
+
 // berry_fix_program
 extern const u8 gBerryFixGameboy_Gfx[];
 extern const u8 gBerryFixGameboy_Tilemap[];

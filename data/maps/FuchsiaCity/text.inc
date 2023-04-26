@@ -129,3 +129,19 @@ FuchsiaCity_Text_MyFatherIsGymLeader:: @ 8180ABD
     .string "I'm training to use POISON POKéMON\n"
     .string "as well as my father.$"
 
+LilycoveCity_Text_BerrySuitsYou:
+	.string "When it gets right down to it…\p"
+	.string "The same way suits suit me perfectly,\n"
+	.string "a crisp breeze suits the sea.\p"
+	.string "And you, a BERRY suits you\n"
+    .string "to a “T”…\p"
+	.string "Why should that be so?$"
+
+LilycoveCity_Text_BecauseYoureTrainer:
+	.string "When it gets right down to it…\p"
+	.string "It's because you're a TRAINER!$"
+
+LilycoveCity_Text_PokeblocksSuitPokemon:
+	.string "When it gets right down to it…\p"
+	.string "The way dignified simplicity suits me,\n"
+	.string "BERRIES perfectly suit POKéMON.$"

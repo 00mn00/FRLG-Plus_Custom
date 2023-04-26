@@ -86,7 +86,7 @@
 #define VAR_LAST_REPEL_USED                0x4029
 #define VAR_BATTLE_HOUSE                   0x402A //usage overflows into next var
 #define VAR_BATTLE_HOUSE2                  0x402B 
-#define VAR_RESET_RTC_ENABLE               0x402C
+#define VAR_DAYS                           0x402C
 #define VAR_DAYCARE_MAN_TRIGGERS           0x402D
 
 #define VAR_GLASS_WORKSHOP_STATE           0x402E
@@ -94,7 +94,7 @@
 
 #define VAR_ICE_STEP_COUNT                 0x4030
 #define VAR_STARTER_MON                    0x4031 // 0: Bulbasaur, 1: Squirtle, 2: Charmander
-#define VAR_0x4032                         0x4032
+#define VAR_RESET_RTC_ENABLE               0x4032
 #define VAR_ENIGMA_BERRY_AVAILABLE         0x4033
 
 #define VAR_CABLE_CAR_STATION_STATE        0x4034
@@ -108,9 +108,9 @@
 #define VAR_0x403C                         0x403C
 #define VAR_HERACROSS_SIZE_RECORD          0x403D
 #define VAR_DEOXYS_INTERACTION_NUM         0x403E
-#define VAR_0x403F                         0x403F
+#define VAR_POKELOT_PRIZE_ITEM             0x403F
 #define VAR_MAGIKARP_SIZE_RECORD           0x4040
-#define VAR_0x4041                         0x4041
+#define VAR_POKELOT_RND1                   0x4041
 #define VAR_TRAINER_CARD_MON_ICON_TINT_IDX 0x4042
 #define VAR_TRAINER_CARD_MON_ICON_1        0x4043
 #define VAR_TRAINER_CARD_MON_ICON_2        0x4044
@@ -156,9 +156,9 @@
 #define VAR_MAP_SCENE_CINNABAR_ISLAND_POKEMON_LAB_EXPERIMENT_ROOM_REVIVE_STATE 0x406A
 #define VAR_MAP_SCENE_ROUTE24                                                  0x406B
 #define VAR_MAP_SCENE_PEWTER_CITY                                              0x406C
-#define VAR_0x406D                                                             0x406D
+#define VAR_PLAYERS_HOUSE_CLOCK_SET                                            0x406D
 #define VAR_MAP_SCENE_FUCHSIA_CITY_SAFARI_ZONE_ENTRANCE                        0x406E
-#define VAR_CABLE_CLUB_STATE                                                    0x406F
+#define VAR_CABLE_CLUB_STATE                                                   0x406F
 #define VAR_MAP_SCENE_PALLET_TOWN_SIGN_LADY                                    0x4070
 #define VAR_MAP_SCENE_CINNABAR_ISLAND                                          0x4071
 #define VAR_0x4072                                                             0x4072
@@ -190,7 +190,7 @@
 
 
 #define VAR_FARAWAY_ISLAND_STEP_COUNTER  0x408C
-#define VAR_0x408D                 0x408D
+#define VAR_POKELOT_PRIZE_PLACE    0x408D
 #define VAR_0x408E                 0x408E
 #define VAR_0x408F                 0x408F
 #define VAR_0x4090                 0x4090

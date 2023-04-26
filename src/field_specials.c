@@ -34,6 +34,8 @@
 #include "dynamic_placeholder_text_util.h"
 #include "new_menu_helpers.h"
 #include "battle_setup.h"
+#include "rtc.h"
+#include "wallclock.h"
 #include "constants/songs.h"
 #include "constants/items.h"
 #include "constants/maps.h"
@@ -93,6 +95,13 @@ void ShowDiploma(void)
 {
     QuestLog_CutRecording();
     SetMainCallback2(CB2_ShowDiploma);
+    ScriptContext2_Enable();
+}
+
+void Special_ViewWallClock(void)
+{
+    gMain.savedCallback = CB2_ReturnToField;
+    SetMainCallback2(CB2_ViewWallClock);
     ScriptContext2_Enable();
 }
 
@@ -160,6 +169,16 @@ u8 GetBattleOutcome(void)
 void SetHiddenItemFlag(void)
 {
     FlagSet(gSpecialVar_0x8004);
+}
+
+u16 GetWeekCount(void)
+{
+    u16 weekCount = gLocalTime.days / 7;
+    if (weekCount > 9999)
+    {
+        weekCount = 9999;
+    }
+    return weekCount;
 }
 
 u8 GetLeadMonFriendship(void)
@@ -535,6 +554,40 @@ bool8 IsMonOTNameNotPlayers(void)
         return FALSE;
     else
         return TRUE;
+}
+
+void BufferLottoTicketNumber(void)
+{
+    if (gSpecialVar_Result >= 10000)
+    {
+        TV_PrintIntToStringVar(0, gSpecialVar_Result);
+    }
+    else if (gSpecialVar_Result >= 1000)
+    {
+        gStringVar1[0] = CHAR_0;
+        ConvertIntToDecimalStringN(gStringVar1 + 1, gSpecialVar_Result, STR_CONV_MODE_LEFT_ALIGN, CountDigits(gSpecialVar_Result));
+    }
+    else if (gSpecialVar_Result >= 100)
+    {
+        gStringVar1[0] = CHAR_0;
+        gStringVar1[1] = CHAR_0;
+        ConvertIntToDecimalStringN(gStringVar1 + 2, gSpecialVar_Result, STR_CONV_MODE_LEFT_ALIGN, CountDigits(gSpecialVar_Result));
+    }
+    else if (gSpecialVar_Result >= 10)
+    {
+        gStringVar1[0] = CHAR_0;
+        gStringVar1[1] = CHAR_0;
+        gStringVar1[2] = CHAR_0;
+        ConvertIntToDecimalStringN(gStringVar1 + 3, gSpecialVar_Result, STR_CONV_MODE_LEFT_ALIGN, CountDigits(gSpecialVar_Result));
+    }
+    else
+    {
+        gStringVar1[0] = CHAR_0;
+        gStringVar1[1] = CHAR_0;
+        gStringVar1[2] = CHAR_0;
+        gStringVar1[3] = CHAR_0;
+        ConvertIntToDecimalStringN(gStringVar1 + 4, gSpecialVar_Result, STR_CONV_MODE_LEFT_ALIGN, CountDigits(gSpecialVar_Result));
+    }
 }
 
 // Used to nop all the unused specials from RS
@@ -2187,7 +2240,7 @@ void RunMassageCooldownStepCounter(void)
 void DaisyMassageServices(void)
 {
     AdjustFriendship(&gPlayerParty[gSpecialVar_0x8004], FRIENDSHIP_EVENT_MASSAGE);
-    VarSet(VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 0);
+    FlagSet(FLAG_DAILY_DAISY_MASSAGE);
 }
 
 static const u16 sEliteFourLightingPalettes[][16] = {

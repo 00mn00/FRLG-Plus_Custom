@@ -14,4 +14,3 @@ CeladonCity_DepartmentStore_1F_Text_FloorDescriptions:: @ 8195537
 
 CeladonCity_DepartmentStore_1F_Text_ServiceCounter:: @ 81955B3
     .string "1F: SERVICE COUNTER$"
-

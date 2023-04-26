@@ -529,9 +529,9 @@
 #define FLAG_HIDE_ARTISAN_CAVE_B1F_HP_UP                        0x203 //New
 #define FLAG_HIDE_ARTISAN_CAVE_B1F_CARBOS                       0x204 //New
 #define FLAG_HIDE_CELADON_CITY_SUN_STONE                        0x205 //New
+#define FLAG_POKERUS_EXPLAINED                                  0x206 //New
 
 // Unused?
-#define FLAG_0x206               0x206
 #define FLAG_0x207               0x207
 #define FLAG_0x208               0x208
 #define FLAG_0x209               0x209
@@ -884,9 +884,9 @@
 
 #define FLAG_TOLD_SAFARI_EXPANSION     0x35A
 #define FLAG_FOUR_ISLAND_SNOW          0x35B
+#define FLAG_SET_WALL_CLOCK            0x35C
 
 // Unused?
-#define FLAG_0x35C               0x35C
 #define FLAG_0x35D               0x35D
 #define FLAG_0x35E               0x35E
 #define FLAG_0x35F               0x35F
@@ -938,13 +938,16 @@
 #define FLAG_0x38D               0x38D
 #define FLAG_0x38E               0x38E
 #define FLAG_0x38F               0x38F
-#define FLAG_0x390               0x390
-#define FLAG_0x391               0x391
-#define FLAG_0x392               0x392
-#define FLAG_0x393               0x393
-#define FLAG_0x394               0x394
-#define FLAG_0x395               0x395
-#define FLAG_0x396               0x396
+
+#define DAILY_FLAGS_START                           (FLAG_0x38F + (8 - FLAG_0x38F % 8))
+
+#define FLAG_DAILY_PICKED_LOTO_TICKET               0x390
+#define FLAG_DAILY_SOOTOPOLIS_RECEIVED_BERRY        0x391
+#define FLAG_DAILY_BERRY_MASTER_RECEIVED_BERRY      0x392
+#define FLAG_DAILY_ROUTE_120_RECEIVED_BERRY         0x393
+#define FLAG_DAILY_LILYCOVE_RECEIVED_BERRY          0x394
+#define FLAG_DAILY_ROUTE_111_RECEIVED_BERRY         0x395
+#define FLAG_DAILY_DAISY_MASSAGE                    0x396
 #define FLAG_0x397               0x397
 #define FLAG_0x398               0x398
 #define FLAG_0x399               0x399
@@ -1002,6 +1005,9 @@
 #define FLAG_0x3CD               0x3CD
 #define FLAG_0x3CE               0x3CE
 #define FLAG_0x3CF               0x3CF
+
+#define DAILY_FLAGS_END          (FLAG_0x3CF + (7 - FLAG_0x3CF % 8))
+
 //New move tutors
 #define FLAG_MOVE_TUTOR_TAUGHT_FURY_CUTTER  0x3D0
 #define FLAG_MOVE_TUTOR_TAUGHT_ROLLOUT      0x3D1
@@ -1387,7 +1393,7 @@
 #define FLAG_SYS_NOT_SOMEONES_PC (SYS_FLAGS + 0x34)
 #define FLAG_0x835 (SYS_FLAGS + 0x35)
 #define FLAG_0x836 (SYS_FLAGS + 0x36)
-#define FLAG_0x837 (SYS_FLAGS + 0x37)
+#define FLAG_SYS_RESET_RTC_ENABLE (SYS_FLAGS + 0x37)
 #define FLAG_0x838 (SYS_FLAGS + 0x38)
 #define FLAG_SYS_MYSTERY_GIFT_ENABLED (SYS_FLAGS + 0x39)
 #define FLAG_0x83A (SYS_FLAGS + 0x3A)
@@ -1395,7 +1401,7 @@
 #define FLAG_SYS_SAW_HELP_SYSTEM_INTRO (SYS_FLAGS + 0x3C)
 #define FLAG_0x83D (SYS_FLAGS + 0x3D)
 #define FLAG_OPENED_START_MENU (SYS_FLAGS + 0x3E)
-#define FLAG_0x83F (SYS_FLAGS + 0x3F)
+#define FLAG_SYS_CLOCK_SET (SYS_FLAGS + 0x3F)
 #define FLAG_SYS_NATIONAL_DEX (SYS_FLAGS + 0x40)
 #define FLAG_SYS_PC_STORAGE_DISABLED (SYS_FLAGS + 0x41)
 #define FLAG_SYS_INFORMED_OF_LOCAL_WIRELESS_PLAYER (SYS_FLAGS + 0x42)

@@ -14,6 +14,7 @@
 #include "decompress.h"
 #include "util.h"
 #include "trig.h"
+#include "load_save.h"
 #include "constants/songs.h"
 
 struct IntroSequenceData;
@@ -864,12 +865,15 @@ void c2_copyright_1(void)
 {
     if (!RunCopyrightScreen())
     {
+        SeedRngAndSetTrainerId();
+        SetSaveBlocksPointers();
         ResetMenuAndMonGlobals();
         Save_ResetSaveCounters();
         Save_LoadGameData(SAVE_NORMAL);
         if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_INVALID)
             Sav2_ClearSetDefault();
         SetPokemonCryStereo(gSaveBlock2Ptr->optionsSound);
+        InitHeap(gHeap, HEAP_SIZE);
     }
 }
 

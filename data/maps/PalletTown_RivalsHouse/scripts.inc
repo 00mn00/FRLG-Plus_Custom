@@ -134,8 +134,9 @@ PalletTown_RivalsHouse_EventScript_HeardBattledRival:: @ 8168DAF
 PalletTown_RivalsHouse_EventScript_GroomMon:: @ 8168DB9
 	goto_if_questlog EventScript_ReleaseEnd
 	special QuestLog_CutRecording
-	compare VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500
-	goto_if_lt PalletTown_RivalsHouse_EventScript_RateMonFriendship
+	@ compare VAR_MASSAGE_COOLDOWN_STEP_COUNTER, 500
+	@ goto_if_lt PalletTown_RivalsHouse_EventScript_RateMonFriendship
+	goto_if_set FLAG_DAILY_DAISY_MASSAGE, PalletTown_RivalsHouse_EventScript_RateMonFriendship
 	msgbox PalletTown_RivalsHouse_Text_LikeMeToGroomMon, MSGBOX_YESNO
 	compare VAR_RESULT, NO
 	goto_if_eq PalletTown_RivalsHouse_EventScript_DeclineGrooming

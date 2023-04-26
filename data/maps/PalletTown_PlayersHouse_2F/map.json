@@ -13,8 +13,10 @@
   "show_map_name": false,
   "floor_number": 0,
   "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
-  "connections": null,
-  "object_events": [],
+  "connections": 0,
+  "object_events": [
+
+  ],
   "warp_events": [
     {
       "x": 10,
@@ -24,7 +26,26 @@
       "dest_warp_id": 2
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+    {
+      "type": "trigger",
+      "x": 10,
+      "y": 3,
+      "elevation": 0,
+      "var": "VAR_PLAYERS_HOUSE_CLOCK_SET",
+      "var_value": "0",
+      "script": "EventScript_PalletTown_PlayersHouse_2F_ClockSetTriggerBottom"
+    },
+    {
+      "type": "trigger",
+      "x": 11,
+      "y": 2,
+      "elevation": 0,
+      "var": "VAR_PLAYERS_HOUSE_CLOCK_SET",
+      "var_value": "0",
+      "script": "EventScript_PalletTown_PlayersHouse_2F_ClockSetTriggerRight"
+    }
+  ],
   "bg_events": [
     {
       "type": "sign",
@@ -49,7 +70,15 @@
       "elevation": 0,
       "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
       "script": "PalletTown_PlayersHouse_2F_EventScript_Sign"
+    },
+    {
+      "type": "sign",
+      "x": 6,
+      "y": 1,
+      "elevation": 0,
+      "player_facing_dir": "BG_EVENT_PLAYER_FACING_ANY",
+      "script": "PalletTown_PlayersHouse_2F_EventScript_WallClock"
     }
   ],
-	"level_scaling": "0"
+  "level_scaling": "0"
 }

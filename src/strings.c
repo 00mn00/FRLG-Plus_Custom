@@ -25,6 +25,7 @@ const u8 gText_MysteryGiftCantBeUsedWhileWirelessAdapterIsAttached[] = _("MYSTER
 const u8 gText_SaveFileCorruptedPrevWillBeLoaded[] = _("The save file is corrupted.\pThe previous save file will be\nloaded.");
 const u8 gText_SaveFileHasBeenDeleted[] = _("The save file has been\ndeleted...");
 const u8 gText_1MSubCircuitBoardNotInstalled[] = _("The 1M sub-circuit board is\nnot installed.");
+const u8 gText_BatteryRunDry[] = _("The internal battery has run dry.\nThe game can be played.\pHowever, clock-based events will\nno longer occur.");
 const u8 gText_MainMenuTime[] = _("TIME");
 const u8 gText_Controls[] = _("CONTROLS");
 ALIGNED(4) const u8 gText_ABUTTONNext[] = _("{A_BUTTON}NEXT");
@@ -128,6 +129,17 @@ const u8 gText_SelectorArrow2[] = _("▶");
 const u8 gUnknown_841623D[] = _("YES\nNO");
 const u8 gText_GoBackToThePreviousMenu[] = _("Go back to the\nprevious menu.");
 const u8 gText_WhatWouldYouLikeToDo[] = _("What would you like to do?");
+
+const u8 gText_ResetRTCConfirmCancel[] = _("Reset RTC?\nA: Confirm, B: Cancel");
+const u8 gText_PresentTime[] = _("Present time in game");
+const u8 gText_PreviousTime[] = _("Previous time in game");
+const u8 gText_PleaseResetTime[] = _("Please reset the time.");
+const u8 gText_ClockHasBeenReset[] = _("The clock has been reset.\nData will be saved. Please wait.");
+const u8 gText_SaveCompleted[] = _("Save completed.");
+const u8 gText_SaveFailed[] = _("Save failed…");
+const u8 gText_NoSaveFileCantSetTime[] = _("There is no save file, so the time\ncan't be set.");
+const u8 gText_InGameClockUsable[] = _("The in-game clock adjustment system\nis now useable.");
+
 const u8 gStartMenuText_Pokedex[] = _("POKéDEX");
 const u8 gStartMenuText_Bag[] = _("BAG");
 const u8 gStartMenuText_Player[] = _("{PLAYER}");
@@ -875,6 +887,9 @@ const u8 gUnknown_841B68F[] = _("NATIONAL");
 const u8 gUnknown_841B698[] = _("KANTO");
 const u8 gUnknown_841B69E[] = _("Clear all save data areas?");
 const u8 gUnknown_841B6B9[] = _("Clearing data‥\nPlease wait.");
+const u8 gText_IsThisTheCorrectTime[] = _("Is this the correct time?");
+const u8 gText_Confirm3[] = _("CONFIRM");
+const u8 gText_Cancel4[] = _("CANCEL");
 const u8 gText_Player[] = _("PLAYER");
 const u8 gText_Time[] = _("TIME");
 const u8 gText_Colon[] = _(":");
@@ -1077,6 +1092,11 @@ const u8 gUnknown_841DF8B[] = _("BRONZE");
 const u8 gUnknown_841DF92[] = _("COPPER");
 const u8 gUnknown_841DF99[] = _("SILVER");
 const u8 gUnknown_841DFA0[] = _("GOLD");
+
+const u8 gText_Day[] = _("DAY");
+const u8 gText_Colon3[] = _(":");
+const u8 gText_Confirm2[] = _("CONFIRM");
+
 const u8 gText_HelpSystemControls_A_Next[] = _("{A_BUTTON}NEXT");
 const u8 gText_HelpSystemControls_PickOkEnd[] = _("{DPAD_UPDOWN}PICK {A_BUTTON}OK {B_BUTTON}END");
 const u8 gText_HelpSystemControls_AorBtoCancel[] = _("{A_BUTTON}{B_BUTTON}CANCEL");

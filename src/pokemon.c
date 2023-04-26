@@ -3,6 +3,7 @@
 #include "global.h"
 #include "gflib.h"
 #include "random.h"
+#include "rtc.h"
 #include "text.h"
 #include "data.h"
 #include "battle.h"
@@ -38,10 +39,6 @@
 #include "constants/facility_trainer_classes.h"
 #include "constants/hold_effects.h"
 #include "constants/battle_move_effects.h"
-
-//#include "printf.h"
-//#include "mgba.h"
-//#include "string_util.h"
 
 // Extracts the upper 16 bits of a 32-bit number
 #define HIHALF(n) (((n) & 0xFFFF0000) >> 16)
@@ -6416,11 +6413,13 @@ u16 GetEvolutionTargetSpecies(struct Pokemon *mon, u8 type, u16 evolutionItem)
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;
                 break;
             case EVO_FRIENDSHIP_DAY: //changed to evolve by friendship outdoors (Towns and routes)
-                if (gMapHeader.mapType < MAP_TYPE_UNDERGROUND && friendship >= 220)
+                RtcCalcLocalTime();
+                if (gLocalTime.hours >= 6 && gLocalTime.hours < 18 && friendship >= 220)
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;
                 break;
             case EVO_FRIENDSHIP_NIGHT: //changed to evolve by friendship indoors (Caves and Indoors)
-                if (gMapHeader.mapType >= MAP_TYPE_UNDERGROUND && friendship >= 220)
+                RtcCalcLocalTime();
+                if (gLocalTime.hours >= 18 && gLocalTime.hours < 6 && friendship >= 220)
                     targetSpecies = gEvolutionTable[species][i].targetSpecies;
                 break;
             case EVO_LEVEL:
@@ -6969,17 +6968,47 @@ u16 GetMonEVCount(struct Pokemon *mon)
     return count;
 }
 
-// This function was stubbed from RS, but it is stubbed badly.
-// This variable is likely the u8 passed to SetMonData in RSE.
-// The pointer reference causes agbcc to reserve it on the stack before even checking
-// whether it's used.
 void RandomlyGivePartyPokerus(struct Pokemon *party)
 {
-    u8 foo;
-    &foo;
+    u16 rnd = Random();
+    if (rnd == 0x4000 || rnd == 0x8000 || rnd == 0xC000)
+    {
+        struct Pokemon *mon;
+
+        do
+        {
+            do
+            {
+                rnd = Random() % PARTY_SIZE;
+                mon = &party[rnd];
+            }
+            while (!GetMonData(mon, MON_DATA_SPECIES, 0));
+        }
+        while (GetMonData(mon, MON_DATA_IS_EGG, 0));
+
+        if (!(CheckPartyHasHadPokerus(party, gBitTable[rnd])))
+        {
+            u8 rnd2;
+
+            do
+            {
+                rnd2 = Random();
+            }
+            while ((rnd2 & 0x7) == 0);
+
+            if (rnd2 & 0xF0)
+                rnd2 &= 0x7;
+
+            rnd2 |= (rnd2 << 4);
+            rnd2 &= 0xF3;
+            rnd2++;
+
+            SetMonData(&party[rnd], MON_DATA_POKERUS, &rnd2);
+        }
+    }
 }
 
-u8 CheckPartyPokerus(struct Pokemon *party, u8 party_bm)
+u8 CheckPartyPokerus(struct Pokemon *party, u8 selection)
 {
     u8 retVal;
 
@@ -6987,25 +7016,23 @@ u8 CheckPartyPokerus(struct Pokemon *party, u8 party_bm)
     unsigned curBit = 1;
     retVal = 0;
 
-    if (party_bm != 0) // Check mons in party based on bitmask, LSB = first mon
+    if (selection)
     {
         do
         {
-            if ((party_bm & 1) && (GetMonData(&party[partyIndex], MON_DATA_POKERUS, NULL) & 0xF))
+            if ((selection & 1) && (GetMonData(&party[partyIndex], MON_DATA_POKERUS, 0) & 0xF))
                 retVal |= curBit;
             partyIndex++;
             curBit <<= 1;
-            party_bm >>= 1;
+            selection >>= 1;
         }
-        while (party_bm);
+        while (selection);
     }
-    else // Single Pokemon
+    else if (GetMonData(&party[0], MON_DATA_POKERUS, 0) & 0xF)
     {
-        if (GetMonData(&party[0], MON_DATA_POKERUS, NULL) & 0xF)
-        {
-            retVal = 1;
-        }
+        retVal = 1;
     }
+
     return retVal;
 }
 
@@ -7039,16 +7066,58 @@ u8 CheckPartyHasHadPokerus(struct Pokemon *party, u8 selection)
 
 // These two functions are stubbed from RS, but they're stubbed badly.
 // See note on RandomlyGivePartyPokerus above.
-static void UpdatePartyPokerusTime(void)
+void UpdatePartyPokerusTime(u16 days)
 {
-    u8 foo;
-    &foo;
+    int i;
+    for (i = 0; i < PARTY_SIZE; i++)
+    {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, 0))
+        {
+            u8 pokerus = GetMonData(&gPlayerParty[i], MON_DATA_POKERUS, 0);
+            if (pokerus & 0xF)
+            {
+                if ((pokerus & 0xF) < days || days > 4)
+                    pokerus &= 0xF0;
+                else
+                    pokerus -= days;
+
+                if (pokerus == 0)
+                    pokerus = 0x10;
+
+                SetMonData(&gPlayerParty[i], MON_DATA_POKERUS, &pokerus);
+            }
+        }
+    }
 }
 
 void PartySpreadPokerus(struct Pokemon *party)
 {
-    u8 foo;
-    &foo;
+    if ((Random() % 3) == 0)
+    {
+        int i;
+        for (i = 0; i < PARTY_SIZE; i++)
+        {
+            if (GetMonData(&party[i], MON_DATA_SPECIES, 0))
+            {
+                u8 pokerus = GetMonData(&party[i], MON_DATA_POKERUS, 0);
+                u8 curPokerus = pokerus;
+                if (pokerus)
+                {
+                    if (pokerus & 0xF)
+                    {
+                        // Spread to adjacent party members.
+                        if (i != 0 && !(GetMonData(&party[i - 1], MON_DATA_POKERUS, 0) & 0xF0))
+                            SetMonData(&party[i - 1], MON_DATA_POKERUS, &curPokerus);
+                        if (i != (PARTY_SIZE - 1) && !(GetMonData(&party[i + 1], MON_DATA_POKERUS, 0) & 0xF0))
+                        {
+                            SetMonData(&party[i + 1], MON_DATA_POKERUS, &curPokerus);
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 static void SetMonExpWithMaxLevelCheck(struct Pokemon *mon, int species, u8 unused, u32 data)
@@ -7166,7 +7235,6 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
         for(ii = 0; ii < numInLine; ii++)
         {
             species = evoLine[ii];
-            //mgba_printf(MGBA_LOG_DEBUG, "Top of ii loop species: %d %s", species, ConvertToAscii(gSpeciesNames[species]));
             for (i = 0; i < 20; i++)
             {
                 u16 moveLevel;
@@ -7178,7 +7246,6 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
 
                 if (moveLevel <= (level << 9))
                 {
-                    //mgba_printf(MGBA_LOG_DEBUG, "Considering adding: %d %s", species, ConvertToAscii(gMoveNames[gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID]));
                     for (j = 0; j < MAX_MON_MOVES && learnedMoves[j] != (gLevelUpLearnsets[species][i] & LEVEL_UP_MOVE_ID); j++)
                         ; //skips adding already-known moves to list
 
@@ -7207,29 +7274,18 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
         for(ii = 0; ii < tempMoveNum; ii++)
         {
             numInLine = maxEvo - 1;
-            //mgba_printf(MGBA_LOG_DEBUG, "Considering removing: %s", ConvertToAscii(gMoveNames[moves[ii]]));
             for(i = 0; i < 20 && gLevelUpLearnsets[evoLine[maxEvo]][i] != LEVEL_UP_END; i++)
             {
-                //mgba_printf(MGBA_LOG_DEBUG, "Max evo is %d: %s", evoLine[maxEvo], ConvertToAscii(gSpeciesNames[evoLine[maxEvo]]));
-                //mgba_printf(MGBA_LOG_DEBUG, "Checking move %s in maxEvo's learnset.", ConvertToAscii(gMoveNames[gLevelUpLearnsets[evoLine[maxEvo]][i] & LEVEL_UP_MOVE_ID]));
                 if(moves[ii] == (gLevelUpLearnsets[evoLine[maxEvo]][i] & LEVEL_UP_MOVE_ID))
                 {   //found move in max evo list
-                    //mgba_printf(MGBA_LOG_DEBUG, "Found move %s in maxEvo's learnset.", ConvertToAscii(gMoveNames[moves[ii]]));
-                    //mgba_printf(MGBA_LOG_DEBUG, "numInLine == %d", numInLine);
                     while(numInLine > -1) //check all pre-evos for move
                     {
-                        //mgba_printf(MGBA_LOG_DEBUG, "numInLine == %d", numInLine);
                         for(j = 0; j < 20 && gLevelUpLearnsets[evoLine[numInLine]][j] != LEVEL_UP_END; j++)
                         {
                             if(moves[ii] == (gLevelUpLearnsets[evoLine[numInLine]][j] & LEVEL_UP_MOVE_ID))
                             {   //found move in preevo list
-                                //mgba_printf(MGBA_LOG_DEBUG, "Found move %s in preEvo's learnset.", ConvertToAscii(gMoveNames[moves[ii]]));
-                                //mgba_printf(MGBA_LOG_DEBUG, "About to check maxEvo's learnset for %s 's level.", ConvertToAscii(gMoveNames[(gLevelUpLearnsets[evoLine[maxEvo]][i] & LEVEL_UP_MOVE_ID)]));
                                 if((gLevelUpLearnsets[evoLine[maxEvo]][i] & LEVEL_UP_MOVE_LV) > (level << 9))
                                 { //max evo too low to know this move, remove it
-                                    //mgba_printf(MGBA_LOG_DEBUG, "Move level found is %d.", (gLevelUpLearnsets[evoLine[maxEvo]][i] & LEVEL_UP_MOVE_LV) >> 9);
-                                    //mgba_printf(MGBA_LOG_DEBUG, "Actual mon level is %d.", level);
-                                    //mgba_printf(MGBA_LOG_DEBUG, "Removing move %s in moves array.", ConvertToAscii(gMoveNames[moves[ii]]));
                                     moves[ii] = MOVE_NONE;
                                     numMoves--;
                                 }
@@ -7240,36 +7296,21 @@ u8 GetMoveRelearnerMoves(struct Pokemon *mon, u16 *moves)
                 }
             }
         }
-        //mgba_printf(MGBA_LOG_DEBUG, "Before removing gaps.");
-        //for(i = 0; i < 20; i++)
-            //mgba_printf(MGBA_LOG_DEBUG, "List Move %d is %s.", i, ConvertToAscii(gMoveNames[moves[i]]));
         for(i = 0; i < 20; i++) //compact moves to remove gaps
         {   
-            //mgba_printf(MGBA_LOG_DEBUG, "i is %d.", i);
             if(moves[i] != MOVE_NONE)
             {
-                //mgba_printf(MGBA_LOG_DEBUG, "moves[i] is not MOVE_NONE, continuing.");
                 continue;
             }
             for(j = i; j < 20; j++)
             {
-                //mgba_printf(MGBA_LOG_DEBUG, "j is %d.", j);
                 if(moves[j] == MOVE_NONE)
-                {
-                    //mgba_printf(MGBA_LOG_DEBUG, "moves[j] is MOVE_NONE, continuing.");
                     continue;
-                }
-                //mgba_printf(MGBA_LOG_DEBUG, "moves[j] is %s", ConvertToAscii(gMoveNames[moves[j]]));
-                moves[i] = moves[j];
-                //mgba_printf(MGBA_LOG_DEBUG, "moves[i] now is %s", ConvertToAscii(gMoveNames[moves[j]]));
+                moves[i] = evoLine[j];
                 moves[j] = MOVE_NONE;
-                //mgba_printf(MGBA_LOG_DEBUG, "moves[j] now is MOVE_NONE");
                 break;
             }
         }
-        //mgba_printf(MGBA_LOG_DEBUG, "After removing gaps.");
-        //for(i = 0; i < 20; i++)
-            //mgba_printf(MGBA_LOG_DEBUG, "List Move %d is %s.", i, ConvertToAscii(gMoveNames[moves[i]]));
     }
     return numMoves;
 }
@@ -7338,9 +7379,6 @@ static u8 PopulateSpeciesEvoLineForRelearner(u16 species, bool8 isHatched, u16 e
                 evoLine[i] = SPECIES_NONE;
         }
     }
-    //mgba_printf(MGBA_LOG_DEBUG, "Before compaction:", numInLine);
-    //for(i = 0; i < EVOS_PER_LINE; i++)
-        //mgba_printf(MGBA_LOG_DEBUG, "%d %s", evoLine[i], ConvertToAscii(gSpeciesNames[evoLine[i]]));
     for(i = 0; i < EVOS_PER_LINE; i++) //compact species to front
     {   
         if(evoLine[i] != SPECIES_NONE)
@@ -7361,9 +7399,6 @@ static u8 PopulateSpeciesEvoLineForRelearner(u16 species, bool8 isHatched, u16 e
         if(evoLine[i] != SPECIES_NONE)
             numInLine++;
     }
-    //mgba_printf(MGBA_LOG_DEBUG, "numInLine == %d; Result of compaction:", numInLine);
-    //for(i = 0; i < EVOS_PER_LINE; i++)
-        //mgba_printf(MGBA_LOG_DEBUG, "%d %s", evoLine[i], ConvertToAscii(gSpeciesNames[evoLine[i]]));
     return numInLine;
 }
 
@@ -7504,13 +7539,18 @@ static u16 GetBattleBGM(void)
             case CLASS_CHAMPION_2:
                 return MUS_VS_CHAMPION;
             case CLASS_LEADER_2:
+                return MUS_VS_GYM_LEADER;
             case CLASS_ELITE_FOUR_2:
+                // return MUS_VS_ELITE_FOUR;
                 return MUS_VS_GYM_LEADER;
             case CLASS_BOSS:
             case CLASS_TEAM_ROCKET:
             case CLASS_COOLTRAINER_2:
             case CLASS_GENTLEMAN_2:
+                return MUS_VS_TRAINER;
+            case CLASS_RIVAL:
             case CLASS_RIVAL_2:
+                return MUS_VS_RIVAL;
             default:
                 return MUS_VS_TRAINER;
         }

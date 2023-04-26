@@ -842,6 +842,16 @@ Text_RestoredPkmnToFullHealth:: @ 81A552B
 	.string "We've restored your POKéMON to\l"
 	.string "full health.$"
 
+Text_PokerusExplanation::
+	.string "Your POKéMON may be infected with\n"
+	.string "POKéRUS.\p"
+	.string "Little is known about the POKéRUS\n"
+	.string "except that they are microscopic\l"
+	.string "life-forms that attach to POKéMON.\p"
+	.string "While infected, POKéMON are said to\n"
+	.string "grow exceptionally well.$"
+
+
 	.include "data/text/surf.inc"
 
 Text_WirelessClubUndergoingAdjustments:: @ 81A561A
@@ -1011,6 +1021,7 @@ EventScript_WallTownMap:: @ 81A6C32
 
 	.include "data/text/pokedex_rating.inc"
 	.include "data/scripts/pokedex_rating.inc"
+	.include "data/text/lottery_corner.inc"
 	.include "data/scripts/cave_of_origin.inc"
 
 EventScript_ChangePokemonNickname:: @ 81A74EB

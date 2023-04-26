@@ -18,6 +18,7 @@ EventScript_PkmnCenterNurse_HealPkmn:: @ 81A65B8
 	waitmessage
 	call EventScript_PkmnCenterNurse_TakeAndHealPkmn
 	special SetUsedPkmnCenterQuestLogEvent
+	goto_if_unset FLAG_POKERUS_EXPLAINED, EventScript_PkmnCenterNurse_CheckPokerus
 	goto EventScript_PkmnCenterNurse_ReturnPkmn
 	end
 
@@ -71,6 +72,20 @@ Movement_Bow:: @ 81A666C
 	delay_4
 	step_end
 
+EventScript_PkmnCenterNurse_CheckPokerus::
+    specialvar VAR_RESULT, IsPokerusInParty
+    compare VAR_RESULT, TRUE
+    goto_if_eq EventScript_PkmnCenterNurse_ExplainPokerus
+    compare VAR_RESULT, FALSE
+    goto_if_eq EventScript_PkmnCenterNurse_ReturnPkmn
+    end
+
+EventScript_PkmnCenterNurse_ExplainPokerus::
+    msgbox Text_PokerusExplanation
+    setflag FLAG_POKERUS_EXPLAINED
+		goto EventScript_PkmnCenterNurse_ReturnPkmnTrainerCard
+    return
+
 EventScript_PkmnCenterNurseTrainerCard::
 	goto_if_unset FLAG_SHOWN_COPPER_CARD_TO_NURSE, EventScript_PkmnCenterNurseTrainerCardFirst
 	message Text_WelcomeTrainerCard
@@ -99,6 +114,7 @@ EventScript_PkmnCenterNurse_HealPkmnTrainerCard:: @ 81A65B8
 	waitmessage
 	call EventScript_PkmnCenterNurse_TakeAndHealPkmn
 	special SetUsedPkmnCenterQuestLogEvent
+	goto_if_unset FLAG_POKERUS_EXPLAINED, EventScript_PkmnCenterNurse_CheckPokerus
 	goto EventScript_PkmnCenterNurse_ReturnPkmnTrainerCard
 	end
 

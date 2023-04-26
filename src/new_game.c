@@ -26,9 +26,12 @@
 #include "renewable_hidden_items.h"
 #include "trainer_tower.h"
 #include "script.h"
+#include "lottery_corner.h"
 #include "berry_powder.h"
 #include "pokemon_jump.h"
 #include "event_scripts.h"
+#include "save.h"
+#include "rtc.h"
 
 // this file's functions
 static void ResetMiniGamesResults(void);
@@ -111,6 +114,9 @@ void ResetMenuAndMonGlobals(void)
 void NewGameInitData(void)
 {
     u8 rivalName[PLAYER_NAME_LENGTH + 1];
+    
+    if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_INVALID)
+        RtcReset();
 
     StringCopy(rivalName, gSaveBlock1Ptr->rivalName);
     gDifferentSaveFile = TRUE;
@@ -146,6 +152,7 @@ void NewGameInitData(void)
     ClearEnigmaBerries();
     InitEasyChatPhrases();
     ResetTrainerFanClub();
+    ResetLotteryCorner();
     UnionRoomChat_InitializeRegisteredTexts();
     ResetMiniGamesResults();
     InitMEventData();

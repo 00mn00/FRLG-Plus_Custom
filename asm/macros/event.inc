@@ -293,10 +293,12 @@
 	@ In FireRed, this command is a nop.
 	.macro initclock hour:req minute:req
 	.byte 0x2c
+	.2byte \hour
+	.2byte \minute
 	.endm
 
 	@ In FireRed, this command is a nop.
-	.macro dodailyevents
+	.macro dotimebasedevents
 	.byte 0x2d
 	.endm
 
@@ -1626,12 +1628,12 @@
 	callstd STD_PUT_ITEM_AWAY
 	.endm
 
-	.macro giveitem_msg msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
+	.macro giveitem_msg msg:req, item:req, amount=1, fanfare=MUS_OBTAIN_ITEM
 	additem \item, \amount
 	msgreceiveditem \msg, \item, \amount, \fanfare
 	.endm
 
-	.macro msgreceiveditem msg:req, item:req, amount=1, fanfare=MUS_LEVEL_UP
+	.macro msgreceiveditem msg:req, item:req, amount=1, fanfare=MUS_OBTAIN_ITEM
 	loadword 0, \msg
 	setorcopyvar VAR_0x8000, \item
 	setorcopyvar VAR_0x8001, \amount

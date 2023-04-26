@@ -13,3 +13,32 @@ ThreeIsland_House5_EventScript_LittleGirlLostelleFound:: @ 8171935
 	msgbox ThreeIsland_House5_Text_IllGoPlayWithLostelle
 	release
 	end
+
+Route123_BerryMastersHouse_EventScript_BerryMaster::
+	lock
+	faceplayer
+	dotimebasedevents
+	goto_if_set FLAG_DAILY_BERRY_MASTER_RECEIVED_BERRY, Route123_BerryMastersHouse_EventScript_ReceivedBerryToday
+	msgbox Route123_BerryMastersHouse_Text_YoureDeservingOfBerry, MSGBOX_DEFAULT
+	random NUM_BERRY_MASTER_BERRIES
+	addvar VAR_RESULT, NUM_BERRY_MASTER_BERRIES_SKIPPED
+	addvar VAR_RESULT, FIRST_BERRY_INDEX
+	giveitem VAR_RESULT
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_BagIsFull
+	setflag FLAG_DAILY_BERRY_MASTER_RECEIVED_BERRY
+	msgbox Route123_BerryMastersHouse_Text_WhyBeStingyTakeAnother, MSGBOX_DEFAULT
+	random NUM_BERRY_MASTER_BERRIES
+	addvar VAR_RESULT, NUM_BERRY_MASTER_BERRIES_SKIPPED
+	addvar VAR_RESULT, FIRST_BERRY_INDEX
+	giveitem VAR_RESULT
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_BagIsFull
+	msgbox Route123_BerryMastersHouse_Text_VisitPrettyPetalFlowerShop, MSGBOX_DEFAULT
+	release
+	end
+
+Route123_BerryMastersHouse_EventScript_ReceivedBerryToday::
+	msgbox Route123_BerryMastersHouse_Text_DoneForToday, MSGBOX_DEFAULT
+	release
+	end

@@ -30,6 +30,9 @@ EWRAM_DATA u16 gSpecialVar_PrevTextColor = 0;
 EWRAM_DATA u16 gSpecialVar_0x8014 = 0;
 EWRAM_DATA u8 sSpecialFlags[SPECIAL_FLAGS_COUNT] = {};
 
+#define NUM_DAILY_FLAGS   (DAILY_FLAGS_END - DAILY_FLAGS_START + 1)
+#define DAILY_FLAGS_SIZE    (NUM_DAILY_FLAGS / 8)
+
 u16 gLastQuestLogStoredFlagOrVarIdx;
 
 extern u16 *const gSpecialVars[];
@@ -52,6 +55,11 @@ void ClearTempFieldEventData(void)
     FlagClear(FLAG_SYS_SPECIAL_WILD_BATTLE);
     FlagClear(FLAG_SYS_CTRL_OBJ_DELETE);
     FlagClear(FLAG_SYS_INFORMED_OF_LOCAL_WIRELESS_PLAYER);
+}
+
+void ClearDailyFlags(void)
+{
+    memset(gSaveBlock1Ptr->flags + (DAILY_FLAGS_START / 8), 0, DAILY_FLAGS_SIZE);
 }
 
 void sub_806E168(void)
@@ -161,21 +169,21 @@ void ResetMysteryEventVars(void)
 
 void DisableResetRTC(void)
 {
-    VarSet(VAR_0x4032, 0);
-    FlagClear(FLAG_0x837);
+    VarSet(VAR_RESET_RTC_ENABLE, 0);
+    FlagClear(FLAG_SYS_RESET_RTC_ENABLE);
 }
 
 void EnableResetRTC(void)
 {
-    VarSet(VAR_0x4032, 0x0920);
-    FlagSet(FLAG_0x837);
+    VarSet(VAR_RESET_RTC_ENABLE, 0x0920);
+    FlagSet(FLAG_SYS_RESET_RTC_ENABLE);
 }
 
 bool32 CanResetRTC(void)
 {
-    if (!FlagGet(FLAG_0x837))
+    if (!FlagGet(FLAG_SYS_RESET_RTC_ENABLE))
         return FALSE;
-    if (VarGet(VAR_0x4032) != 0x0920)
+    if (VarGet(VAR_RESET_RTC_ENABLE) != 0x0920)
         return FALSE;
     return TRUE;
 }

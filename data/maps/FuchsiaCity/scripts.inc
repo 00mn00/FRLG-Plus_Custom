@@ -161,3 +161,24 @@ FuchsiaCity_EventScript_OmanyteSign:: @ 8166EBE
 	erasemonpic
 	releaseall
 	end
+
+LilycoveCity_EventScript_BerryGentleman::
+	lock
+	faceplayer
+	dotimebasedevents
+	goto_if_set FLAG_DAILY_LILYCOVE_RECEIVED_BERRY, LilycoveCity_EventScript_ReceivedBerry
+	msgbox LilycoveCity_Text_BerrySuitsYou, MSGBOX_DEFAULT
+	random 10
+	addvar VAR_RESULT, FIRST_BERRY_INDEX
+	giveitem VAR_RESULT
+	compare VAR_RESULT, FALSE
+	goto_if_eq EventScript_BagIsFull
+	setflag FLAG_DAILY_LILYCOVE_RECEIVED_BERRY
+	msgbox LilycoveCity_Text_BecauseYoureTrainer, MSGBOX_DEFAULT
+	release
+	end
+
+LilycoveCity_EventScript_ReceivedBerry::
+	msgbox LilycoveCity_Text_PokeblocksSuitPokemon, MSGBOX_DEFAULT
+	release
+	end

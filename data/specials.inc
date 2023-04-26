@@ -162,8 +162,8 @@ gSpecials:: @ 815FD60
 	def_special NullFieldSpecial  @ Cable Car specials
 	def_special NullFieldSpecial
 	def_special Overworld_PlaySpecialMapMusic
-	def_special NullFieldSpecial  @ Wall Clock specials
-	def_special NullFieldSpecial
+	def_special StartWallClock
+	def_special Special_ViewWallClock
 	def_special NullFieldSpecial
 	def_special StartOldManTutorialBattle
 	def_special ChangePokemonNickname
@@ -264,9 +264,9 @@ gSpecials:: @ 815FD60
 	def_special CreateInGameTradePokemon
 	def_special DoInGameTradeScene
 	def_special GetTradeSpecies
-	def_special NullFieldSpecial  @ Misc Hoenn specials
-	def_special NullFieldSpecial
-	def_special NullFieldSpecial
+	def_special GetWeekCount
+	def_special RetrieveLotteryNumber
+	def_special PickLotteryCornerTicket
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
 	def_special NullFieldSpecial
@@ -345,7 +345,7 @@ gSpecials:: @ 815FD60
 	def_special NullFieldSpecial
 	def_special HasAllKantoMons
 	def_special IsMonOTNameNotPlayers
-	def_special NullFieldSpecial
+	def_special BufferLottoTicketNumber
 	def_special Dummy_TryEnableBravoTrainerBattleTower
 	def_special DoesPartyHaveEnigmaBerry
 	def_special NullFieldSpecial

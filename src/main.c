@@ -4,6 +4,7 @@
 #include "link_rfu.h"
 #include "load_save.h"
 #include "m4a.h"
+#include "rtc.h"
 #include "random.h"
 #include "gba/flash_internal.h"
 #include "help_system.h"
@@ -86,11 +87,14 @@ static void UpdateLinkAndCallCallbacks(void);
 static void InitMainCallbacks(void);
 static void CallCallbacks(void);
 static void ReadKeys(void);
+static void SeedRngWithRtc(void);
 void InitIntrHandlers(void);
 static void WaitForVBlank(void);
 void EnableVCountIntrAtLine150(void);
 
 #define B_START_SELECT (B_BUTTON | START_BUTTON | SELECT_BUTTON)
+#define RESET_COMBO_3DS_1 (L_BUTTON | R_BUTTON | SELECT_BUTTON)
+#define RESET_COMBO_3DS_2 (L_BUTTON | R_BUTTON | START_BUTTON)
 
 void AgbMain()
 {
@@ -133,9 +137,11 @@ void AgbMain()
     m4aSoundInit();
     EnableVCountIntrAtLine150();
     InitRFU();
+    RtcInit();
     CheckForFlashMemory();
     InitMainCallbacks();
     InitMapMusic();
+    SeedRngWithRtc();
     ClearDma3Requests();
     ResetBgs();
     InitHeap(gHeap, HEAP_SIZE);
@@ -159,9 +165,7 @@ void AgbMain()
     {
         ReadKeys();
 
-        if (gSoftResetDisabled == FALSE
-         && (gMain.heldKeysRaw & A_BUTTON)
-         && (gMain.heldKeysRaw & B_START_SELECT) == B_START_SELECT)
+        if (!gSoftResetDisabled && ((gMain.heldKeysRaw & RESET_COMBO_3DS_1) == RESET_COMBO_3DS_1 || (gMain.heldKeysRaw & RESET_COMBO_3DS_2) == RESET_COMBO_3DS_2))
         {
             rfu_REQ_stopMode();
             rfu_waitREQComplete();
@@ -254,6 +258,13 @@ void EnableVCountIntrAtLine150(void)
     u16 gpuReg = (GetGpuReg(REG_OFFSET_DISPSTAT) & 0xFF) | (150 << 8);
     SetGpuReg(REG_OFFSET_DISPSTAT, gpuReg | DISPSTAT_VCOUNT_INTR);
     EnableInterrupts(INTR_FLAG_VCOUNT);
+}
+
+static void SeedRngWithRtc(void)
+{
+   u32 seed = RtcGetMinuteCount();
+   seed = (seed >> 16) ^ (seed & 0xFFFF);
+   SeedRng(seed);
 }
 
 void InitKeys(void)
@@ -458,6 +469,7 @@ void DoSoftReset(void)
     DmaStop(1);
     DmaStop(2);
     DmaStop(3);
+    SiiRtcProtect();
     SoftReset(RESET_ALL & ~RESET_SIO_REGS);
 }
 
