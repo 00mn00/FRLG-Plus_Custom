@@ -1,6 +1,7 @@
 #include "global.h"
 #include "metatile_behavior.h"
 #include "constants/metatile_behaviors.h"
+#include "constants/region_map_sections.h"
 
 static const bool8 sTileSurfable[METATILE_COUNT] = {
     [MB_POND_WATER] = TRUE,
@@ -71,15 +72,15 @@ bool8 MetatileBehavior_IsPokeGrass(u8 metatileBehavior)
 
 bool8 MetatileBehavior_IsSand(u8 metatileBehavior)
 {
-    if(metatileBehavior == MB_SAND || metatileBehavior == MB_SAND_CAVE)
+    if((metatileBehavior == MB_SAND || metatileBehavior == MB_SAND_CAVE) && gMapHeader.regionMapSectionId != MAPSEC_FOUR_ISLAND)
         return TRUE;
-    else
+    else 
         return FALSE;
 }
 
 bool8 MetatileBehavior_IsSandOrShallowFlowingWater(u8 metatileBehavior)
 {
-    if(metatileBehavior == MB_SAND || metatileBehavior == MB_SHALLOW_WATER)
+    if((metatileBehavior == MB_SAND || metatileBehavior == MB_SHALLOW_WATER) && gMapHeader.regionMapSectionId != MAPSEC_FOUR_ISLAND)
         return TRUE;
     else
         return FALSE;

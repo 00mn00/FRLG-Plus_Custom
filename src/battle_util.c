@@ -3198,3 +3198,8 @@ u8 IsMonDisobedient(void)
         }
     }
 }
+
+u8 GetBattleMoveCategory(u32 move)
+{
+    return gBattleMoves[move].category;
+}

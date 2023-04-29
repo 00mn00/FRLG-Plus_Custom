@@ -12,7 +12,7 @@ void StartSouthernIslandBattle(void);
 void StartLegendaryBattle(void);
 void StartGroudonKyogreBattle(void);
 void StartRegiBattle(void);
-u8 BattleSetup_GetTerrainId(void);
+u8 GetBattleTerrainFromField(void);
 u8 BattleSetup_GetBattleTowerBattleTransition(void);
 const u8 *BattleSetup_ConfigureTrainerBattle(const u8 *data);
 void ConfigureAndSetUpOneTrainerBattle(u8 trainerEventObjId, const u8 *trainerScript);

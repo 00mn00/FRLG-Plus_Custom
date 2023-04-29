@@ -1,41 +1,48 @@
 #include "global.h"
 #include "gflib.h"
-#include "pokemon.h"
-#include "pokemon_summary_screen.h"
-#include "help_system.h"
-#include "task.h"
-#include "menu_helpers.h"
-#include "link.h"
-#include "overworld.h"
-#include "constants/songs.h"
-#include "strings.h"
-#include "new_menu_helpers.h"
-#include "menu.h"
-#include "constants/items.h"
-#include "data.h"
-#include "item.h"
-#include "constants/party_menu.h"
-#include "trade.h"
-#include "battle_main.h"
-#include "scanline_effect.h"
-#include "constants/moves.h"
-#include "dynamic_placeholder_text_util.h"
-#include "constants/region_map_sections.h"
-#include "region_map.h"
-#include "field_specials.h"
-#include "party_menu.h"
-#include "constants/battle.h"
-#include "event_data.h"
-#include "trainer_pokemon_sprites.h"
 #include "battle_anim.h"
-#include "pokeball.h"
-#include "pokemon_icon.h"
 #include "battle_interface.h"
+#include "battle_main.h"
+#include "battle_setup.h"
+#include "data.h"
+#include "dynamic_placeholder_text_util.h"
+#include "event_data.h"
+#include "fieldmap.h"
+#include "field_player_avatar.h"
+#include "field_specials.h"
+#include "field_weather.h"
+#include "help_system.h"
+#include "item.h"
+#include "link.h"
+#include "menu.h"
+#include "menu_helpers.h"
+#include "metatile_behavior.h"
 #include "mon_markings.h"
-#include "pokemon_storage_system.h"
+#include "new_menu_helpers.h"
 #include "orre_met_location_strings.h"
+#include "overworld.h"
+#include "party_menu.h"
+#include "pokeball.h"
+#include "pokedex.h"
+#include "pokemon.h"
+#include "pokemon_icon.h"
+#include "pokemon_storage_system.h"
+#include "pokemon_summary_screen.h"
+#include "region_map.h"
+#include "scanline_effect.h"
+#include "strings.h"
+#include "task.h"
+#include "trade.h"
+#include "trainer_pokemon_sprites.h"
+#include "constants/battle.h"
+#include "constants/items.h"
 #include "constants/maps.h"
+#include "constants/map_types.h"
+#include "constants/moves.h"
+#include "constants/party_menu.h"
 #include "constants/region_map_sections.h"
+#include "constants/songs.h"
+#include "constants/weather.h"
 
 // needs conflicting header to match (curIndex is s8 in the function, but has to be defined as u8 here)
 extern s16 SeekToNextMonInBox(struct BoxPokemon * boxMons, u8 curIndex, u8 maxIndex, u8 flags);
@@ -657,42 +664,42 @@ static const u8 sPrintMoveTextColors[][3] = {
 
 static const struct BgTemplate sBgTempaltes[] = 
 {
-	 {
-	 	.bg = 0,
-	 	.charBaseIndex = 0,
-	 	.mapBaseIndex = 14,
-	 	.screenSize = 1,
-	 	.paletteMode = 0,
-	 	.priority = 0,
-	 	.baseTile = 0x0000
-	 },
-	 {
-	 	.bg = 2,
-	 	.charBaseIndex = 2,
-	 	.mapBaseIndex = 10,
-	 	.screenSize = 1,
-	 	.paletteMode = 0,
-	 	.priority = 1,
-	 	.baseTile = 0x0000
-	 },
-	 {
-	 	.bg = 3,
-	 	.charBaseIndex = 2,
-	 	.mapBaseIndex = 9,
-	 	.screenSize = 0,
-	 	.paletteMode = 0,
-	 	.priority = 3,
-	 	.baseTile = 0x0000
-	 },
-	 {
-	 	.bg = 1,
-	 	.charBaseIndex = 2,
-	 	.mapBaseIndex = 12,
-	 	.screenSize = 1,
-	 	.paletteMode = 0,
-	 	.priority = 2,
-	 	.baseTile = 0x0000
-	 }
+     {
+        .bg = 0,
+        .charBaseIndex = 0,
+        .mapBaseIndex = 14,
+        .screenSize = 1,
+        .paletteMode = 0,
+        .priority = 0,
+        .baseTile = 0x0000
+     },
+     {
+        .bg = 2,
+        .charBaseIndex = 2,
+        .mapBaseIndex = 10,
+        .screenSize = 1,
+        .paletteMode = 0,
+        .priority = 1,
+        .baseTile = 0x0000
+     },
+     {
+        .bg = 3,
+        .charBaseIndex = 2,
+        .mapBaseIndex = 9,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 3,
+        .baseTile = 0x0000
+     },
+     {
+        .bg = 1,
+        .charBaseIndex = 2,
+        .mapBaseIndex = 12,
+        .screenSize = 1,
+        .paletteMode = 0,
+        .priority = 2,
+        .baseTile = 0x0000
+     }
 };
 
 #define POKESUM_WIN_PAGE_NAME        0
@@ -2396,6 +2403,27 @@ static void BufferMonMoves(void)
 static void BufferMonMoveI(u8 i)
 {
     struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+    u16 currentMove;
+    u8 terrainType;
+    u8 camoType = GetBattleTerrainFromField();
+    u8 monFriendship = GetMonData(mon, MON_DATA_FRIENDSHIP);
+    s32 maxHp = GetMonData(mon, MON_DATA_MAX_HP);
+    s32 currHp = GetMonData(mon, MON_DATA_HP);
+    u8 gText_1[] = _("  1");
+    u8 gText_20[]  = _(" 20");
+    u8 gText_30[]  = _(" 30");
+    u8 gText_40[]  = _(" 40");
+    u8 gText_60[]  = _(" 60");
+    u8 gText_80[]  = _(" 80");
+    u8 gText_100[]  = _("100");
+    u8 gText_120[]  = _("120");
+    u8 gText_130[]  = _("130");
+    u8 gText_140[]  = _("140");
+    u8 gText_150[]  = _("150");
+    u8 gText_160[]  = _("160");
+    u8 gText_170[]  = _("170");
+    u8 gText_190[]  = _("190");
+    u8 gText_200[] = _("200");
 
     if (i < 4)
         sMonSummaryScreen->moveIds[i] = GetMonMoveBySlotId(&sMonSummaryScreen->currentMon, i);
@@ -2411,26 +2439,53 @@ static void BufferMonMoveI(u8 i)
         return;
     }
 
-    if(sMonSummaryScreen->moveIds[i] == MOVE_HIDDEN_POWER)
-    {
-        u8 typeBits  = ((GetMonData(mon, MON_DATA_HP_IV) & 1) << 0)
-                     | ((GetMonData(mon, MON_DATA_ATK_IV) & 1) << 1)
-                     | ((GetMonData(mon, MON_DATA_DEF_IV) & 1) << 2)
-                     | ((GetMonData(mon, MON_DATA_SPEED_IV) & 1) << 3)
-                     | ((GetMonData(mon, MON_DATA_SPATK_IV) & 1) << 4)
-                     | ((GetMonData(mon, MON_DATA_SPDEF_IV) & 1) << 5);
+    sMonSummaryScreen->numMoves++;
 
-        u8 type = (15 * typeBits) / 63 + 1;
-        if (type >= TYPE_MYSTERY)
-            type++;
-        //type |= 0xC0;
-        sMonSummaryScreen->numMoves++;
-        sMonSummaryScreen->moveTypes[i] = type;
-    }
-    else
+    switch (sMonSummaryScreen->moveIds[i])
     {
-        sMonSummaryScreen->numMoves++;
-        sMonSummaryScreen->moveTypes[i] = gBattleMoves[sMonSummaryScreen->moveIds[i]].type;
+        case MOVE_HIDDEN_POWER:
+        {
+            u8 typeBits  = ((GetMonData(mon, MON_DATA_HP_IV) & 1) << 0)
+                        | ((GetMonData(mon, MON_DATA_ATK_IV) & 1) << 1)
+                        | ((GetMonData(mon, MON_DATA_DEF_IV) & 1) << 2)
+                        | ((GetMonData(mon, MON_DATA_SPEED_IV) & 1) << 3)
+                        | ((GetMonData(mon, MON_DATA_SPATK_IV) & 1) << 4)
+                        | ((GetMonData(mon, MON_DATA_SPDEF_IV) & 1) << 5);
+        
+            u8 type = (15 * typeBits) / 63 + 1;
+            sMonSummaryScreen->moveTypes[i] = (type >= TYPE_MYSTERY) ? type + 1 : type;
+            break;
+        }
+        case MOVE_WEATHER_BALL:
+        {
+            sMonSummaryScreen->moveTypes[i] = gMain.inBattle ? ((gBattleWeather & WEATHER_RAIN_ANY) ? TYPE_WATER :
+                                                                (gBattleWeather & WEATHER_SANDSTORM_ANY) ? TYPE_ROCK :
+                                                                (gBattleWeather & WEATHER_SUN_ANY) ? TYPE_FIRE :
+                                                                (gBattleWeather & WEATHER_HAIL_ANY) ? TYPE_ICE : TYPE_NORMAL) :
+                                                               ((gWeatherPtr->currWeather == (WEATHER_RAIN | WEATHER_RAIN_THUNDERSTORM | WEATHER_DOWNPOUR)) ? TYPE_WATER :
+                                                                (gWeatherPtr->currWeather == WEATHER_SANDSTORM) ? TYPE_ROCK :
+                                                                (gWeatherPtr->currWeather == WEATHER_DROUGHT) ? TYPE_FIRE :
+                                                                (gWeatherPtr->currWeather == WEATHER_SNOW) ? TYPE_ICE : TYPE_NORMAL);
+            break;
+        }
+        case MOVE_NATURE_POWER:
+        {
+            terrainType = gMain.inBattle ? gBattleTerrain : GetBattleTerrainFromField();
+            sMonSummaryScreen->moveTypes[i] = gBattleMoves[gNaturePowerMoves[terrainType]].type;
+            break;
+        }
+        case MOVE_CAMOUFLAGE:
+        {
+            sMonSummaryScreen->moveTypes[i] = (camoType == BATTLE_TERRAIN_GRASS || camoType == BATTLE_TERRAIN_LONG_GRASS) ? TYPE_GRASS :
+                                              (camoType == BATTLE_TERRAIN_SAND) ? TYPE_GROUND :
+                                              (camoType == BATTLE_TERRAIN_UNDERWATER || camoType == BATTLE_TERRAIN_WATER || camoType == BATTLE_TERRAIN_POND) ? TYPE_WATER :
+                                              (camoType == BATTLE_TERRAIN_MOUNTAIN || camoType == BATTLE_TERRAIN_CAVE) ? TYPE_ROCK :
+                                              (camoType == BATTLE_TERRAIN_BUILDING || camoType == BATTLE_TERRAIN_PLAIN) ? TYPE_NORMAL : TYPE_NORMAL;
+            break;
+        }
+        default:
+            sMonSummaryScreen->moveTypes[i] = gBattleMoves[sMonSummaryScreen->moveIds[i]].type;
+            break;
     }
 
     StringCopy(sMonSummaryScreen->summary.moveNameStrBufs[i], gMoveNames[sMonSummaryScreen->moveIds[i]]);
@@ -2454,30 +2509,232 @@ static void BufferMonMoveI(u8 i)
     sMonSkillsPrinterXpos->curPp[i] = GetRightAlignXpos_NDigits(2, sMonSummaryScreen->summary.moveCurPpStrBufs[i]);
     sMonSkillsPrinterXpos->maxPp[i] = GetRightAlignXpos_NDigits(2, sMonSummaryScreen->summary.moveMaxPpStrBufs[i]);
 
-    if (gBattleMoves[sMonSummaryScreen->moveIds[i]].power <= 1 && sMonSummaryScreen->moveIds[i] != MOVE_HIDDEN_POWER)
+    currentMove = sMonSummaryScreen->moveIds[i];
+    if (currentMove == MOVE_NATURE_POWER)
+        currentMove = gNaturePowerMoves[terrainType];
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_HIDDEN_POWER)
+    {
+        u8 powerBits = ((GetMonData(mon, MON_DATA_HP_IV) & 2) >> 1)
+                    | ((GetMonData(mon, MON_DATA_ATK_IV) & 2) << 0)
+                    | ((GetMonData(mon, MON_DATA_DEF_IV) & 2) << 1)
+                    | ((GetMonData(mon, MON_DATA_SPEED_IV) & 2) << 2)
+                    | ((GetMonData(mon, MON_DATA_SPATK_IV)& 2) << 3)
+                    | ((GetMonData(mon, MON_DATA_SPDEF_IV) & 2) << 4);
+            
+        u8 powerForHiddenPower = (40 * powerBits) / 63 + 30;
+            
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], powerForHiddenPower, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+    else if (gBattleMoves[currentMove].power <= 1)
         StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_ThreeHyphens);
     else
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_FACADE)
     {
-        if(sMonSummaryScreen->moveIds[i] == MOVE_HIDDEN_POWER)
+        if (GetMonData(mon, MON_DATA_STATUS) & (STATUS1_POISON | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_TOXIC_POISON))
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_140);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_SMELLING_SALT)
+    {
+        if (GetMonData(&gEnemyParty[0], MON_DATA_STATUS) & STATUS1_PARALYSIS)
         {
-            u8 powerBits = ((GetMonData(mon, MON_DATA_HP_IV) & 2) >> 1)
-             	 	 | ((GetMonData(mon, MON_DATA_ATK_IV) & 2) << 0)
-             	 	 | ((GetMonData(mon, MON_DATA_DEF_IV) & 2) << 1)
-              	 	 | ((GetMonData(mon, MON_DATA_SPEED_IV) & 2) << 2)
-              	 	 | ((GetMonData(mon, MON_DATA_SPATK_IV)& 2) << 3)
-             	 	 | ((GetMonData(mon, MON_DATA_SPDEF_IV) & 2) << 4);
-			  
-			u8 powerForHiddenPower = (40 * powerBits) / 63 + 30;
-			  
-			ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], powerForHiddenPower, STR_CONV_MODE_RIGHT_ALIGN, 3);
+            if (gBattleMons[gBattlerAttacker].status2 & STATUS2_SUBSTITUTE)
+                ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+            else
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_120);
+        }
+        else if (GetMonData(&gEnemyParty[1], MON_DATA_STATUS) & STATUS1_PARALYSIS)
+        {
+            if (gBattleMons[gBattlerAttacker].status2 & STATUS2_SUBSTITUTE)
+                ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+            else
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_120);
         }
         else
-            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[sMonSummaryScreen->moveIds[i]].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
     }
-    if (gBattleMoves[sMonSummaryScreen->moveIds[i]].accuracy == 0)
+
+    if ((sMonSummaryScreen->moveIds[i] == MOVE_GUST) || (sMonSummaryScreen->moveIds[i] == MOVE_TWISTER))
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_ON_AIR)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_80);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_ON_AIR)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_80);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_SKY_UPPERCUT)
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_ON_AIR)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_170);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_ON_AIR)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_170);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_ASTONISH)
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_MINIMIZED)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_60);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_MINIMIZED)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_60);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_EXTRASENSORY)
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_MINIMIZED)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_160);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_MINIMIZED)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_160);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_NEEDLE_ARM)
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_MINIMIZED)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_120);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_MINIMIZED)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_120);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_STOMP)
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_MINIMIZED)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_130);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_MINIMIZED)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_130);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_EARTHQUAKE)
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_UNDERGROUND)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_200);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_UNDERGROUND)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_200);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_SURF)
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_UNDERWATER)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_190);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_UNDERWATER)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_190);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_WHIRLPOOL)
+    {
+        if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT)] & STATUS3_UNDERWATER)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_30);
+        else if (gStatuses3[GetBattlerAtPosition(B_POSITION_OPPONENT_RIGHT)] & STATUS3_UNDERWATER)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_30);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_WEATHER_BALL)
+    {
+        if (gBattleWeather & (WEATHER_RAIN_ANY | WEATHER_SANDSTORM_ANY | WEATHER_SUN_ANY | WEATHER_HAIL_ANY))
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_100);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], gBattleMoves[currentMove].power, STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_LOW_KICK)
+    {
+        if (GetMonData(&gEnemyParty[0], MON_DATA_HP) > 0)
+        {
+            if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) <= 99)
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_20);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) >= 100 && (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) < 250))
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_40);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) >= 250 && (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) < 500))
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_60);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) >= 500 && (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) < 1000))
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_80);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) >= 1000 && (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) < 2000))
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_100);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[0], MON_DATA_SPECIES), 1) > 2000)
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_120);
+        }
+        else if (GetMonData(&gEnemyParty[1], MON_DATA_HP) > 0)
+        {
+            if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) <= 99)
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_20);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) >= 100 && (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) < 250))
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_40);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) >= 250 && (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) < 500))
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_60);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) >= 500 && (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) < 1000))
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_80);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) >= 1000 && (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) < 2000))
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_100);
+            else if (GetPokedexHeightWeight(GetMonData(&gEnemyParty[1], MON_DATA_SPECIES), 1) > 2000)
+                StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_120);
+        }
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_RETURN)
+    {
+        if (monFriendship <= 2)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_1);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], (10 * monFriendship / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_FRUSTRATION)
+    {
+        if (monFriendship >= 251)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_1);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], (10 * (255 - monFriendship) / 25), STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_ERUPTION || sMonSummaryScreen->moveIds[i] == MOVE_WATER_SPOUT)
+    {
+        if (currHp < 0.01 * maxHp)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_1);
+        else
+            ConvertIntToDecimalStringN(sMonSummaryScreen->summary.movePowerStrBufs[i], (150 * currHp / maxHp), STR_CONV_MODE_RIGHT_ALIGN, 3);
+    }
+
+    if (sMonSummaryScreen->moveIds[i] == MOVE_FLAIL || sMonSummaryScreen->moveIds[i] == MOVE_REVERSAL)
+    {
+        if (currHp >= 0.6875 * maxHp)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_20);
+        else if (currHp >= 0.3542 * maxHp && currHp < 0.6875 * maxHp)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_40);
+        else if (currHp >= 0.2083 * maxHp && currHp < 0.3542 * maxHp)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_80);
+        else if (currHp >= 0.1042 * maxHp && currHp < 0.2083 * maxHp)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_100);
+        else if (currHp >= 0.0417 * maxHp && currHp < 0.1042 * maxHp)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_150);
+        else if (currHp < 0.0417 * maxHp)
+            StringCopy(sMonSummaryScreen->summary.movePowerStrBufs[i], gText_200);
+    }
+
+    if (gBattleMoves[currentMove].accuracy == 0)
         StringCopy(sMonSummaryScreen->summary.moveAccuracyStrBufs[i], gText_ThreeHyphens);
     else
-        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.moveAccuracyStrBufs[i], gBattleMoves[sMonSummaryScreen->moveIds[i]].accuracy, STR_CONV_MODE_RIGHT_ALIGN, 3);
+        ConvertIntToDecimalStringN(sMonSummaryScreen->summary.moveAccuracyStrBufs[i], gBattleMoves[currentMove].accuracy, STR_CONV_MODE_RIGHT_ALIGN, 3);
 }
 
 static u8 PokeSum_HandleCreateSprites(void)
@@ -3067,11 +3324,51 @@ static void PokeSum_PrintExpPoints_NextLv(void)
 
 static void PokeSum_PrintSelectedMoveStats(void)
 {
+    u8 terrainType = GetBattleTerrainFromField();
+    u8 icon = GetBattleMoveCategory(sMonSummaryScreen->moveIds[sMoveSelectionCursorPos]);
+    struct Pokemon *mon = &sMonSummaryScreen->currentMon;
+
     if (sMoveSelectionCursorPos < 5)
     {
         if (sMonSummaryScreen->mode != PSS_MODE_SELECT_MOVE && sMoveSelectionCursorPos == 4)
+        {
             return;
+        }
 
+        switch (sMonSummaryScreen->moveIds[sMoveSelectionCursorPos])
+        {
+            case MOVE_NATURE_POWER:
+            {
+                icon = (terrainType == BATTLE_TERRAIN_GRASS) ? MOVE_CATEGORY_STATUS :
+                       (terrainType == BATTLE_TERRAIN_LONG_GRASS || terrainType == BATTLE_TERRAIN_UNDERWATER || terrainType == BATTLE_TERRAIN_WATER || terrainType == BATTLE_TERRAIN_POND) ? MOVE_CATEGORY_SPECIAL :
+                       (terrainType == BATTLE_TERRAIN_SAND || terrainType == BATTLE_TERRAIN_MOUNTAIN || terrainType == BATTLE_TERRAIN_CAVE || terrainType == BATTLE_TERRAIN_BUILDING || terrainType == BATTLE_TERRAIN_PLAIN) ? MOVE_CATEGORY_PHYSICAL : MOVE_CATEGORY_PHYSICAL;
+                break;
+            }
+            case MOVE_WEATHER_BALL:
+            {
+                icon = gMain.inBattle ? (gBattleWeather & (WEATHER_RAIN_ANY | WEATHER_SUN_ANY | WEATHER_HAIL_ANY)) ? MOVE_CATEGORY_SPECIAL :
+                                        (gBattleWeather & WEATHER_SANDSTORM_ANY) ? MOVE_CATEGORY_PHYSICAL : MOVE_CATEGORY_PHYSICAL :
+                                        (gWeatherPtr->currWeather == WEATHER_SNOW) ? MOVE_CATEGORY_SPECIAL : MOVE_CATEGORY_PHYSICAL;
+                break;
+            }
+            case MOVE_HIDDEN_POWER:
+            {
+                u8 typeBits  = ((GetMonData(mon, MON_DATA_HP_IV) & 1) << 0)
+                            | ((GetMonData(mon, MON_DATA_ATK_IV) & 1) << 1)
+                            | ((GetMonData(mon, MON_DATA_DEF_IV) & 1) << 2)
+                            | ((GetMonData(mon, MON_DATA_SPEED_IV) & 1) << 3)
+                            | ((GetMonData(mon, MON_DATA_SPATK_IV) & 1) << 4)
+                            | ((GetMonData(mon, MON_DATA_SPDEF_IV) & 1) << 5);
+                u8 type = (15 * typeBits) / 63 + 1;
+                if (type >= TYPE_MYSTERY)
+                    type++;
+                icon = (type >= TYPE_FIRE && type <= TYPE_DARK) ? MOVE_CATEGORY_SPECIAL :
+                       (type >= TYPE_FIGHTING && type <= TYPE_STEEL) ? MOVE_CATEGORY_PHYSICAL : MOVE_CATEGORY_PHYSICAL;
+                break;
+            }
+        }
+
+        BlitMoveInfoIcon(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], icon + 25, 84, 0);
         AddTextPrinterParameterized3(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO], 2,
                                      57, 1,
                                      sLevelNickTextColors[0], TEXT_SPEED_FF,
@@ -3088,6 +3385,7 @@ static void PokeSum_PrintSelectedMoveStats(void)
                                      sLevelNickTextColors[0], TEXT_SPEED_FF,
                                      gMoveDescriptionPointers[sMonSummaryScreen->moveIds[sMoveSelectionCursorPos] - 1]);
     }
+    PutWindowTilemap(sMonSummaryScreen->windowIds[POKESUM_WIN_TRAINER_MEMO]);
 }
 
 static void PokeSum_PrintAbilityDataOrMoveTypes(void)

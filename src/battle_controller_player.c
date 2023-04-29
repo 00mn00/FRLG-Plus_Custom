@@ -5,6 +5,7 @@
 #include "item_menu.h"
 #include "link.h"
 #include "m4a.h"
+#include "menu.h"
 #include "party_menu.h"
 #include "pokeball.h"
 #include "strings.h"
@@ -1409,34 +1410,77 @@ static void MoveSelectionDisplayPpNumber(void)
 
 static void MoveSelectionDisplayMoveType(void)
 {
-    u8 *txtPtr;
+    u8 icon;
+    u8 type;
+    static const u8 sSplitIcons_Gfx[] = INCBIN_U8("graphics/interface/split_icons_battle.4bpp");
     struct ChooseMoveStruct *moveInfo = (struct ChooseMoveStruct *)(&gBattleBufferA[gActiveBattler][4]);
 
-    txtPtr = StringCopy(gDisplayedStringBattle, gText_MoveInterfaceType);
-    *txtPtr++ = EXT_CTRL_CODE_BEGIN;
-    *txtPtr++ = 6;
-    *txtPtr++ = 1;
-    txtPtr = StringCopy(txtPtr, gUnknown_83FE770);
-    if (moveInfo->moves[gMoveSelectionCursor[gActiveBattler]] == MOVE_HIDDEN_POWER)
+    icon = GetBattleMoveCategory(moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]);
+    switch (moveInfo->moves[gMoveSelectionCursor[gActiveBattler]])
     {
-        u8 typeBits  = ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP_IV) & 1) << 0)
-                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_ATK_IV) & 1) << 1)
-                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_DEF_IV) & 1) << 2)
-                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPEED_IV) & 1) << 3)
-                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV) & 1) << 4)
-                     | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 1) << 5);
+        case MOVE_HIDDEN_POWER:
+        {
+            u8 typeBits  = ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP_IV) & 1) << 0)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_ATK_IV) & 1) << 1)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_DEF_IV) & 1) << 2)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPEED_IV) & 1) << 3)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPATK_IV) & 1) << 4)
+                        | ((GetMonData(&gPlayerParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPDEF_IV) & 1) << 5);
+            type = (15 * typeBits) / 63 + 1;
+            if (type >= TYPE_MYSTERY)
+                type++;
+            type |= 0xC0;
+            type &= 0x3F;
+            icon = (type >= TYPE_FIRE && type <= TYPE_DARK) ? MOVE_CATEGORY_SPECIAL :
+                   (type >= TYPE_FIGHTING && type <= TYPE_STEEL) ? MOVE_CATEGORY_PHYSICAL : MOVE_CATEGORY_PHYSICAL;
+            break;
+        }
+        case MOVE_CAMOUFLAGE:
+        {
+            type = (gBattleTerrain == BATTLE_TERRAIN_GRASS || gBattleTerrain == BATTLE_TERRAIN_LONG_GRASS) ? TYPE_GRASS :
+                   (gBattleTerrain == BATTLE_TERRAIN_SAND) ? TYPE_GROUND :
+                   (gBattleTerrain == BATTLE_TERRAIN_UNDERWATER || gBattleTerrain == BATTLE_TERRAIN_WATER || gBattleTerrain == BATTLE_TERRAIN_POND) ? TYPE_WATER :
+                   (gBattleTerrain == BATTLE_TERRAIN_MOUNTAIN || gBattleTerrain == BATTLE_TERRAIN_CAVE) ? TYPE_ROCK :
+                   (gBattleTerrain == BATTLE_TERRAIN_BUILDING || gBattleTerrain == BATTLE_TERRAIN_PLAIN) ? TYPE_NORMAL : TYPE_NORMAL;
+            break;
+        }
+        case MOVE_WEATHER_BALL:
+        {
+            type = (gBattleWeather & WEATHER_RAIN_ANY) ? TYPE_WATER :
+                   (gBattleWeather & WEATHER_SANDSTORM_ANY) ? TYPE_ROCK :
+                   (gBattleWeather & WEATHER_SUN_ANY) ? TYPE_FIRE :
+                   (gBattleWeather & WEATHER_HAIL_ANY) ? TYPE_ICE : TYPE_NORMAL;
+            icon = (gBattleWeather & (WEATHER_RAIN_ANY | WEATHER_SUN_ANY | WEATHER_HAIL_ANY)) ? MOVE_CATEGORY_SPECIAL :
+                   (gBattleWeather & WEATHER_SANDSTORM_ANY) ? MOVE_CATEGORY_PHYSICAL : MOVE_CATEGORY_PHYSICAL;
+            break;
+        }
+        case MOVE_NATURE_POWER:
+        {
+            type = (gBattleTerrain == BATTLE_TERRAIN_GRASS || gBattleTerrain == BATTLE_TERRAIN_LONG_GRASS) ? TYPE_GRASS :
+                   (gBattleTerrain == BATTLE_TERRAIN_SAND) ? TYPE_GROUND :
+                   (gBattleTerrain == BATTLE_TERRAIN_UNDERWATER || gBattleTerrain == BATTLE_TERRAIN_WATER || gBattleTerrain == BATTLE_TERRAIN_POND) ? TYPE_WATER :
+                   (gBattleTerrain == BATTLE_TERRAIN_MOUNTAIN) ? TYPE_ROCK :
+                   (gBattleTerrain == BATTLE_TERRAIN_CAVE) ? TYPE_GHOST :
+                   (gBattleTerrain == BATTLE_TERRAIN_BUILDING || gBattleTerrain == BATTLE_TERRAIN_PLAIN) ? TYPE_NORMAL : TYPE_NORMAL;
+            icon = (gBattleTerrain == BATTLE_TERRAIN_GRASS) ? MOVE_CATEGORY_STATUS :
+                   (gBattleTerrain == BATTLE_TERRAIN_LONG_GRASS || gBattleTerrain == BATTLE_TERRAIN_UNDERWATER || gBattleTerrain == BATTLE_TERRAIN_WATER || gBattleTerrain == BATTLE_TERRAIN_POND) ? MOVE_CATEGORY_SPECIAL :
+                   (gBattleTerrain == BATTLE_TERRAIN_SAND || gBattleTerrain == BATTLE_TERRAIN_MOUNTAIN || gBattleTerrain == BATTLE_TERRAIN_CAVE || gBattleTerrain == BATTLE_TERRAIN_BUILDING || gBattleTerrain == BATTLE_TERRAIN_PLAIN) ? MOVE_CATEGORY_PHYSICAL : MOVE_CATEGORY_PHYSICAL;
+            break;
+        }
+        default:
+            type = gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type;
+        break;
+    }
 
-        u8 type = (15 * typeBits) / 63 + 1;
-        if (type >= TYPE_MYSTERY)
-            type++;
-        type |= 0xC0;
-        StringCopy(txtPtr, gTypeNames[type & 0x3F]);
-    }
-    else
-    {
-        StringCopy(txtPtr, gTypeNames[gBattleMoves[moveInfo->moves[gMoveSelectionCursor[gActiveBattler]]].type]);
-    }
-    BattlePutTextOnWindow(gDisplayedStringBattle, 8);
+    ListMenuLoadStdPalAt(0xA0, 1);
+    FillWindowPixelBuffer(8, PIXEL_FILL(15));
+    BlitMoveInfoIcon(8, type + 1, 1, 4);
+    FillWindowPixelBuffer(10, PIXEL_FILL(15));
+    BlitBitmapToWindow(10, sSplitIcons_Gfx + 0x80 * icon, 0, 3, 16, 16);
+    PutWindowTilemap(8);
+    PutWindowTilemap(10);
+    CopyWindowToVram(8, COPYWIN_BOTH);
+    CopyWindowToVram(10, COPYWIN_BOTH);
 }
 
 void MoveSelectionCreateCursorAt(u8 cursorPosition, u8 arg1)
