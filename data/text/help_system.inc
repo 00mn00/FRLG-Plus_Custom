@@ -1704,9 +1704,9 @@ Help_Text_DefineNoFreeHeals::
 	.string "heals by switching FREE HEALS to\l"
 	.string "PKMN CTR DISABLED. This will disable\l"
 	.string "several full party heals, including\l"
-	.string "POKéMON CENTERS. The PC STORAGE\l"
-	.string "SYSTEM will also not heal POKéMON sent\l"
-	.string "to it. To heal, use items instead.$"
+	.string "POKéMON CENTERS. The PC STORAGE SYSTEM\l"
+	.string "will also not heal POKéMON sent to it.\l"
+	.string "To heal, use items instead.$"
 
 Help_Text_DefineNoIH::
 	.string "You can adjust item heals by enabling\n"
@@ -1718,29 +1718,35 @@ Help_Text_DefineNoIH::
 	.string "DEFAULT is the normal mode.$"
 
 Help_Text_DefineNoIHBag::
-	.string "Enabling this option turns off the use\n"
-	.string "of items outside of POKéMON battles\l"
-	.string "from the MEDICINE POCKET and\l"
-	.string "BERRY POUCH. EV changing BERRIES are\l"
-	.string "still enabled.$"
+	.string "Enabling this option disables the use\n"
+	.string "of healing items outside of POKéMON\l"
+	.string "battles from the MEDICINE POCKET and\l"
+	.string "BERRY POUCH.\l"
+	.string "\l"
+	.string "EV changing BERRIES are still enabled.$"
 
 Help_Text_DefineNoIHBattle::
-	.string "Enabling this option turns off the use\n"
-	.string "of items inside of POKéMON battles from\l"
-	.string "the MEDICINE POCKET and BERRY POUCH.\l"
+	.string "Enabling this option disables the use\n"
+	.string "of healing items inside of POKéMON\l"
+	.string "battles from the MEDICINE POCKET and\l"
+	.string "BERRY POUCH.\l"
+	.string "\l"
 	.string "The POKé FLUTE is also disabled.$"
 
 Help_Text_DefineNoIHBoth::
-	.string "Enabling this option turns off the use\n"
+	.string "Enabling this option disables the use\n"
 	.string "of items inside and outside of POKéMON\l"
 	.string "battles from the MEDICINE POCKET and\l"
-	.string "BERRY POUCH. The POKé FLUTE is also\l"
-	.string "disabled. EV changing BERRIES are still\l"
-	.string "enabled.$"
+	.string "BERRY POUCH.\l"
+	.string "\l"
+	.string "The POKé FLUTE is also disabled.\l"
+	.string "EV changing BERRIES are still enabled.$"
 
 Help_Text_DefineNoEH::
 	.string "BTL USE DISABLED turns off item use\n"
-	.string "by other POKéMON TRAINERS in battle.$"
+	.string "by other POKéMON TRAINERS in battle\l"
+	.string "\l"
+	.string "DEFAULT is the normal mode.$"
 
 Help_Text_DefineForcedStyle:: @ 81B7E0F
 	.string "You can force the game's BATTLE STYLE\n"

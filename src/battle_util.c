@@ -2446,7 +2446,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_RESTORE_PP:
-                if (!moveTurn)
+                if ((!moveTurn) && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if ((!moveTurn) && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (!moveTurn)
                 {
                     struct Pokemon *mon;
                     u8 ppBonuses;
@@ -2511,7 +2515,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CONFUSE_SPICY:
-                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
+                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
                 {
                     PREPARE_FLAVOR_BUFFER(gBattleTextBuff1, FLAVOR_SPICY);
                     gBattleMoveDamage = gBattleMons[battlerId].maxHP / battlerHoldEffectParam;
@@ -2528,7 +2536,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CONFUSE_DRY:
-                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
+                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
                 {
                     PREPARE_FLAVOR_BUFFER(gBattleTextBuff1, FLAVOR_DRY);
                     gBattleMoveDamage = gBattleMons[battlerId].maxHP / battlerHoldEffectParam;
@@ -2545,7 +2557,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CONFUSE_SWEET:
-                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
+                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
                 {
                     PREPARE_FLAVOR_BUFFER(gBattleTextBuff1, FLAVOR_SWEET);
                     gBattleMoveDamage = gBattleMons[battlerId].maxHP / battlerHoldEffectParam;
@@ -2562,7 +2578,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CONFUSE_BITTER:
-                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
+                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
                 {
                     PREPARE_FLAVOR_BUFFER(gBattleTextBuff1, FLAVOR_BITTER);
                     gBattleMoveDamage = gBattleMons[battlerId].maxHP / battlerHoldEffectParam;
@@ -2579,7 +2599,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CONFUSE_SOUR:
-                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
+                if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].hp <= gBattleMons[battlerId].maxHP / 2 && !moveTurn)
                 {
                     PREPARE_FLAVOR_BUFFER(gBattleTextBuff1, FLAVOR_SOUR);
                     gBattleMoveDamage = gBattleMons[battlerId].maxHP / battlerHoldEffectParam;
@@ -2692,7 +2716,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CURE_PAR:
-                if (gBattleMons[battlerId].status1 & STATUS1_PARALYSIS)
+                if (gBattleMons[battlerId].status1 & STATUS1_PARALYSIS && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_PARALYSIS && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_PARALYSIS)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_PARALYSIS);
                     BattleScriptExecute(BattleScript_BerryCurePrlzEnd2);
@@ -2700,7 +2728,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CURE_PSN:
-                if (gBattleMons[battlerId].status1 & STATUS1_PSN_ANY)
+                if (gBattleMons[battlerId].status1 & STATUS1_PSN_ANY && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_PSN_ANY && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_PSN_ANY)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_PSN_ANY | STATUS1_TOXIC_COUNTER);
                     BattleScriptExecute(BattleScript_BerryCurePsnEnd2);
@@ -2708,7 +2740,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CURE_BRN:
-                if (gBattleMons[battlerId].status1 & STATUS1_BURN)
+                if (gBattleMons[battlerId].status1 & STATUS1_BURN && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_BURN && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_BURN)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_BURN);
                     BattleScriptExecute(BattleScript_BerryCureBrnEnd2);
@@ -2716,7 +2752,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CURE_FRZ:
-                if (gBattleMons[battlerId].status1 & STATUS1_FREEZE)
+                if (gBattleMons[battlerId].status1 & STATUS1_FREEZE && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_FREEZE && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_FREEZE)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_FREEZE);
                     BattleScriptExecute(BattleScript_BerryCureFrzEnd2);
@@ -2724,7 +2764,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CURE_SLP:
-                if (gBattleMons[battlerId].status1 & STATUS1_SLEEP)
+                if (gBattleMons[battlerId].status1 & STATUS1_SLEEP && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_SLEEP && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_SLEEP)
                 {
                     gBattleMons[battlerId].status1 &= ~(STATUS1_SLEEP);
                     gBattleMons[battlerId].status2 &= ~(STATUS2_NIGHTMARE);
@@ -2733,7 +2777,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CURE_CONFUSION:
-                if (gBattleMons[battlerId].status2 & STATUS2_CONFUSION)
+                if (gBattleMons[battlerId].status1 & STATUS2_CONFUSION && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS2_CONFUSION && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS2_CONFUSION)
                 {
                     gBattleMons[battlerId].status2 &= ~(STATUS2_CONFUSION);
                     BattleScriptExecute(BattleScript_BerryCureConfusionEnd2);
@@ -2741,7 +2789,11 @@ u8 ItemBattleEffects(u8 caseID, u8 battlerId, bool8 moveTurn)
                 }
                 break;
             case HOLD_EFFECT_CURE_STATUS:
-                if (gBattleMons[battlerId].status1 & STATUS1_ANY || gBattleMons[battlerId].status2 & STATUS2_CONFUSION)
+                if ((gBattleMons[battlerId].status1 & STATUS1_ANY || gBattleMons[battlerId].status2 & STATUS2_CONFUSION) && GetBattlerSide(battlerId) == B_SIDE_PLAYER && (gSaveBlock1Ptr->keyFlags.noIH == 2 || gSaveBlock1Ptr->keyFlags.noIH == 3))
+                    return ITEM_NO_EFFECT;
+                else if ((gBattleMons[battlerId].status1 & STATUS1_ANY || gBattleMons[battlerId].status2 & STATUS2_CONFUSION) && GetBattlerSide(battlerId) == B_SIDE_OPPONENT && gSaveBlock1Ptr->keyFlags.noEH == 1)
+                    return ITEM_NO_EFFECT;
+                else if (gBattleMons[battlerId].status1 & STATUS1_ANY || gBattleMons[battlerId].status2 & STATUS2_CONFUSION)
                 {
                     i = 0;
                     if (gBattleMons[battlerId].status1 & STATUS1_PSN_ANY)

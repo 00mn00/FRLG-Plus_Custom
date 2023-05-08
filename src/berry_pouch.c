@@ -211,6 +211,13 @@ static const u8 sOptions_UseToss_Exit[] = {
     BP_ACTION_DUMMY
 };
 
+static const u8 sOptions_GiveToss_Exit[] = {
+    BP_ACTION_GIVE,
+    BP_ACTION_TOSS,
+    BP_ACTION_CANCEL,
+    BP_ACTION_DUMMY
+};
+
 static const u8 sOptions_Toss_Exit[] = {
     BP_ACTION_TOSS,
     BP_ACTION_CANCEL,
@@ -1008,8 +1015,16 @@ static void CreateNormalContextMenu(u8 taskId)
 
     if (sStaticCnt.type == BERRYPOUCH_FROMBATTLE)
     {
-        sContextMenuOptions = sOptions_UseToss_Exit;
-        sContextMenuNumOptions = 3;
+        if (gSpecialVar_ItemId >= ITEM_CHERI_BERRY && gSpecialVar_ItemId <= ITEM_SITRUS_BERRY)
+        {
+            sContextMenuOptions = sOptions_UseToss_Exit;
+            sContextMenuNumOptions = 3;
+        }
+        else
+        {
+            sContextMenuOptions = sOptions_Toss_Exit;
+            sContextMenuNumOptions = 2;
+        }
     }
     else if (MenuHelpers_LinkSomething() == TRUE || InUnionRoom() == TRUE)
     {
@@ -1024,23 +1039,82 @@ static void CreateNormalContextMenu(u8 taskId)
             sContextMenuNumOptions = 2;
         }
     }
-    else if (gSaveBlock1Ptr->keyFlags.noIH == 1 || gSaveBlock1Ptr->keyFlags.noIH == 3)
+    else if (gSaveBlock1Ptr->keyFlags.noIH == 0)
     {
         if (gSpecialVar_ItemId >= ITEM_POMEG_BERRY && gSpecialVar_ItemId <= ITEM_TAMATO_BERRY)
         {
+            sContextMenuOptions = sOptions_UseToss_Exit;
+            sContextMenuNumOptions = 3;
+        }
+        else if ((gSpecialVar_ItemId >= ITEM_FIGY_BERRY && gSpecialVar_ItemId <= ITEM_IAPAPA_BERRY) || (gSpecialVar_ItemId >= ITEM_LIECHI_BERRY && gSpecialVar_ItemId <= ITEM_STARF_BERRY))
+        {
+            sContextMenuOptions = sOptions_GiveToss_Exit;
+            sContextMenuNumOptions = 3;
+        }
+        else if ((gSpecialVar_ItemId >= ITEM_RAZZ_BERRY && gSpecialVar_ItemId <= ITEM_PINAP_BERRY) || (gSpecialVar_ItemId >= ITEM_CORNN_BERRY && gSpecialVar_ItemId <= ITEM_BELUE_BERRY) || (gSpecialVar_ItemId == ITEM_ENIGMA_BERRY))
+        {
+            sContextMenuOptions = sOptions_Toss_Exit;
+            sContextMenuNumOptions = 2;
+        }
+        else
+        {
             sContextMenuOptions = sOptions_UseGiveTossExit;
             sContextMenuNumOptions = 4;
+        }
+    }
+    else if (gSaveBlock1Ptr->keyFlags.noIH == 1)
+    {
+        if (gSpecialVar_ItemId >= ITEM_POMEG_BERRY && gSpecialVar_ItemId <= ITEM_TAMATO_BERRY)
+        {
+            sContextMenuOptions = sOptions_UseToss_Exit;
+            sContextMenuNumOptions = 3;
+        }
+        if ((gSpecialVar_ItemId >= ITEM_CHERI_BERRY && gSpecialVar_ItemId <= ITEM_IAPAPA_BERRY) || (gSpecialVar_ItemId >= ITEM_LIECHI_BERRY && gSpecialVar_ItemId <= ITEM_STARF_BERRY))
+        {
+            sContextMenuOptions = sOptions_GiveToss_Exit;
+            sContextMenuNumOptions = 3;
+        }
+        else if ((gSpecialVar_ItemId >= ITEM_RAZZ_BERRY && gSpecialVar_ItemId <= ITEM_PINAP_BERRY) || (gSpecialVar_ItemId >= ITEM_CORNN_BERRY && gSpecialVar_ItemId <= ITEM_BELUE_BERRY) || (gSpecialVar_ItemId == ITEM_ENIGMA_BERRY))
+        {
+            sContextMenuOptions = sOptions_Toss_Exit;
+            sContextMenuNumOptions = 2;
+        }
+    }
+    else if (gSaveBlock1Ptr->keyFlags.noIH == 2)
+    {
+        if ((gSpecialVar_ItemId >= ITEM_CHERI_BERRY && gSpecialVar_ItemId <= ITEM_SITRUS_BERRY) || (gSpecialVar_ItemId >= ITEM_POMEG_BERRY && gSpecialVar_ItemId <= ITEM_TAMATO_BERRY))
+        {
+            sContextMenuOptions = sOptions_UseToss_Exit;
+            sContextMenuNumOptions = 3;
+        }
+        else if (gSpecialVar_ItemId >= ITEM_LIECHI_BERRY && gSpecialVar_ItemId <= ITEM_STARF_BERRY)
+        {
+            sContextMenuOptions = sOptions_GiveToss_Exit;
+            sContextMenuNumOptions = 3;
+        }
+        else if ((gSpecialVar_ItemId >= ITEM_FIGY_BERRY && gSpecialVar_ItemId <= ITEM_PINAP_BERRY) || (gSpecialVar_ItemId >= ITEM_CORNN_BERRY && gSpecialVar_ItemId <= ITEM_BELUE_BERRY) || (gSpecialVar_ItemId == ITEM_ENIGMA_BERRY))
+        {
+            sContextMenuOptions = sOptions_Toss_Exit;
+            sContextMenuNumOptions = 2;
+        }
+    }
+    else if (gSaveBlock1Ptr->keyFlags.noIH == 3)
+    {
+        if (gSpecialVar_ItemId >= ITEM_POMEG_BERRY && gSpecialVar_ItemId <= ITEM_TAMATO_BERRY)
+        {
+            sContextMenuOptions = sOptions_UseToss_Exit;
+            sContextMenuNumOptions = 3;
+        }
+        else if (gSpecialVar_ItemId >= ITEM_LIECHI_BERRY && gSpecialVar_ItemId <= ITEM_STARF_BERRY)
+        {
+            sContextMenuOptions = sOptions_GiveToss_Exit;
+            sContextMenuNumOptions = 3;
         }
         else
         {
             sContextMenuOptions = sOptions_Toss_Exit;
             sContextMenuNumOptions = 2;
         }
-    }
-    else
-    {
-        sContextMenuOptions = sOptions_UseGiveTossExit;
-        sContextMenuNumOptions = 4;
     }
     windowId = GetOrCreateVariableWindow(sContextMenuNumOptions + 9);
     AddItemMenuActionTextPrinters(windowId, 2, GetMenuCursorDimensionByFont(2, 0), 2, GetFontAttribute(2, FONTATTR_LETTER_SPACING), GetFontAttribute(2, FONTATTR_MAX_LETTER_HEIGHT) + 2, sContextMenuNumOptions, sContextMenuActions, sContextMenuOptions);
