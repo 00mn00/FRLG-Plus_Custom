@@ -115,7 +115,8 @@ extern u8 gStringVar2[];
 extern u8 gStringVar3[];
 extern u8 gStringVar4[];
 
-#define DIV_ROUND_UP(val, roundBy)(((val) / (roundBy)) + (((val) % (roundBy)) ? 1 : 0))
+#define DIV_ROUND_UP(dividend, divisor)(((dividend) / (divisor)) + (((dividend) % (divisor)) ? 1 : 0))
+#define DIV_ROUND(dividend, divisor)(((dividend) + (divisor) / 2) / (divisor))
 
 #define ROUND_BITS_TO_BYTES(numBits) DIV_ROUND_UP(numBits, 8)
 
