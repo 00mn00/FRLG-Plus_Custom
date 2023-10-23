@@ -692,3 +692,56 @@ void StripExtCtrlCodes(u8 *str)
     }
     str[destIndex] = 0xFF;
 }
+
+u8 ReformatStringToMaxChars(u8 *dest, const u8 *src, u8 fontId, u8 maxChars, bool8 allowsJumpLine)
+{
+    u8 numLines = 1, buffer[1000], *lineStart;
+    u32 k = 0;
+
+    memset(dest, 0xFF, 1000);
+
+    lineStart = dest;
+
+    StringExpandPlaceholders(buffer, src);
+
+    while (buffer[k] != EOS)
+    {
+        if (GetStringWidth(fontId, lineStart, -1) >= maxChars)
+        {
+            do
+            {
+                dest--;
+                k--;
+            } while (buffer[k] != CHAR_SPACE && buffer[k] != CHAR_NEWLINE);
+
+            if (buffer[k + 1] != EOS)
+            {
+                *dest = CHAR_NEWLINE;
+                numLines++;
+            }
+            lineStart = ++dest;
+        }
+        else
+        {
+            *dest = buffer[k];
+
+            if (buffer[k] == CHAR_NEWLINE)
+            {
+                if (allowsJumpLine)
+                {
+                    numLines++;
+                    lineStart = dest + 1;
+                }
+                else if (buffer[k - 1] != CHAR_SPACE)
+                    *dest = CHAR_SPACE;
+                else
+                    dest--;
+            }
+            dest++;
+        }
+        k++;
+    }
+    *dest = EOS;
+
+    return numLines;
+}

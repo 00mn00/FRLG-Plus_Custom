@@ -101,9 +101,9 @@ EventScript_BufferHeldItemsPocket:: @ 81A66F9
 	return
 
 EventScript_ObtainedItem:: @ 81A6749
-	message Text_ObtainedTheX
 	delay 10
 	callnative CreateItemIconOnFindMessage
+	message Text_ObtainedTheX
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway
@@ -112,9 +112,9 @@ EventScript_ObtainedItem:: @ 81A6749
 	return
 
 EventScript_ObtainedItem2:: @ 81A6749
-	message Text_ObtainedTheX2
 	delay 10
 	callnative CreateItemIconOnFindMessage
+	message Text_ObtainedTheX2
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway2
@@ -204,13 +204,13 @@ EventScript_PickUpItem:: @ 81A67EE
 	additem VAR_0x8004, VAR_0x8005
 	copyvar VAR_0x8009, VAR_0x8004
 	specialvar VAR_RESULT, BufferTMHMMoveName
+	delay 10
+	callnative CreateItemIconOnFindMessage
 	copyvar VAR_0x8008, VAR_RESULT
 	compare VAR_0x8008, TRUE
 	call_if_eq EventScript_FoundTMHM
 	compare VAR_0x8008, FALSE
 	call_if_eq EventScript_FoundItem
-	delay 10
-	callnative CreateItemIconOnFindMessage
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway
@@ -222,13 +222,13 @@ EventScript_PickUpItem2:: @ 81A67EE
 	additem VAR_0x8004, VAR_0x8005
 	copyvar VAR_0x8009, VAR_0x8004
 	specialvar VAR_RESULT, BufferTMHMMoveName
+	delay 10
+	callnative CreateItemIconOnFindMessage
 	copyvar VAR_0x8008, VAR_RESULT
 	compare VAR_0x8008, TRUE
 	call_if_eq EventScript_FoundTMHM
 	compare VAR_0x8008, FALSE
 	call_if_eq EventScript_FoundItem
-	delay 10
-	callnative CreateItemIconOnFindMessage
 	waitfanfare
 	waitmessage
 	msgbox Text_PutItemAway2
