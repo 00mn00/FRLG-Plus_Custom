@@ -11099,3 +11099,13 @@ Special_SubstituteToMon:: @ 81D6594
 Special_MonToSubstitute:: @ 81D659E
 	createvisualtask AnimTask_SwapMonSpriteToFromSubstitute, 2, 0
 	end
+
+Special_LevelUpEvolve:
+	playsewithpan SE_EXP_MAX, 0
+	createvisualtask AnimTask_LevelUpHealthBox, 2
+	createvisualtask AnimTask_LoadHealthboxPalsForLevelUp, 2
+	delay 0
+	createvisualtask AnimTask_FlashHealthboxOnLevelUp, 5, 0, 0
+	waitforvisualfinish
+	createvisualtask AnimTask_FreeHealthboxPalsForLevelUp, 2
+	end

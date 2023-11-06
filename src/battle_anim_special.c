@@ -42,7 +42,7 @@ UNUSED u16 gMonShrinkDelta;
 UNUSED u16 gMonShrinkDistance;
 
 // Function Declarations
-static void AnimTask_UnusedLevelUpHealthBox_Step(u8);
+static void AnimTask_LevelUpHealthBox_Step(u8);
 static void AnimTask_FlashHealthboxOnLevelUp_Step(u8);
 static void AnimTask_ThrowBall_WaitAnimObjComplete(u8);
 static void SpriteCB_ThrowBall_Init(struct Sprite *);
@@ -411,7 +411,7 @@ const struct SpriteTemplate gSafariRockTemplate =
 };
 
 // Functions
-UNUSED void AnimTask_UnusedLevelUpHealthBox(u8 taskId)
+void AnimTask_LevelUpHealthBox(u8 taskId)
 {
     struct BattleAnimBgData animBgData;
     u8 healthBoxSpriteId;
@@ -453,10 +453,10 @@ UNUSED void AnimTask_UnusedLevelUpHealthBox(u8 taskId)
     gTasks[taskId].data[1] = 640;
     gTasks[taskId].data[0] = spriteId3;
     gTasks[taskId].data[2] = spriteId4;
-    gTasks[taskId].func = AnimTask_UnusedLevelUpHealthBox_Step;
+    gTasks[taskId].func = AnimTask_LevelUpHealthBox_Step;
 }
 
-static void AnimTask_UnusedLevelUpHealthBox_Step(u8 taskId)
+static void AnimTask_LevelUpHealthBox_Step(u8 taskId)
 {
     u8 spriteId1, spriteId2;
     u8 battler;
