@@ -1649,4 +1649,7 @@ extern const u8 gText_HowDoIBattleThem[];
 extern const u8 gText_AboutTitles[];
 extern const u8 gText_Nothing[];
 
+// Evolution party screen option
+extern const u8 gText_Evolve[];
+
 #endif //GUARD_STRINGS_H

@@ -1315,3 +1315,6 @@ const u8 gText_WhoAreThey[] = _("Who are they?");
 const u8 gText_HowDoIBattleThem[] = _("How do I battle them?");
 const u8 gText_AboutTitles[] = _("About titles");
 const u8 gText_Nothing[] = _("Exit");
+
+// Evolve party screen option
+const u8 gText_Evolve[] = _("EVOLVE");

@@ -1014,6 +1014,7 @@ enum
 {
     MENU_SUMMARY,
     MENU_SWITCH,
+    MENU_EVOLVE,
     MENU_CANCEL1,
     MENU_ITEM,
     MENU_GIVE,
@@ -1041,6 +1042,7 @@ static struct
 {
     [MENU_SUMMARY] = {gText_Summary5, CursorCB_Summary},
     [MENU_SWITCH] = {gText_Switch2, CursorCB_Switch},
+    [MENU_EVOLVE] = {gText_Evolve, CursorCb_Evolve},
     [MENU_CANCEL1] = {gFameCheckerText_Cancel, CursorCB_Cancel1},
     [MENU_ITEM] = {gText_Item, CursorCB_Item},
     [MENU_GIVE] = {gOtherText_Give, CursorCB_Give},
